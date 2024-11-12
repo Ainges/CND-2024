@@ -8,6 +8,7 @@ architecture, it connects the external HTTP layer to the application's use cases
 """
 
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from application.user_service import UserService
 
 user_controller = Blueprint('user_controller', __name__)
@@ -18,15 +19,20 @@ def register_user():
     data = request.json
     try:
         user = user_service.register_user(
-            data['username'],
-            data['email'],
-            data['password']
+            email=data['email'],
+            password=data['password'],
+            first_name=data.get('first_name'),
+            last_name=data.get('last_name')
         )
-        return jsonify({"message": "User registered successfully", "user": {
-            "id": user.id,
-            "username": user.username,
-            "email": user.email
-        }}), 201
+        return jsonify({
+            "message": "User registered successfully",
+            "user": {
+                "id": user.id,
+                "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name
+            }
+        }), 201
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
@@ -35,29 +41,43 @@ def login_user():
     data = request.json
     try:
         user = user_service.login_user(
-            data['username'],
-            data['password']
+            email=data['email'],
+            password=data['password']
         )
-        return jsonify({"message": "Login successful", "user": {
-            "id": user.id,
-            "username": user.username,
-            "email": user.email
-        }}), 200
+        access_token = create_access_token(identity=user.email)
+        return jsonify({
+            "message": "Login successful",
+            "access_token": access_token
+        }), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
 @user_controller.route('/user', methods=['PUT'])
+@jwt_required()
 def update_user():
+    current_user_email = get_jwt_identity()  
     data = request.json
-    username = data.get("username") 
     new_email = data.get("new_email")
     new_password = data.get("new_password")
+    new_first_name = data.get("new_first_name")
+    new_last_name = data.get("new_last_name")
+
     try:
-        user = user_service.update_user(username, new_email, new_password)
-        return jsonify({"message": "User updated successfully", "user": {
-            "id": user.id,
-            "username": user.username,
-            "email": user.email
-        }}), 200
+        user = user_service.update_user(
+            email=current_user_email,
+            new_email=new_email,
+            new_password=new_password,
+            new_first_name=new_first_name,
+            new_last_name=new_last_name
+        )
+        return jsonify({
+            "message": "User updated successfully",
+            "user": {
+                "id": user.id,
+                "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name
+            }
+        }), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 400

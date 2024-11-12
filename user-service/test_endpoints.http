@@ -1,10 +1,14 @@
+
+@ACCESS_JWT="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMTQyNDEwMSwianRpIjoiYWQzYzYxNDYtNTM3My00ZjhkLTk0YzUtZDA2N2VkZTcyNmEwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InJvYkBrZXNzLmNvbSIsIm5iZiI6MTczMTQyNDEwMSwiY3NyZiI6IjcyNWM2Y2M0LTVlZTctNDdjMi1iYmYyLTI3YTE4NDAxYTk5MyIsImV4cCI6MTczMTQyNTAwMX0.FhvZvvS6J3tR3dEN8OEdB3BJA3S4ON6UWOOtJpCzGE0"
+
 ### Register User
 POST http://127.0.0.1:5000/register
 Content-Type: application/json
 
 {
-  "username": "testuser2",
-  "email": "test@example.com",
+  "first_name": "Robert",
+  "last_name": "Kessler",
+  "email": "rob@kess.com",
   "password": "password123"
 }
 
@@ -15,7 +19,7 @@ POST http://127.0.0.1:5000/login
 Content-Type: application/json
 
 {
-  "username": "testuser",
+  "email": "rob@kess.com",
   "password": "password123"
 }
 
@@ -24,9 +28,9 @@ Content-Type: application/json
 ### Update User Email
 PUT http://127.0.0.1:5000/user
 Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
 
 {
-  "username": "testuser",
   "new_email": "new_email@example.com"
 }
 
@@ -35,9 +39,9 @@ Content-Type: application/json
 ### Update User Password
 PUT http://127.0.0.1:5000/user
 Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
 
 {
-  "username": "testuser",
   "new_password": "new_password123"
 }
 
@@ -46,9 +50,9 @@ Content-Type: application/json
 ### Update User Email and Password
 PUT http://127.0.0.1:5000/user
 Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
 
 {
-  "username": "testuser",
   "new_email": "another_email@example.com",
   "new_password": "another_password123"
 }

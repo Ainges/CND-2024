@@ -16,24 +16,24 @@ class UserService:
     def __init__(self):
         self.user_repository = UserRepository()
 
-    def register_user(self, username, email, password):
-        existing_user = self.user_repository.find_by_username(username)
-        if existing_user:
-            raise ValueError("Username already exists")
-        
+    def register_user(self, email, password, first_name=None, last_name=None):
+        existing_user_by_email = self.user_repository.find_by_email(email)
+        if existing_user_by_email:
+            raise ValueError("E-Mail already exists")
+
         hashed_password = generate_password_hash(password)
-        user = User(username=username, email=email, password=hashed_password)
+        user = User(email=email, password=hashed_password, first_name=first_name, last_name=last_name)
         self.user_repository.save(user)
         return user
 
-    def login_user(self, username, password):
-        user = self.user_repository.find_by_username(username)
+    def login_user(self, email, password):
+        user = self.user_repository.find_by_email(email)
         if not user or not check_password_hash(user.password, password):
-            raise ValueError("Invalid username or password")
+            raise ValueError("Invalid email or password")
         return user
 
-    def update_user(self, username, new_email=None, new_password=None):
-        user = self.user_repository.find_by_username(username)
+    def update_user(self, email, new_email=None, new_password=None, new_first_name=None, new_last_name=None):
+        user = self.user_repository.find_by_email(email)
         if not user:
             raise ValueError("User not found")
         
@@ -41,6 +41,10 @@ class UserService:
             user.email = new_email
         if new_password:
             user.password = generate_password_hash(new_password)
-        
+        if new_first_name:
+            user.first_name = new_first_name
+        if new_last_name:
+            user.last_name = new_last_name
+
         self.user_repository.save(user)
         return user
