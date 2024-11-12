@@ -1,0 +1,7 @@
+
+/user-service/__pycache__
+/user-service/adapters/__pycache__
+/user-service/application/__pycache__
+/user-service/domain/__pycache__
+/user-service/infrastructure/__pycache__
+/user-service/venv

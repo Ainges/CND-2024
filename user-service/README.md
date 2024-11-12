@@ -1,0 +1,2 @@
+*Benutzerverwaltungsservice*  
+Zuständig für die Verwaltung von Benutzerkonten, einschließlich Registrierung, Profilverwaltung und Berechtigungen. Benutzerinformationen werden in einer separaten Datenbank gespeichert.

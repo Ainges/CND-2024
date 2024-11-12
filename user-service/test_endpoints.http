@@ -1,0 +1,54 @@
+### Register User
+POST http://127.0.0.1:5000/register
+Content-Type: application/json
+
+{
+  "username": "testuser2",
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+###
+
+### Login User
+POST http://127.0.0.1:5000/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "password123"
+}
+
+###
+
+### Update User Email
+PUT http://127.0.0.1:5000/user
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "new_email": "new_email@example.com"
+}
+
+###
+
+### Update User Password
+PUT http://127.0.0.1:5000/user
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "new_password": "new_password123"
+}
+
+###
+
+### Update User Email and Password
+PUT http://127.0.0.1:5000/user
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "new_email": "another_email@example.com",
+  "new_password": "another_password123"
+}
