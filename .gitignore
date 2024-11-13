@@ -7,3 +7,4 @@
 /user-service/venv
 
 .idea
+/user-service/tests/__pycache__
