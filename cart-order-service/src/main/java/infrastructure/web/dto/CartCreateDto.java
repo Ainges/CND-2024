@@ -1,4 +1,4 @@
-package dto.cart;
+package infrastructure.web.dto;
 
 public class CartCreateDto {
 

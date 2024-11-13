@@ -1,7 +1,6 @@
-package repository;
+package infrastructure.repository;
 
-import dto.cart.CartCreateDto;
-import entity.Cart;
+import domain.Cart;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
@@ -20,12 +19,9 @@ public class CartRepository implements PanacheRepository<Cart> {
     }
 
     @Transactional
-    public void addCart(CartCreateDto cartCreateDto) {
-
-        Cart cart = new Cart();
-        cart.setUserId(cartCreateDto.getUserId());
-
+    public void addCart(Cart cart) {
         persist(cart);
     }
+
 
 }

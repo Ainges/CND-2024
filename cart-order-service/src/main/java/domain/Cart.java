@@ -1,4 +1,4 @@
-package entity;
+package domain;
 
 import jakarta.persistence.*;
 
@@ -45,5 +45,14 @@ public class Cart {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", products=" + products +
+                '}';
     }
 }

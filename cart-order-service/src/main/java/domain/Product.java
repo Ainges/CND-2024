@@ -1,4 +1,4 @@
-package entity;
+package domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
