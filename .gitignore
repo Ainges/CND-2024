@@ -5,3 +5,5 @@
 /user-service/domain/__pycache__
 /user-service/infrastructure/__pycache__
 /user-service/venv
+
+.idea
