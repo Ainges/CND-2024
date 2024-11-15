@@ -1,1 +1,0 @@
-Hier entsteht eine super duper Anwendung in Go für die Produkte
