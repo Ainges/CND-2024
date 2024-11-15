@@ -58,3 +58,6 @@ class UserService:
 
         self.user_repository.save(user)
         return user
+
+    def get_user_by_email(self, email):
+        return self.user_repository.find_by_email(email)
