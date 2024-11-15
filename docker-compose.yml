@@ -1,19 +1,21 @@
+version: '3.9'
+
 services:
   user-service:
     build:
       context: ./user-service
-    networks:
-      - app-network
     ports:
       - "5000:5000"
+    networks:
+      - app-network
 
   product-service:
     build:
       context: ./product-service
+    ports:
+      - "3001:3000"
     networks:
       - app-network
-    ports:
-      - "3000:3000"
 
 networks:
   app-network:
