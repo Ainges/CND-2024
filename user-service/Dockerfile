@@ -20,5 +20,4 @@ ENV SQLALCHEMY_DATABASE_URI=sqlite:///users.db
 # Expose the port the app runs on
 EXPOSE 5000
 
-# Command to run the application
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["sh", "-c", "python init_db.py && flask run --host=0.0.0.0"]

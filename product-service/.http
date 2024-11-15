@@ -1,0 +1,46 @@
+### Create Admin Account
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+  "first_name": "Admin",
+  "last_name": "User",
+  "email": "admin@example.com",
+  "password": "adminpassword123",
+  "role": "Admin"
+}
+
+###
+
+### Create User Account
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+  "first_name": "Regular",
+  "last_name": "User",
+  "email": "user@example.com",
+  "password": "userpassword123",
+  "role": "User"
+}
+
+
+### Login and get Access Token
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "adminpassword123"
+}
+
+### Add Product (Admin Access Required)
+POST http://localhost:8081/products
+Content-Type: application/json
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMTY3NzA0MSwianRpIjoiODcyNjdiZGEtNDUyNS00ZGRjLTg2M2UtMjQ1NTk4ZWYwMjAyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluQGV4YW1wbGUuY29tIiwibmJmIjoxNzMxNjc3MDQxLCJjc3JmIjoiOGVkMDA2MWItOWIwMS00ZTg5LThiOTAtOTVhYjM4YWZkZDNiIiwiZXhwIjoxNzMxNjgwNjQxfQ.H8WkF9jog-h1dm1V-ybW6YRLeYu_HSenWRmDoRa3dgQ"  
+
+{
+  "name": "Sample Product",
+  "price": 29.99,
+  "description": "This is a sample product."
+}

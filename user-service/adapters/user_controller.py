@@ -16,25 +16,22 @@ user_service = UserService()
 
 @user_controller.route('/register', methods=['POST'])
 def register_user():
-    data = request.json
+    data = request.get_json()
+    if not data or not data.get("email") or not data.get("password") or not data.get("role"):
+        return jsonify({"error": "Email, password, and role are required"}), 400
+
     try:
         user = user_service.register_user(
             email=data['email'],
             password=data['password'],
-            first_name=data.get('first_name'),
-            last_name=data.get('last_name')
+            role=data['role'],  # Admin oder User
+            first_name=data.get("first_name"),
+            last_name=data.get("last_name"),
         )
-        return jsonify({
-            "message": "User registered successfully",
-            "user": {
-                "id": user.id,
-                "email": user.email,
-                "first_name": user.first_name,
-                "last_name": user.last_name
-            }
-        }), 201
+        return jsonify({"message": "User registered successfully"}), 201
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
+
 
 @user_controller.route('/login', methods=['POST'])
 def login_user():
@@ -81,3 +78,22 @@ def update_user():
         }), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
+
+@user_controller.route('/verify', methods=['GET'])
+@jwt_required()
+def verify_token():
+    user_email = get_jwt_identity()
+    
+    try:
+        user = user_service.get_user_by_email(user_email)
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        response = {
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "is_admin": user.role == "Admin"
+        }
+        return jsonify(response), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

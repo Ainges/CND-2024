@@ -16,15 +16,25 @@ class UserService:
     def __init__(self):
         self.user_repository = UserRepository()
 
-    def register_user(self, email, password, first_name=None, last_name=None):
-        existing_user_by_email = self.user_repository.find_by_email(email)
-        if existing_user_by_email:
-            raise ValueError("E-Mail already exists")
+    def register_user(self, email, password, role, first_name=None, last_name=None):
+        if role not in ["Admin", "User"]:
+            raise ValueError("Invalid role. Must be 'Admin' or 'User'.")
+
+        existing_user = self.user_repository.find_by_email(email)
+        if existing_user:
+            raise ValueError("Email already exists")
 
         hashed_password = generate_password_hash(password)
-        user = User(email=email, password=hashed_password, first_name=first_name, last_name=last_name)
+        user = User(
+            email=email,
+            password=hashed_password,
+            role=role,
+            first_name=first_name,
+            last_name=last_name,
+        )
         self.user_repository.save(user)
         return user
+
 
     def login_user(self, email, password):
         user = self.user_repository.find_by_email(email)

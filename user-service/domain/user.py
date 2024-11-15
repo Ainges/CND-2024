@@ -11,12 +11,14 @@ from extensions import db
 
 class User(db.Model):
     __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(80), nullable=True)
-    last_name = db.Column(db.String(80), nullable=True)
+    first_name = db.Column(db.String(80))
+    last_name = db.Column(db.String(80))
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    role = db.Column(db.String(10), default='User')
+    role = db.Column(db.String(10), default="User") 
+
 
     def __init__(self, email, password, first_name=None, last_name=None, role='User'):
         self.first_name = first_name
