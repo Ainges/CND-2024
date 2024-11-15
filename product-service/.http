@@ -1,5 +1,5 @@
 ### Create Admin Account
-POST http://localhost:5000/register
+POST http://127.0.0.1:5000/register
 Content-Type: application/json
 
 {
@@ -37,7 +37,7 @@ Content-Type: application/json
 ### Add Product (Admin Access Required)
 POST http://localhost:8081/products
 Content-Type: application/json
-Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMTY3NzA0MSwianRpIjoiODcyNjdiZGEtNDUyNS00ZGRjLTg2M2UtMjQ1NTk4ZWYwMjAyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluQGV4YW1wbGUuY29tIiwibmJmIjoxNzMxNjc3MDQxLCJjc3JmIjoiOGVkMDA2MWItOWIwMS00ZTg5LThiOTAtOTVhYjM4YWZkZDNiIiwiZXhwIjoxNzMxNjgwNjQxfQ.H8WkF9jog-h1dm1V-ybW6YRLeYu_HSenWRmDoRa3dgQ"  
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMTY4NDAwMCwianRpIjoiZTc3ZjMxYmItYzEzNy00NmQwLTkxYmItNWEwZDI3YmYwYjcwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluQGV4YW1wbGUuY29tIiwibmJmIjoxNzMxNjg0MDAwLCJjc3JmIjoiZDk4YzUwMzktMzQzYy00ZjE3LTgxMGMtZThhODY4OGJjNDU2IiwiZXhwIjoxNzMxNjg3NjAwfQ.3ux7tsojd85eIT2_kxlHHIF4w1XaOp1P5s59Evs8YpA"  
 
 {
   "name": "Sample Product",
