@@ -13,7 +13,7 @@ services:
     build:
       context: ./product-service
     ports:
-      - "3001:3000"
+      - "3000:3000"
     networks:
       - app-network
 

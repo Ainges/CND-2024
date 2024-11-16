@@ -1,6 +1,7 @@
 package infrastructure.web.endpoints;
 
-import application.CartServiceImpl;
+import application.Cart.CartServiceImpl;
+import application.Cart.CartServiceException;
 import domain.Cart;
 import infrastructure.web.dto.CartCreateDto;
 import jakarta.inject.Inject;
@@ -9,6 +10,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,23 +30,71 @@ public class CartEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Cart> getCartsEndpoint() {
-        return cartService.getAllCarts();
+    public Response getCartsEndpoint() {
+
+        List<Cart> cartList = new ArrayList<>();
+
+        try {
+            cartList = cartService.getAllCarts();
+        } catch (CartServiceException e) {
+            return Response
+                    .status(jakarta.ws.rs.core.Response.Status.BAD_REQUEST)
+                    .entity(Map.of("message", e.getMessage()))
+                    .build();
+        }
+        return Response
+                .status(jakarta.ws.rs.core.Response.Status.OK)
+                .entity(Map.of("carts", cartList))
+                .build();
     }
+
+
 
     @GET()
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Cart getCartsByIdEndpoint(long id) {
-        return cartService.getCartById(id);
+    public Response getCartsByIdEndpoint(long id) {
+
+        Cart cart = new Cart();
+        try {
+            cart = cartService.getCartById(id);
+        }
+        catch (CartServiceException e) {
+            return Response
+                    .status(jakarta.ws.rs.core.Response.Status.BAD_REQUEST)
+                    .entity(Map.of("message", e.getMessage()))
+                    .build();
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("cart", cart);
+
+        return Response
+                .status(jakarta.ws.rs.core.Response.Status.OK)
+                .entity(response)
+                .build();
+
+
+
     }
 
-    @POST
+/*    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addCartEndpoint(CartCreateDto cartCreateDto) {
 
-        Cart cart = cartService.addCart(cartCreateDto);
+        Cart cart = new Cart();
+        try {
+            cart = cartService.addCart(cartCreateDto);
+        }
+        catch (CartServiceException e) {
+
+            return Response
+                    .status(jakarta.ws.rs.core.Response.Status.BAD_REQUEST)
+                    .entity(Map.of("message", e.getMessage()))
+                    .build();
+
+        }
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Cart created successfully");
@@ -57,7 +107,41 @@ public class CartEndpoint {
                 .entity(response)
                 .build();
 
+    }*/
+
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteCartEndpoint(long id) {
+
+        Cart cart = new Cart();
+        try {
+            cart = cartService.deleteCart(id);
+        }
+        catch (CartServiceException e) {
+
+            // TODO: Implement CartNotFoundException
+            if(e.getMessage().contains("already deleted or does not exist")) {
+                return Response
+                        .status(Response.Status.NO_CONTENT)
+                        .entity(Map.of("message", e.getMessage()))
+                        .build();
+            }
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(Map.of("message", e.getMessage()))
+                    .build();
+        }
+
+        return Response
+                .status(Response.Status.OK)
+                .entity(Map.of("message", "Cart deleted successfully", "cart", cart))
+                .build();
+
     }
+
+    // TODO: Implement addProductToCartEndpoint
+
 
 
 }
