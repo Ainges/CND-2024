@@ -1,4 +1,4 @@
-package application.exception;
+package application.Cart;
 
 public class CartServiceException extends RuntimeException {
     public CartServiceException(String message) {
