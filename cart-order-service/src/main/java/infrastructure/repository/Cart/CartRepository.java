@@ -1,7 +1,7 @@
 package infrastructure.repository.Cart;
 
 import domain.Cart;
-import domain.Product;
+import domain.CartStatus;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
@@ -44,17 +44,24 @@ public class CartRepository implements PanacheRepository<Cart> {
     }
 
 
-    public Cart addProductToCart(long userId, Product product) {
-        Cart cart = getCartByUserId(userId);
-        cart.addProduct(product);
-        return cart;
+    public Cart addCartItemToCart() {
+        //TODO: implement
+        return null;
     }
 
-    private Cart getCartByUserId(long userId) {
-        Cart cart = find("userId", userId).firstResult();
+    private Cart getOpenCartByUserId(long userId) {
+        Cart cart = find("userId = ?1 and status = ?2", userId, CartStatus.OPEN).firstResult();
         if(cart == null) {
             addCartForUser(userId);
         }
         return cart;
+    }
+
+    private List<Cart> getCartsByUserId(long userId) {
+        List<Cart> cartList =  find("userId", userId).list();
+        if(cartList.isEmpty()) {
+            addCartForUser(userId);
+        }
+        return cartList;
     }
 }

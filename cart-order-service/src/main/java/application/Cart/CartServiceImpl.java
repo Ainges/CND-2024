@@ -1,10 +1,8 @@
 package application.Cart;
 
-import application.Product.ProductServiceImpl;
+
 import domain.Cart;
-import domain.Product;
 import infrastructure.repository.Cart.CartRepository;
-import infrastructure.web.dto.CartCreateDto;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.slf4j.Logger;
@@ -18,8 +16,6 @@ public class CartServiceImpl implements CartService {
     @Inject
     CartRepository cartRepository;
 
-    @Inject
-    ProductServiceImpl productService;
 
     private static final Logger logger = LoggerFactory.getLogger(CartServiceImpl.class);
 
@@ -49,7 +45,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart addProductToCart(long userId, long productId) {
+    public Cart addCartItemToCart(long userId, long productId) {
 
         Cart cart = new Cart();
 
@@ -64,33 +60,18 @@ public class CartServiceImpl implements CartService {
             }
 
         }
-        // next check if product exists
-        Product product = new Product();
-
-        if(!productService.isProductknown(productId)) {
-            logger.info("Product with id: {} does not exist. Triggering creation...", productId);
-            //trigger product creation
-            product = productService.getProductFormExternal(productId);
+        // next check if cartItem
 
 
-        }
+        // add cartItem to cart
 
-        // add product to cart
-        try {
-            cartRepository.addProductToCart(userId, product);
-        }
-        catch (Exception e) {
-            logger.error("Failed to add product with id: {} to cart for user with id: {}", productId, userId);
-            throw new CartServiceException("Failed to add product to cart", e);
-        }
-        cart = cartRepository.find("userId", userId).firstResult();
         return cart;
 
 
     }
 
     @Override
-    public Cart removeProductFromCart(long userId, long productId) {
+    public Cart removeCartItemFromCart(long userId, long productId) {
         return null;
     }
 

@@ -2,7 +2,6 @@ package domain;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,17 +9,31 @@ public class Cart {
     @Id
     @GeneratedValue
     private Long id;
-    private long userId;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Product> products = new ArrayList<>();
 
-    public Cart(Long id, long userId, List<Product> products) {
-        this.id = id;
-        this.userId = userId;
-        this.products = products;
-    }
+    @Column(nullable = false)
+    private long userId;
+
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Column(nullable = false)
+    private List<CartItem> cartItems;
+
+    private CartStatus status;
+
+    @JoinColumn(nullable = true)
+    @OneToOne
+    private Order order;
+
 
     public Cart() {
+    }
+
+    public Cart(Long id, long userId, List<CartItem> cartItems, CartStatus status, Order order) {
+        this.id = id;
+        this.userId = userId;
+        this.cartItems = cartItems;
+        this.status = status;
+        this.order = order;
     }
 
     public Long getId() {
@@ -39,28 +52,27 @@ public class Cart {
         this.userId = userId;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<CartItem> getCartItems() {
+        return cartItems;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 
-    @Override
-    public String toString() {
-        return "Cart{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", products=" + products +
-                '}';
+    public CartStatus getStatus() {
+        return status;
     }
 
-    public void addProduct(Product product) {
-        this.products.add(product);
+    public void setStatus(CartStatus status) {
+        this.status = status;
     }
 
-    public void removeProduct(Product product) {
-        this.products.remove(product);
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
