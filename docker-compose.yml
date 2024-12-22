@@ -16,7 +16,7 @@ services:
       - "3000:3000"
     networks:
       - app-network
-      -
+      
   payment-invoice-service:
     image: payment-invoice-service
     build:
