@@ -1,47 +1,50 @@
-package domain;
+package adapter.jpa.entities;
 
+import domain.model.CartItem;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
+import java.util.UUID;
+
 @Entity
-public class CartItem {
+public class CartItemEntity {
 
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
-    private Long productId;
+    private String productId;
 
     @Column(nullable = false)
     private int quantity;
 
-    public CartItem() {
+    public CartItemEntity() {
     }
 
-    public CartItem(Long id, Long productId, int quantity) {
+    public CartItemEntity(long id, String productId, int quantity) {
         this.id = id;
         this.productId = productId;
         this.quantity = quantity;
     }
 
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Long getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
@@ -51,5 +54,10 @@ public class CartItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public CartItem toCartItem() {
+
+        return new CartItem(this.id, this.productId, this.quantity);
     }
 }

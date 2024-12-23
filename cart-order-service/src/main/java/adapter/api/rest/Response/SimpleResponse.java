@@ -1,4 +1,4 @@
-package infrastructure.web.Response;
+package adapter.api.rest.Response;
 
 public class SimpleResponse {
 

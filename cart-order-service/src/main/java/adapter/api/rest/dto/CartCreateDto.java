@@ -1,4 +1,4 @@
-package infrastructure.web.dto;
+package adapter.api.rest.dto;
 
 public class CartCreateDto {
 

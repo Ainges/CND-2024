@@ -1,34 +1,19 @@
-package domain;
+package domain.model;
 
-import jakarta.persistence.*;
+import adapter.jpa.entities.CartItemEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 public class Cart {
-    @Id
-    @GeneratedValue
-    private Long id;
 
-    @Column(nullable = false)
-    private long userId;
-
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @Column(nullable = false)
+    private long id;
+    private String userId;
     private List<CartItem> cartItems;
-
     private CartStatus status;
-
-    @JoinColumn(nullable = true)
-    @OneToOne
     private Order order;
 
-
-    public Cart() {
-    }
-
-    public Cart(Long id, long userId, List<CartItem> cartItems, CartStatus status, Order order) {
+    public Cart(long id, String userId, List<CartItem> cartItems, CartStatus status, Order order) {
         this.id = id;
         this.userId = userId;
         this.cartItems = cartItems;
@@ -36,19 +21,28 @@ public class Cart {
         this.order = order;
     }
 
-    public Long getId() {
+    public Cart (String userId) {
+        this.cartItems = new ArrayList<>();
+        this.userId = userId;
+    }
+
+    public Cart() {
+        this.cartItems = new ArrayList<>();
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -75,4 +69,13 @@ public class Cart {
     public void setOrder(Order order) {
         this.order = order;
     }
+
+    public void addCartItem(CartItem cartItem) {
+        cartItems.add(cartItem);
+    }
+
+    public void removeCartItem(String productId) {
+        cartItems.removeIf(cartItem -> cartItem.getProductId().equals(productId));
+    }
 }
+

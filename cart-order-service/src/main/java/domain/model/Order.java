@@ -1,28 +1,13 @@
-package domain;
+package domain.model;
 
-import jakarta.persistence.*;
-
-@Entity
 public class Order {
 
-    @Id
-    private Long id;
-
-    @Column(nullable = false)
-    private long userId;
-
-    @OneToOne
-    @JoinColumn(nullable = false)
+    private long id;
+    private String userId;
     private Cart cart;
-
-    @Column(nullable = false)
     private OrderStatus status;
 
-    public Order(OrderStatus status) {
-        this.status = status;
-    }
-
-    public Order(Long id, long userId, Cart cart, OrderStatus status) {
+    public Order(long id, String userId, Cart cart, OrderStatus status) {
         this.id = id;
         this.userId = userId;
         this.cart = cart;
@@ -30,22 +15,21 @@ public class Order {
     }
 
     public Order() {
-
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
