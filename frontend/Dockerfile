@@ -1,20 +1,24 @@
-# Verwende ein Node.js-Image für die Entwicklungsumgebung
-FROM node:16-alpine
+# Verwende Node.js als Basis-Image
+FROM node:16
 
-# Setze das Arbeitsverzeichnis im Container
+# Setze den Arbeitsverzeichnis
 WORKDIR /app
 
 # Kopiere package.json und package-lock.json
 COPY package.json package-lock.json ./
 
-# Installiere die Abhängigkeiten
+# Installiere Abhängigkeiten
 RUN npm install
 
-# Kopiere den Rest des Frontend-Codes in den Container
+# Kopiere den Rest des Codes
 COPY . .
 
-# Exponiere den Vite-Entwicklungsport (standardmäßig 3000)
+# Wechsle zum Standardbenutzer "node"
+USER root
+
+# Exponiere Port 3000 für Vite
 EXPOSE 3000
 
-# Starte den Vite-Entwicklungsserver
-CMD ["npm", "run", "dev"]
+# Starte Vite im Dev-Modus
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+
