@@ -42,8 +42,8 @@ class UserService:
             raise ValueError("Invalid email or password")
         return user
 
-    def update_user(self, email, new_email=None, new_password=None, new_first_name=None, new_last_name=None):
-        user = self.user_repository.find_by_email(email)
+    def update_user(self, user_id, new_email=None, new_password=None, new_first_name=None, new_last_name=None):
+        user = self.user_repository.find_by_id(user_id)
         if not user:
             raise ValueError("User not found")
         
@@ -59,5 +59,14 @@ class UserService:
         self.user_repository.save(user)
         return user
 
-    def get_user_by_email(self, email):
-        return self.user_repository.find_by_email(email)
+    def get_user_by_id(self, user_id):
+        user = self.user_repository.find_by_id(user_id)
+        if not user:
+            raise ValueError("User not found")
+        return user
+
+    def delete_user(self, user_id):
+        user = self.user_repository.find_by_id(user_id)
+        if not user:
+            raise ValueError("User not found")
+        self.user_repository.delete(user)

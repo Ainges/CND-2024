@@ -9,3 +9,8 @@
 .idea
 /user-service/tests/__pycache__
 /frontend/node_modules
+/user-service/bin
+/user-service/include
+/user-service/lib
+user-service/lib64
+user-service/pyvenv.cfg

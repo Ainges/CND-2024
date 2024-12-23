@@ -11,11 +11,14 @@ from flask_jwt_extended import JWTManager
 from config import Config
 from adapters.user_controller import user_controller
 from extensions import db
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
 jwt = JWTManager(app) 
+
+CORS(app)
 
 app.register_blueprint(user_controller)
 

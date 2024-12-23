@@ -15,6 +15,13 @@ class UserRepository:
     def save(self, user):
         db.session.add(user)
         db.session.commit()
+    
+    def delete(self, user):
+        db.session.delete(user)
+        db.session.commit()
 
+    def find_by_id(self, id):
+        return User.query.filter_by(id=id).first()
+    
     def find_by_email(self, email):
         return User.query.filter_by(email=email).first()

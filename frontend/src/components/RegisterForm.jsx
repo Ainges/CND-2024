@@ -1,101 +1,105 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import { useCookies } from "react-cookie";
 
 function RegisterForm() {
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        isAdmin: false,
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    role: "User",
+  });
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [, setCookie] = useCookies(["user_id"]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
     });
+  };
 
-    const [errorMessage, setErrorMessage] = useState('');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData({
-            ...formData,
-            [name]: type === 'checkbox' ? checked : value,
-        });
-    };
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Registration failed");
+      }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            // Registriere den Benutzer
-            await axios.post('http://user-service:5000/register', formData);
-            console.log('User registered successfully!');
+      const { user_id } = await response.json();
+      setCookie("user_id", user_id, { path: "/" });
 
-            // Logge den Benutzer direkt ein
-            const loginResponse = await axios.post('http://user-service:5000/login', {
-                email: formData.email,
-                password: formData.password,
-            });
-            const token = loginResponse.data.access_token;
+      // Weiterleitung
+      window.location.href = "/dashboard";
+    } catch (error) {
+      setErrorMessage(`Registration failed: ${error.message}`);
+      console.error("Error during registration:", error);
+    }
+  };
 
-            // Speichere den Token im localStorage
-            localStorage.setItem('access_token', token);
-            console.log('Logged in successfully! Token:', token);
-
-            // Optionale Weiterleitung
-            // window.location.href = '/dashboard';
-        } catch (error) {
-            setErrorMessage('Registration or login failed: ', error.response?.data || error.message);
-            console.error('Error during registration/login:', error.response?.data || error.message);
-        }
-    };
-
-    return (
-        <form className="space-y-4" onSubmit={handleSubmit}>
-            <h2 className="text-2xl font-bold">Register</h2>
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-            <input
-                className="w-full p-2 border rounded"
-                type="text"
-                name="firstName"
-                placeholder="First Name"
-                value={formData.firstName}
-                onChange={handleChange}
-            />
-            <input
-                className="w-full p-2 border rounded"
-                type="text"
-                name="lastName"
-                placeholder="Last Name"
-                value={formData.lastName}
-                onChange={handleChange}
-            />
-            <input
-                className="w-full p-2 border rounded"
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-            />
-            <input
-                className="w-full p-2 border rounded"
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-            />
-            <label className="flex items-center space-x-2">
-                <input
-                    type="checkbox"
-                    name="isAdmin"
-                    checked={formData.isAdmin}
-                    onChange={handleChange}
-                />
-                <span>Is Admin</span>
-            </label>
-            <button className="w-full p-2 bg-blue-500 text-white rounded" type="submit">
-                Register
-            </button>
-        </form>
-    );
+  return (
+    <form className="space-y-4" onSubmit={handleSubmit}>
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+      <input
+        className="w-full p-2 border rounded text-neutral-900"
+        type="text"
+        name="first_name"
+        placeholder="First Name"
+        value={formData.first_name}
+        onChange={handleChange}
+      />
+      <input
+        className="w-full p-2 border rounded text-neutral-900"
+        type="text"
+        name="last_name"
+        placeholder="Last Name"
+        value={formData.last_name}
+        onChange={handleChange}
+      />
+      <input
+        className="w-full p-2 border rounded text-neutral-900"
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={formData.email}
+        onChange={handleChange}
+      />
+      <input
+        className="w-full p-2 border rounded text-neutral-900"
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={formData.password}
+        onChange={handleChange}
+      />
+      <label className="flex items-center space-x-2">
+        <span className="text-neutral-100">Role:</span>
+        <select
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+          className="w-full p-2 border rounded text-neutral-900"
+        >
+          <option value="User">User</option>
+          <option value="Admin">Admin</option>
+        </select>
+      </label>
+      <button className="w-full p-2 bg-blue-500 text-white rounded" type="submit">
+        Register
+      </button>
+    </form>
+  );
 }
 
 export default RegisterForm;
