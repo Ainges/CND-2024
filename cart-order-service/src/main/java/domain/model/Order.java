@@ -1,5 +1,12 @@
 package domain.model;
 
+import adapter.jpa.entities.CartEntity;
+import adapter.jpa.entities.CartItemEntity;
+import adapter.jpa.entities.OrderEntity;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Order {
 
     private long id;
@@ -47,5 +54,26 @@ public class Order {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public OrderEntity toOrderEntity() {
+
+        CartEntity cartEntity = new CartEntity();
+        cartEntity.setId(this.cart.getId());
+        cartEntity.setUserId(this.cart.getUserId());
+
+        List<CartItemEntity> cartItemEntityList = new ArrayList<>();
+        for (CartItem cartItem : this.cart.getCartItems()) {
+            CartItemEntity cartItemEntity = new CartItemEntity();
+            cartItemEntity.setProductId(cartItem.getProductId());
+            cartItemEntity.setQuantity(cartItem.getQuantity());
+            cartItemEntityList.add(cartItemEntity);
+        }
+
+        cartEntity.setCartItems(cartItemEntityList);
+        cartEntity.setStatus(this.cart.getStatus());
+
+
+        return new OrderEntity(this.id, this.userId, cartEntity, this.status);
     }
 }

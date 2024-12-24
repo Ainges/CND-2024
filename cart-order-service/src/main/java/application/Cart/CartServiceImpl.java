@@ -4,8 +4,10 @@ package application.Cart;
 import adapter.jpa.repositories.JpaCartRepository;
 import domain.model.Cart;
 import domain.model.CartItem;
+import domain.model.CartStatus;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,26 +35,23 @@ public class CartServiceImpl implements CartService {
 
 
     @Override
+    @Transactional
     public Cart addCartItemToCart(String userId, String productId) {
 
-        Cart cart  = jpaCartRepository.getCurrentCartByUserId(userId);
+        Cart cart = jpaCartRepository.getCurrentCartByUserId(userId);
 
         if(cart == null){
             cart = new Cart(userId);
-        }
-
-        // check if the product is already in the cart
-        for(CartItem cartItem : cart.getCartItems()){
-            if(cartItem.getProductId().equals(productId)){
-                cartItem.setQuantity(cartItem.getQuantity() + 1);
-                return jpaCartRepository.save(cart);
-            }
+            cart.setStatus(CartStatus.OPEN);
+            cart = jpaCartRepository.save(cart);
         }
 
         CartItem cartItem = new CartItem(productId, 1);
-        cart.addCartItem(cartItem);
 
-        return jpaCartRepository.save(cart);
+        // Add the cart item to the cart;
+        cart = jpaCartRepository.addCartItemToCart(userId, cartItem);
+
+        return cart;
     }
 
     @Override

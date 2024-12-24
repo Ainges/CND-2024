@@ -16,5 +16,8 @@ public interface CartRepository {
     public Cart removeCartItemFromCart(String userId, CartItem cartItem);
     public Cart clearCart(String userId);
     public Cart checkout(String userId);
+    public CartItem getCartItemById(long id);
+    public List<CartItem> getAllCartItemsOfCart(long cartId);
     public Cart save(Cart cart);
+    public Cart update(Cart cart);
 }

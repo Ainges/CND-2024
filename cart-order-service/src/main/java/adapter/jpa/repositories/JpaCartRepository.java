@@ -8,14 +8,22 @@ import domain.model.CartItem;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
+import org.jboss.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
 
 @ApplicationScoped
 public class JpaCartRepository implements domain.ports.outgoing.CartRepository,PanacheRepository<CartEntity> {
 
+
+    private final Logger logger;
+
+    @jakarta.inject.Inject
+    public JpaCartRepository(Logger logger) {
+        this.logger = logger;
+    }
 
     @Override
     public List<Cart> getAllCarts() {
@@ -39,11 +47,7 @@ public class JpaCartRepository implements domain.ports.outgoing.CartRepository,P
         CartEntity cartEntity = find("userId", userId).firstResult();
 
         if(cartEntity == null){
-            cartEntity = new CartEntity();
-            cartEntity.setUserId(userId);
-            cartEntity.setStatus(domain.model.CartStatus.OPEN);
-            persist(cartEntity);
-            return cartEntity.toCart();
+            return null;
         }
         return cartEntity.toCart();
     }
@@ -65,10 +69,11 @@ public class JpaCartRepository implements domain.ports.outgoing.CartRepository,P
         CartItemEntity cartItemEntity = new CartItemEntity();
         cartItemEntity.setProductId(cartItem.getProductId());
         cartItemEntity.setQuantity(cartItem.getQuantity());
-
+        cartItemEntity.setCartEntity(cartEntity);
 
         cartEntity.addCartItem(cartItemEntity);
-        persist(cartEntity);
+        getEntityManager().persist(cartItemEntity);
+
         return cartEntity.toCart();
     }
 
@@ -94,20 +99,73 @@ public class JpaCartRepository implements domain.ports.outgoing.CartRepository,P
     }
 
     @Override
+    public CartItem getCartItemById(long id) {
+        CartItemEntity cartItemEntity = getEntityManager().find(CartItemEntity.class, id);
+        return cartItemEntity.toCartItem();
+    }
+
+    @Override
+    public List<CartItem> getAllCartItemsOfCart(long cartId) {
+
+        CartEntity cartEntity = findById(cartId);
+        List<CartItem> cartItems = new ArrayList<>();
+        for (CartItemEntity cartItemEntity : cartEntity.getCartItems()) {
+            cartItems.add(cartItemEntity.toCartItem());
+        }
+        return cartItems;
+    }
+
+    /**
+     * Save the cart
+     * @param cart
+     * @return Cart
+     *
+     * This method saves the cart in the database. Collection fields are not saved in this method, but initialized with empty list.
+     */
+    @Override
     @Transactional
     public Cart save(Cart cart) {
+
         CartEntity cartEntity = new CartEntity();
-        cartEntity.setId(cart.getId());
         cartEntity.setUserId(cart.getUserId());
         cartEntity.setStatus(cart.getStatus());
         cartEntity.setOrder(null);
 
+        // initialize with empty list
         List<CartItemEntity> cartItemEntities = new ArrayList<>();
         cartEntity.setCartItems(cartItemEntities);
-        // Überprüfen, ob die Entität bereits existiert
-        persist(cartEntity);
 
+        this.persist(cartEntity);
+        logger.info("Creating cart with id: " + cartEntity.getId() + " for user: " + cartEntity.getUserId());
         return cartEntity.toCart();
 
+    }
+
+    /**
+     * Update the cart
+     * @param cart
+     * @return Cart
+     *
+     * This method updates the cart in the database, but only non collection fields are updated.
+     * The collection fields are need to be updated in the respective methods.
+     */
+    @Override
+    @Transactional
+    public Cart update(Cart cart) {
+        CartEntity cartEntity = new CartEntity();
+
+        //Update the CartEntity with the new values
+        cartEntity.setId(cart.getId());
+        cartEntity.setUserId(cart.getUserId());
+        cartEntity.setStatus(cart.getStatus());
+
+        // Convert Order to OrderEntity
+        if(cart.getOrder() != null){
+            // TODO: Set the orderEntity
+            cart.setOrder(null);
+        }
+
+
+        return cartEntity.toCart();
     }
 }

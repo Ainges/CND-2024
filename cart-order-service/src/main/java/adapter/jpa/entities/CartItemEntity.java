@@ -1,10 +1,7 @@
 package adapter.jpa.entities;
 
 import domain.model.CartItem;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.UUID;
 
@@ -21,6 +18,10 @@ public class CartItemEntity {
 
     @Column(nullable = false)
     private int quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "cart_id", nullable = false)
+    private CartEntity cartEntity;
 
     public CartItemEntity() {
     }
@@ -54,6 +55,14 @@ public class CartItemEntity {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public CartEntity getCartEntity() {
+        return cartEntity;
+    }
+
+    public void setCartEntity(CartEntity cartEntity) {
+        this.cartEntity = cartEntity;
     }
 
     public CartItem toCartItem() {
