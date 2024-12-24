@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import ProfilePage from "./ProfilePage";
 import AddProductPage from "./AddProductPage";
+import AllProductsPage from "./AllProductsPage";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -34,7 +35,7 @@ const Dashboard = () => {
           <ProfilePage/>
         );
       case "all-products":
-        return <h2 className="text-2xl font-bold">All Products</h2>;
+        return <AllProductsPage/>;
       case "add-product":
         return <AddProductPage/>;
       default:
