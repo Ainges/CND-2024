@@ -11,7 +11,7 @@ services:
     build:
       context: ./product-service
     ports:
-      - "3001:3001"  # Externer Port 3001, interner Port 3000
+      - "4000:4000"
     networks:
       - app-network
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import ProfilePage from "./ProfilePage";
+import AddProductPage from "./AddProductPage";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -35,7 +36,7 @@ const Dashboard = () => {
       case "all-products":
         return <h2 className="text-2xl font-bold">All Products</h2>;
       case "add-product":
-        return <h2 className="text-2xl font-bold">Add New Product</h2>;
+        return <AddProductPage/>;
       default:
         return <h2 className="text-2xl font-bold">Welcome to the Dashboard</h2>;
     }

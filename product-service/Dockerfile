@@ -1,18 +1,20 @@
-# Base image with Node.js
-FROM node:16-alpine
+# Dockerfile for product-service
+FROM node:16
 
-# Set working directory in the container
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and install dependencies
+# Copy package.json and package-lock.json
 COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# Copy the application code
+# Copy application code
 COPY . .
 
-# Expose the application's port
-EXPOSE 3000
+# Expose the application port
+EXPOSE 5000
 
 # Start the application
 CMD ["npm", "start"]

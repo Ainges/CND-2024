@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const productRoutes = require('./routes/productRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const sequelize = require('./database/db');
@@ -9,6 +10,8 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+
+app.use(cors());
 
 // Routes
 app.use(productRoutes);
@@ -25,7 +28,7 @@ app.use(commentRoutes);
 
 module.exports = app;
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

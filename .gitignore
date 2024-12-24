@@ -14,3 +14,4 @@
 /user-service/lib
 user-service/lib64
 user-service/pyvenv.cfg
+/product-service/node_modules
