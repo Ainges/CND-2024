@@ -1,19 +1,21 @@
-package domain;
+package adapter.jpa.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 import java.math.BigDecimal;
 
 @Entity
-public class OrderPosition {
+public class OrderPositionEntity {
 
     @Id
-    private Long id;
+    @GeneratedValue
+    private long id;
 
     @Column(nullable = false)
-    private long productId;
+    private String productId;
 
     @Column(nullable = true)
     private String productName;
@@ -24,10 +26,10 @@ public class OrderPosition {
     @Column(nullable = false)
     private BigDecimal priceInEuroCents;
 
-    public OrderPosition() {
+    public OrderPositionEntity() {
     }
 
-    public OrderPosition(Long id, long productId, String productName, int quantity, BigDecimal priceInEuroCents) {
+    public OrderPositionEntity(long id, String productId, String productName, int quantity, BigDecimal priceInEuroCents) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
@@ -35,19 +37,19 @@ public class OrderPosition {
         this.priceInEuroCents = priceInEuroCents;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public long getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(long productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 

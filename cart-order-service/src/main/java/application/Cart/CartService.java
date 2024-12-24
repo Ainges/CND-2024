@@ -1,14 +1,16 @@
 package application.Cart;
 
-import domain.Cart;
+import domain.model.Cart;
+import domain.model.CartItem;
 
 import java.util.List;
 
 public interface CartService {
     List<Cart> getAllCarts();
     Cart getCartById(long id);
-    Cart addCartItemToCart(long userId, long productId);
-    Cart removeCartItemFromCart(long userId, long productId);
+    Cart addCartItemToCart(String userId, String productId, int quantity);
+    Cart setCartItemQuantity(String userId, String productId, int quantity);
+    Cart removeCartItemFromCart(long userId, String productId);
     Cart clearCart(long userId);
     Cart checkout(long userId);
 }
