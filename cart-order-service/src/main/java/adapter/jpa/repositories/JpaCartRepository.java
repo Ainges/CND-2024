@@ -105,6 +105,32 @@ public class JpaCartRepository implements domain.ports.outgoing.CartRepository,P
     }
 
     @Override
+    @Transactional
+    public CartItem increaseCartItemQuantity(long cartItemId, int quantity) {
+
+        CartItemEntity cartItemEntity = getEntityManager().find(CartItemEntity.class, cartItemId);
+        cartItemEntity.setQuantity(cartItemEntity.getQuantity() + quantity);
+        getEntityManager().persist(cartItemEntity);
+        return cartItemEntity.toCartItem();
+    }
+
+    @Override
+    public CartItem decreaseCartItemQuantity(long cartItemId, int quantity) {
+        CartItemEntity cartItemEntity = getEntityManager().find(CartItemEntity.class, cartItemId);
+        cartItemEntity.setQuantity(cartItemEntity.getQuantity() - quantity);
+        getEntityManager().persist(cartItemEntity);
+        return cartItemEntity.toCartItem();
+    }
+
+    @Override
+    public CartItem setCartItemQuantity(long cartItemId, int quantity) {
+        CartItemEntity cartItemEntity = getEntityManager().find(CartItemEntity.class, cartItemId);
+        cartItemEntity.setQuantity(quantity);
+        getEntityManager().persist(cartItemEntity);
+        return cartItemEntity.toCartItem();
+    }
+
+    @Override
     public List<CartItem> getAllCartItemsOfCart(long cartId) {
 
         CartEntity cartEntity = findById(cartId);

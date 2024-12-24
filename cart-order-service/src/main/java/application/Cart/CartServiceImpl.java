@@ -36,7 +36,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public Cart addCartItemToCart(String userId, String productId) {
+    public Cart addCartItemToCart(String userId, String productId, int quantity) {
 
         Cart cart = jpaCartRepository.getCurrentCartByUserId(userId);
 
@@ -46,12 +46,28 @@ public class CartServiceImpl implements CartService {
             cart = jpaCartRepository.save(cart);
         }
 
-        CartItem cartItem = new CartItem(productId, 1);
+        if (cart.getCartItems().stream().anyMatch(cartItem -> cartItem.getProductId().equals(productId))) {
+            logger.info("Product already in cart");
+
+            CartItem cartItem = jpaCartRepository.getCartItemById(cart.getId());
+            jpaCartRepository.increaseCartItemQuantity(cartItem.getId(), quantity);
+
+            cart = jpaCartRepository.getCartById(cart.getId());
+
+            return cart;
+        }
+
+        CartItem cartItem = new CartItem(productId, quantity);
 
         // Add the cart item to the cart;
         cart = jpaCartRepository.addCartItemToCart(userId, cartItem);
 
         return cart;
+    }
+
+    @Override
+    public Cart setCartItemQuantity(String userId, String productId, int quantity) {
+        return null;
     }
 
     @Override

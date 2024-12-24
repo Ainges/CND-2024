@@ -16,8 +16,11 @@ public interface CartRepository {
     public Cart removeCartItemFromCart(String userId, CartItem cartItem);
     public Cart clearCart(String userId);
     public Cart checkout(String userId);
-    public CartItem getCartItemById(long id);
     public List<CartItem> getAllCartItemsOfCart(long cartId);
     public Cart save(Cart cart);
     public Cart update(Cart cart);
+    public CartItem getCartItemById(long id);
+    public CartItem increaseCartItemQuantity(long cartItemId, int quantity);
+    public CartItem decreaseCartItemQuantity(long cartItemId, int quantity);
+    public CartItem setCartItemQuantity(long cartItemId, int quantity);
 }

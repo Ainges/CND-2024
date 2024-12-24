@@ -87,7 +87,7 @@ public class CartEndpoint {
 
         try {
             cart = cartService.addCartItemToCart(userId,
-                    cartItemDto.getProductId());
+                    cartItemDto.getProductId(), cartItemDto.getQuantity());
         } catch (CartServiceException e) {
             return Response
                     .status(jakarta.ws.rs.core.Response.Status.BAD_REQUEST)
