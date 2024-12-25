@@ -7,6 +7,7 @@ import domain.model.Cart;
 import domain.model.CartItem;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.jboss.logging.Logger;
 
@@ -20,7 +21,7 @@ public class JpaCartRepository implements domain.ports.outgoing.CartRepository,P
 
     private final Logger logger;
 
-    @jakarta.inject.Inject
+    @Inject
     public JpaCartRepository(Logger logger) {
         this.logger = logger;
     }
@@ -95,11 +96,6 @@ public class JpaCartRepository implements domain.ports.outgoing.CartRepository,P
     }
 
     @Override
-    public Cart checkout(String userId) {
-        return null;
-    }
-
-    @Override
     public CartItem getCartItemById(long id) {
         CartItemEntity cartItemEntity = getEntityManager().find(CartItemEntity.class, id);
         return cartItemEntity.toCartItem();
@@ -108,6 +104,14 @@ public class JpaCartRepository implements domain.ports.outgoing.CartRepository,P
     @Override
     @Transactional
     public CartItem increaseCartItemQuantity(long cartItemId, int quantity) {
+
+        if(quantity < 0){
+            throw new IllegalArgumentException("Quantity must be greater than 0");
+        }
+
+        if(cartItemId <= 0){
+            throw new IllegalArgumentException("CartItemId must be greater than 0");
+        }
 
         CartItemEntity cartItemEntity = getEntityManager().find(CartItemEntity.class, cartItemId);
         cartItemEntity.setQuantity(cartItemEntity.getQuantity() + quantity);
@@ -140,6 +144,12 @@ public class JpaCartRepository implements domain.ports.outgoing.CartRepository,P
             cartItems.add(cartItemEntity.toCartItem());
         }
         return cartItems;
+    }
+
+    @Override
+    public Cart checkout(String userId) {
+        //TODO: implement checkout
+        return null;
     }
 
     /**
