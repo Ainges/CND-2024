@@ -44,7 +44,9 @@ public class JpaCartRepository implements domain.ports.outgoing.CartRepository,P
     @Override
     @Transactional
     public Cart getCurrentCartByUserId(String userId) {
-        CartEntity cartEntity = find("userId", userId).firstResult();
+
+        // Find cartEntity by userId but only when Status is OPEN
+        CartEntity cartEntity = find("userId = ?1 and status = ?2", userId, domain.model.CartStatus.OPEN).firstResult();
 
         if(cartEntity == null){
             return null;
@@ -87,9 +89,8 @@ public class JpaCartRepository implements domain.ports.outgoing.CartRepository,P
 
     @Override
     public Cart clearCart(String userId) {
-        CartEntity cartEntity = find("userId", userId).firstResult();
+        CartEntity cartEntity = find("userId = ?1 and status = ?2", userId, domain.model.CartStatus.OPEN).firstResult();
         cartEntity.getCartItems().clear();
-        persist(cartEntity);
         return cartEntity.toCart();
     }
 

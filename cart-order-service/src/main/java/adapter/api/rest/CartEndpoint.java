@@ -30,6 +30,8 @@ public class CartEndpoint {
     @ConfigProperty(name = "port")
     String port;
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CartEndpoint.class);
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCartsEndpoint() {
@@ -61,10 +63,33 @@ public class CartEndpoint {
 
         try {
             cart = cartService.getCartById(id);
-        } catch (CartServiceException e) {
+        }
+
+        // specific exception handling
+        catch (CartServiceException e) {
+
+            if (e.getMessage().equals("Cart not found")) {
+
+                logger.error("### Cart with id " + id + " not found ###");
+
+                return Response
+                        .status(jakarta.ws.rs.core.Response.Status.NOT_FOUND)
+                        .entity(Map.of("message", "Cart with id " + id + " not found"))
+                        .build();
+            }
+
             return Response
                     .status(jakarta.ws.rs.core.Response.Status.BAD_REQUEST)
                     .entity(Map.of("message", e.getMessage()))
+                    .build();
+
+        // fallback exception handling
+        } catch (Exception e) {
+
+            logger.error("### Error while getting cart by id: ###", e);
+            return Response
+                    .status(jakarta.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(Map.of("message", "An unknown error occurred"))
                     .build();
         }
         return Response
@@ -99,8 +124,4 @@ public class CartEndpoint {
                 .entity(Map.of("cart", cart))
                 .build();
     }
-
-
-
-
 }

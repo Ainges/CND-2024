@@ -30,7 +30,16 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart getCartById(long id) {
-        return jpaCartRepository.getCartById(id);
+
+        Cart cart = new Cart();
+
+        try {
+            cart = jpaCartRepository.getCartById(id);
+        }
+        catch (Exception e) {
+            throw new CartServiceException("Cart not found");
+        }
+        return cart;
     }
 
 
@@ -39,6 +48,8 @@ public class CartServiceImpl implements CartService {
     public Cart addCartItemToCart(String userId, String productId, int quantity) {
 
         Cart cart = jpaCartRepository.getCurrentCartByUserId(userId);
+
+        //TODO: Check if Product exists in external service
 
         if(cart == null){
             cart = new Cart(userId);
@@ -71,17 +82,45 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart removeCartItemFromCart(long userId, String productId) {
-        return null;
+    public Cart removeCartItemFromCart(String userId, String productId) {
+
+        Cart cart = jpaCartRepository.getCurrentCartByUserId(userId);
+
+        if(cart == null){
+            throw new CartServiceException("No active Card found");
+        }
+
+        if (cart.getCartItems().stream().noneMatch(cartItem -> cartItem.getProductId().equals(productId))) {
+            throw new CartServiceException("Product not in cart");
+        }
+
+        CartItem cartItem = cart.getCartItems().stream().filter(item -> item.getProductId().equals(productId)).findFirst().get();
+
+        cart = jpaCartRepository.removeCartItemFromCart(String.valueOf(userId), cartItem);
+
+        return cart;
+
+
     }
 
     @Override
-    public Cart clearCart(long userId) {
-        return null;
+    public Cart clearCart(String userId) {
+
+        Cart cart = jpaCartRepository.getCurrentCartByUserId(userId);
+
+        if(cart == null){
+            throw new CartServiceException("No active Card found");
+        }
+
+        cart = jpaCartRepository.clearCart(userId);
+
+        return cart;
+
+
     }
 
     @Override
-    public Cart checkout(long userId) {
+    public Cart checkout(String userId) {
         return null;
     }
 }

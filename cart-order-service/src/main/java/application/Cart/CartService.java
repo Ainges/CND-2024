@@ -10,7 +10,7 @@ public interface CartService {
     Cart getCartById(long id);
     Cart addCartItemToCart(String userId, String productId, int quantity);
     Cart setCartItemQuantity(String userId, String productId, int quantity);
-    Cart removeCartItemFromCart(long userId, String productId);
-    Cart clearCart(long userId);
-    Cart checkout(long userId);
+    Cart removeCartItemFromCart(String userId, String productId);
+    Cart clearCart(String userId);
+    Cart checkout(String userId);
 }
