@@ -26,6 +26,18 @@ app.post('/products', (req, res) => {
   res.status(201).json(product);
 });
 
+// GET a product by ID
+app.get('/products/:id', (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const product = products.find((product) => product.id === id);
+
+  if (product) {
+    res.json(product);
+  } else {
+    res.status(404).json({ message: 'Product not found' });
+  }
+});
+
 // PUT to update a product by ID
 app.put('/products/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
