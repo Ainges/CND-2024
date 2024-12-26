@@ -67,7 +67,7 @@ public class JpaCartRepository implements CartRepository,PanacheRepository<CartE
 
     @Override
     public Cart addCartItemToCart(String userId, CartItem cartItem) {
-        CartEntity cartEntity = find("userId", userId).firstResult();
+        CartEntity cartEntity = find("userId = ?1 and status = ?2", userId, CartStatus.OPEN).firstResult();
 
         CartItemEntity cartItemEntity = new CartItemEntity();
         cartItemEntity.setProductId(cartItem.getProductId());

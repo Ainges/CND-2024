@@ -24,6 +24,7 @@ public class Cart {
     public Cart (String userId) {
         this.cartItems = new ArrayList<>();
         this.userId = userId;
+        this.status = CartStatus.OPEN;
     }
 
     public Cart() {

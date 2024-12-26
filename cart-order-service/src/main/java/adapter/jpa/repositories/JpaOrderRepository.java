@@ -65,7 +65,6 @@ public class JpaOrderRepository implements OrderRepository, PanacheRepository<Or
             cartItemEntity.setQuantity(cartItem.getQuantity());
             cartItemEntityList.add(cartItemEntity);
 
-            logger.info("CartItemEntity: " + cartItemEntity);
         }
         cartEntity.setCartItems(cartItemEntityList);
 
@@ -81,8 +80,6 @@ public class JpaOrderRepository implements OrderRepository, PanacheRepository<Or
             orderPositionEntity.setQuantity(orderPosition.getQuantity());
             orderPositionEntity.setPriceInEuroCents(orderPosition.getPriceInEuroCents());
             orderPositionEntity.setOrderEntity(orderEntity);
-
-            logger.info("OrderPositionEntity: " + orderPositionEntity);
 
             orderPositions.add(orderPositionEntity);
         }

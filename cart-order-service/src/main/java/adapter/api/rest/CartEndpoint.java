@@ -166,6 +166,15 @@ public class CartEndpoint {
         try {
             cart = cartService.checkout(userId);
         } catch (CartServiceException e) {
+
+            if (e.getMessage().equals("User has no active cart")) {
+                logger.error("### User with id {} has no active cart ###", userId);
+                return Response
+                        .status(jakarta.ws.rs.core.Response.Status.NOT_FOUND)
+                        .entity(Map.of("message", "User with id " + userId + " has no active cart"))
+                        .build();
+            }
+
             return Response
                     .status(jakarta.ws.rs.core.Response.Status.BAD_REQUEST)
                     .entity(Map.of("message", e.getMessage()))

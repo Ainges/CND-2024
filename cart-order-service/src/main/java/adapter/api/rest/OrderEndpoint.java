@@ -1,12 +1,9 @@
 package adapter.api.rest;
 
 import adapter.jpa.repositories.JpaOrderRepository;
-import application.Cart.CartServiceException;
 import application.Order.OrderServiceException;
-import domain.model.Cart;
 import domain.model.Order;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -41,4 +38,6 @@ public class OrderEndpoint {
                 .entity(Map.of("orders", orderList))
                 .build();
     }
+
+
 }

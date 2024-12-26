@@ -74,10 +74,17 @@ public class CartServiceImpl implements CartService {
 
         //TODO: Check if Product exists in external service
 
+        // If no cart exists, create a new cart
         if(cart == null){
             cart = new Cart(userId);
             cart.setStatus(CartStatus.OPEN);
             cart = jpaCartRepository.save(cart);
+        }
+
+        // If cart is checked out, create a new cart
+        if (cart.getStatus() == CartStatus.CHECKED_OUT) {
+            cart = new Cart(userId);
+            jpaCartRepository.save(cart);
         }
 
         if (cart.getCartItems().stream().anyMatch(cartItem -> cartItem.getProductId().equals(productId))) {
@@ -145,7 +152,17 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart checkout(String userId) {
 
-        Cart cart = jpaCartRepository.getCurrentCartByUserId(userId);
+        Cart cart = null;
+
+        try {
+            cart = jpaCartRepository.getCurrentCartByUserId(userId);
+            if(cart == null){
+                throw new CartServiceException("User has no active cart");
+            }
+        }
+        catch (Exception e) {
+            throw new CartServiceException("User has no active cart");
+        }
 
         Order order = new Order();
         order.setUserId(userId);
