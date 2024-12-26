@@ -1,8 +1,12 @@
 package adapter.jpa.entities;
 
 import domain.model.Order;
+import domain.model.OrderPosition;
 import domain.model.OrderStatus;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class OrderEntity {
@@ -21,9 +25,8 @@ public class OrderEntity {
     @Column(nullable = false)
     private OrderStatus status;
 
-    public OrderEntity(OrderStatus status) {
-        this.status = status;
-    }
+    @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderPositionEntity> orderPositionEntities;
 
     public OrderEntity(long id, String userId, CartEntity cartEntity, OrderStatus status) {
         this.id = id;
@@ -68,7 +71,38 @@ public class OrderEntity {
         this.status = status;
     }
 
+    public CartEntity getCartEntity() {
+        return cartEntity;
+    }
+
+    public void setCartEntity(CartEntity cartEntity) {
+        this.cartEntity = cartEntity;
+    }
+
+    public List<OrderPositionEntity> getOrderPositionEntities() {
+        return orderPositionEntities;
+    }
+
+    public void setOrderPositionEntities(List<OrderPositionEntity> orderPositionEntities) {
+        this.orderPositionEntities = orderPositionEntities;
+    }
+
     public Order toOrder() {
-        return new Order(this.id, this.userId, this.cartEntity.toCart(), this.status);
+
+        Order order = new Order();
+        order.setId(this.id);
+        order.setUserId(this.userId);
+        order.setCart(this.cartEntity.toCart());
+        order.setStatus(this.status);
+
+        List<OrderPosition> orderPositions = new ArrayList<>();
+        for (OrderPositionEntity orderPositionEntity : this.orderPositionEntities) {
+            orderPositions.add(orderPositionEntity.toOrderPosition());
+        }
+
+        order.setOrderPosition(orderPositions);
+
+        return order;
+
     }
 }

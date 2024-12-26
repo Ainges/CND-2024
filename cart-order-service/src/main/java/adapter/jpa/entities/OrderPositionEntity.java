@@ -1,9 +1,8 @@
 package adapter.jpa.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import domain.model.Order;
+import domain.model.OrderPosition;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
@@ -17,6 +16,9 @@ public class OrderPositionEntity {
     @Column(nullable = false)
     private String productId;
 
+    @Column(nullable = false)
+    private int orderPosition;
+
     @Column(nullable = true)
     private String productName;
 
@@ -26,15 +28,19 @@ public class OrderPositionEntity {
     @Column(nullable = false)
     private BigDecimal priceInEuroCents;
 
+    @ManyToOne
+    private OrderEntity orderEntity;
+
     public OrderPositionEntity() {
     }
 
-    public OrderPositionEntity(long id, String productId, String productName, int quantity, BigDecimal priceInEuroCents) {
+    public OrderPositionEntity(long id, String productId, String productName, int quantity, BigDecimal priceInEuroCents, OrderEntity orderEntity) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
         this.quantity = quantity;
         this.priceInEuroCents = priceInEuroCents;
+        this.orderEntity = orderEntity;
     }
 
     public long getId() {
@@ -51,6 +57,14 @@ public class OrderPositionEntity {
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public int getOrderPosition() {
+        return orderPosition;
+    }
+
+    public void setOrderPosition(int orderPosition) {
+        this.orderPosition = orderPosition;
     }
 
     public String getProductName() {
@@ -75,5 +89,17 @@ public class OrderPositionEntity {
 
     public void setPriceInEuroCents(BigDecimal priceInEuroCents) {
         this.priceInEuroCents = priceInEuroCents;
+    }
+
+    public OrderEntity getOrderEntity() {
+        return orderEntity;
+    }
+
+    public void setOrderEntity(OrderEntity orderEntity) {
+        this.orderEntity = orderEntity;
+    }
+
+    public OrderPosition toOrderPosition() {
+        return new OrderPosition(id, orderPosition, productId, productName, quantity, priceInEuroCents);
     }
 }

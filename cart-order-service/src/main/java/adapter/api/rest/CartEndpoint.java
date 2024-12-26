@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@Path("/cart")
+@Path("/")
 public class CartEndpoint {
 
     @Inject
@@ -32,7 +32,8 @@ public class CartEndpoint {
 
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CartEndpoint.class);
 
-    @GET
+    @GET()
+    @Path("carts")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCartsEndpoint() {
 
@@ -52,10 +53,41 @@ public class CartEndpoint {
                 .build();
     }
 
+    @GET()
+    @Path("carts/userid/{userId}/current")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getCurrentCartByUserIdEndpoint(@PathParam("userId") String userId) {
+
+        Cart cart = new Cart();
+
+        try {
+            cart = cartService.getCartByUserId(userId);
+        } catch (CartServiceException e) {
+
+            if (e.getMessage().equals("User has no active cart")) {
+                logger.error("### User with id {} has no active cart ###", userId);
+                return Response
+                        .status(jakarta.ws.rs.core.Response.Status.NOT_FOUND)
+                        .entity(Map.of("message", "User with id " + userId + " has no active cart"))
+                        .build();
+            }
+
+            return Response
+                    .status(jakarta.ws.rs.core.Response.Status.BAD_REQUEST)
+                    .entity(Map.of("message", e.getMessage()))
+                    .build();
+        }
+        return Response
+                .status(jakarta.ws.rs.core.Response.Status.OK)
+                .entity(Map.of("cart", cart))
+                .build();
+    }
+
 
 
     @GET()
-    @Path("/{id}")
+    @Path("carts/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCartsByIdEndpoint(@PathParam("id") long id) {
 
@@ -104,8 +136,7 @@ public class CartEndpoint {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-
-    @Path("user/{userId}/product/")
+    @Path("users/{userId}/cart/items/")
     public Response addCartItemToCartEndpoint(@PathParam("userId") String userId, CartItemDto cartItemDto) {
 
         Cart cart = new Cart();
@@ -124,4 +155,26 @@ public class CartEndpoint {
                 .entity(Map.of("cart", cart))
                 .build();
     }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("users/{userId}/checkout")
+    public Response checkoutCartEndpoint(@PathParam("userId") String userId) {
+        Cart cart = new Cart();
+
+        try {
+            cart = cartService.checkout(userId);
+        } catch (CartServiceException e) {
+            return Response
+                    .status(jakarta.ws.rs.core.Response.Status.BAD_REQUEST)
+                    .entity(Map.of("message", e.getMessage()))
+                    .build();
+        }
+        return Response
+                .status(jakarta.ws.rs.core.Response.Status.OK)
+                .entity(Map.of("cart", cart))
+                .build();
+    }
+
 }

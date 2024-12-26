@@ -13,12 +13,15 @@ public class Order {
     private String userId;
     private Cart cart;
     private OrderStatus status;
+    private List<OrderPosition> orderPosition;
 
-    public Order(long id, String userId, Cart cart, OrderStatus status) {
+
+    public Order(long id, String userId, Cart cart, OrderStatus status, List<OrderPosition> orderPosition) {
         this.id = id;
         this.userId = userId;
         this.cart = cart;
         this.status = status;
+        this.orderPosition = orderPosition;
     }
 
     public Order() {
@@ -56,24 +59,11 @@ public class Order {
         this.status = status;
     }
 
-    public OrderEntity toOrderEntity() {
+    public List<OrderPosition> getOrderPosition() {
+        return orderPosition;
+    }
 
-        CartEntity cartEntity = new CartEntity();
-        cartEntity.setId(this.cart.getId());
-        cartEntity.setUserId(this.cart.getUserId());
-
-        List<CartItemEntity> cartItemEntityList = new ArrayList<>();
-        for (CartItem cartItem : this.cart.getCartItems()) {
-            CartItemEntity cartItemEntity = new CartItemEntity();
-            cartItemEntity.setProductId(cartItem.getProductId());
-            cartItemEntity.setQuantity(cartItem.getQuantity());
-            cartItemEntityList.add(cartItemEntity);
-        }
-
-        cartEntity.setCartItems(cartItemEntityList);
-        cartEntity.setStatus(this.cart.getStatus());
-
-
-        return new OrderEntity(this.id, this.userId, cartEntity, this.status);
+    public void setOrderPosition(List<OrderPosition> orderPosition) {
+        this.orderPosition = orderPosition;
     }
 }

@@ -3,8 +3,8 @@ package adapter.jpa.repositories;
 
 import adapter.jpa.entities.CartEntity;
 import adapter.jpa.entities.CartItemEntity;
-import domain.model.Cart;
-import domain.model.CartItem;
+import domain.model.*;
+import domain.ports.outgoing.CartRepository;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @ApplicationScoped
-public class JpaCartRepository implements domain.ports.outgoing.CartRepository,PanacheRepository<CartEntity> {
+public class JpaCartRepository implements CartRepository,PanacheRepository<CartEntity> {
 
 
     private final Logger logger;
@@ -47,7 +47,7 @@ public class JpaCartRepository implements domain.ports.outgoing.CartRepository,P
     public Cart getCurrentCartByUserId(String userId) {
 
         // Find cartEntity by userId but only when Status is OPEN
-        CartEntity cartEntity = find("userId = ?1 and status = ?2", userId, domain.model.CartStatus.OPEN).firstResult();
+        CartEntity cartEntity = find("userId = ?1 and status = ?2", userId, CartStatus.OPEN).firstResult();
 
         if(cartEntity == null){
             return null;
@@ -90,7 +90,7 @@ public class JpaCartRepository implements domain.ports.outgoing.CartRepository,P
 
     @Override
     public Cart clearCart(String userId) {
-        CartEntity cartEntity = find("userId = ?1 and status = ?2", userId, domain.model.CartStatus.OPEN).firstResult();
+        CartEntity cartEntity = find("userId = ?1 and status = ?2", userId, CartStatus.OPEN).firstResult();
         cartEntity.getCartItems().clear();
         return cartEntity.toCart();
     }
@@ -146,11 +146,7 @@ public class JpaCartRepository implements domain.ports.outgoing.CartRepository,P
         return cartItems;
     }
 
-    @Override
-    public Cart checkout(String userId) {
-        //TODO: implement checkout
-        return null;
-    }
+
 
     /**
      * Save the cart
@@ -180,29 +176,30 @@ public class JpaCartRepository implements domain.ports.outgoing.CartRepository,P
 
     /**
      * Update the cart
-     * @param cart
-     * @return Cart
      *
      * This method updates the cart in the database, but only non collection fields are updated.
      * The collection fields are need to be updated in the respective methods.
      */
     @Override
     @Transactional
-    public Cart update(Cart cart) {
-        CartEntity cartEntity = new CartEntity();
-
-        //Update the CartEntity with the new values
-        cartEntity.setId(cart.getId());
-        cartEntity.setUserId(cart.getUserId());
-        cartEntity.setStatus(cart.getStatus());
-
-        // Convert Order to OrderEntity
-        if(cart.getOrder() != null){
-            // TODO: Set the orderEntity
-            cart.setOrder(null);
-        }
-
+    public Cart changeStatus(long cartId, CartStatus cartStatus) {
+        CartEntity cartEntity = findById(cartId);
+        cartEntity.setStatus(cartStatus);
 
         return cartEntity.toCart();
+    }
+
+    @Override
+    public Cart setOrder(long cartId, Order order) {
+
+        Cart cart = getCartById(cartId);
+
+        if (cart.getOrder() != null) {
+            throw new JpaCartRepositoryException("Cart already has an order");
+        }
+
+        cart.setOrder(order);
+        return cart;
+
     }
 }
