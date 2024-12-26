@@ -5,10 +5,13 @@ import adapter.client.ProductServiceClient;
 import adapter.client.ProductServiceClientImpl;
 import adapter.jpa.repositories.JpaCartRepository;
 import adapter.jpa.repositories.JpaOrderRepository;
+import adapter.rabbitMQ.RabbitMQClient;
 import domain.model.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
@@ -30,9 +33,15 @@ public class CartServiceImpl implements CartService {
     @Inject
     ProductServiceClientImpl productServiceClientImpl;
 
+    @Inject
+    RabbitMQClient rabbitMQClient;
+
 
 
     private static final Logger logger = LoggerFactory.getLogger(CartServiceImpl.class);
+
+    @Channel("pending-orders")
+    Emitter<String> quoteRequestEmitter;
 
 
     @Override
@@ -221,6 +230,15 @@ public class CartServiceImpl implements CartService {
             order = jpaOrderRepository.save(order);
             cart = jpaCartRepository.changeStatus(cart.getId(), CartStatus.CHECKED_OUT);
             cart = jpaCartRepository.setOrder(cart.getId(), order);
+
+            // TODO: write correct json string
+            quoteRequestEmitter.send(order.toString());
+
+
+            logger.info("Order with id {} created and sent to payment service", order.getId());
+
+
+
         }
         catch (Exception e) {
             throw new CartServiceException("Order not saved");

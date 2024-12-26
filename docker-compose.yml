@@ -30,6 +30,16 @@ services:
     networks:
       - app-network
 
+  rabbitmq:
+    image: rabbitmq:4.0-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"   # Port für AMQP-Protokoll
+      - "15672:15672" # Port für das RabbitMQ-Management-Dashboard
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
 networks:
   app-network:
     driver: bridge
