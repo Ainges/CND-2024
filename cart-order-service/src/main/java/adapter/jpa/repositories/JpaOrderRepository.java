@@ -78,6 +78,7 @@ public class JpaOrderRepository implements OrderRepository, PanacheRepository<Or
             orderPositionEntity.setId(orderPosition.getId());
             orderPositionEntity.setProductId(orderPosition.getProductId());
             orderPositionEntity.setQuantity(orderPosition.getQuantity());
+            orderPositionEntity.setProductName(orderPosition.getProductName());
             orderPositionEntity.setPriceInEuroCents(orderPosition.getPriceInEuroCents());
             orderPositionEntity.setOrderEntity(orderEntity);
 

@@ -1,12 +1,16 @@
 package application.Cart;
 
 
+import adapter.client.ProductServiceClient;
+import adapter.client.ProductServiceClientImpl;
 import adapter.jpa.repositories.JpaCartRepository;
 import adapter.jpa.repositories.JpaOrderRepository;
 import domain.model.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +26,9 @@ public class CartServiceImpl implements CartService {
 
     @Inject
     JpaOrderRepository jpaOrderRepository;
+
+    @Inject
+    ProductServiceClientImpl productServiceClientImpl;
 
 
 
@@ -76,7 +83,13 @@ public class CartServiceImpl implements CartService {
 
         Cart cart = jpaCartRepository.getCurrentCartByUserId(userId);
 
-        //TODO: Check if Product exists in external service
+        ProductInfo productInfo =  productServiceClientImpl.getProduct(productId);
+
+        if(productInfo.getId().isBlank()){
+            throw new CartServiceException("Product not found");
+        }
+        logger.info("Product with id {} found: {}... proceeding to add it to cart", productInfo.getId(), productInfo.getName());
+
 
         // If no cart exists, create a new cart
         if(cart == null){
@@ -178,15 +191,20 @@ public class CartServiceImpl implements CartService {
         List<OrderPosition> orderPositions = new ArrayList<>();
         for (CartItem cartItem : cart.getCartItems()) {
 
-            //TODO: Get product price & name from external service
-
             OrderPosition orderPosition = new OrderPosition();
             orderPosition.setProductId(cartItem.getProductId());
             orderPosition.setQuantity(cartItem.getQuantity());
 
-            //TODO: set actual values
-            orderPosition.setPriceInEuroCents(BigDecimal.valueOf(100));
-            orderPosition.setProductName(">>generic product<<");
+            ProductInfo productInfo =  productServiceClientImpl.getProduct(orderPosition.getProductId());
+            if(productInfo.getId().isBlank()){
+                throw new CartServiceException("Product not found");
+            }
+            //Convert price to BigDecimal and set it in euro cents
+            BigDecimal price = BigDecimal.valueOf(productInfo.getPrice());
+            BigDecimal multiplier = new BigDecimal("100");
+            price = price.multiply(multiplier);
+            orderPosition.setPriceInEuroCents(price);
+            orderPosition.setProductName(productInfo.getName());
 
             orderPositions.add(orderPosition);
         }
