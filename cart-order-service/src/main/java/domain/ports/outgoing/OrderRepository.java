@@ -11,7 +11,7 @@ public interface OrderRepository {
     public List<Order> getAllOrders();
     public Order getOrderById(long id);
     public Order updateStatus(long id, OrderStatus status);
-    public List<Order> getOrderByUserId(String userId);
+    public List<Order> getOrdersByUserId(String userId);
     public Order getOrderByCartId(long cartId);
     public Order save(Order order);
 

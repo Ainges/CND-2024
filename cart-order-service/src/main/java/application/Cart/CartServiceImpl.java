@@ -70,6 +70,10 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public Cart addCartItemToCart(String userId, String productId, int quantity) {
 
+        if(quantity < 1){
+            throw new CartServiceException("Quantity must be greater than 0");
+        }
+
         Cart cart = jpaCartRepository.getCurrentCartByUserId(userId);
 
         //TODO: Check if Product exists in external service
@@ -86,6 +90,7 @@ public class CartServiceImpl implements CartService {
             cart = new Cart(userId);
             jpaCartRepository.save(cart);
         }
+
 
         if (cart.getCartItems().stream().anyMatch(cartItem -> cartItem.getProductId().equals(productId))) {
             logger.info("Product already in cart");

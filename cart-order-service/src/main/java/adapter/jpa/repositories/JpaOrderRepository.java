@@ -105,7 +105,7 @@ public class JpaOrderRepository implements OrderRepository, PanacheRepository<Or
     }
 
     @Override
-    public List<Order> getOrderByUserId(String userId) {
+    public List<Order> getOrdersByUserId(String userId) {
         List<OrderEntity> orderEntities = find("userId", userId).list();
 
         List<Order> orders = new ArrayList<>();
