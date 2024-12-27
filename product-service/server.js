@@ -264,18 +264,21 @@ app.put('/products/:id', (req, res) => {
  */
 app.delete('/products/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
-  const initialLength = products.length;
-  products = products.filter((product) => product.id !== id);
+  const index = products.findIndex((p) => p.id === id);
 
-  if (products.length < initialLength) {
-    res.status(204).send();
-  } else {
-    res.status(404).json({ message: 'Product not found' });
+  if (index === -1) {
+    return res.status(404).json({ message: 'Product not found' });
   }
+  // Remove 1 element at "index"
+  products.splice(index, 1);
+  return res.status(204).send();
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Product Service is running on http://localhost:${PORT}`);
-  console.log(`Swagger UI available at http://localhost:${PORT}/apidocs`);
-});
+module.exports = { app, products };
+
+// Only listen if this file is the "main" entry point
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Product Service listening on http://localhost:${PORT}`);
+  });
+}
