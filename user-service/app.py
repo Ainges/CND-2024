@@ -12,6 +12,7 @@ from config import Config
 from adapters.user_controller import user_controller
 from extensions import db
 from flask_cors import CORS
+from flasgger import Swagger
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -19,6 +20,12 @@ db.init_app(app)
 jwt = JWTManager(app) 
 
 CORS(app)
+
+app.config['SWAGGER'] = {
+    'title': 'User-Service API',
+    'uiversion': 3  
+}
+swagger = Swagger(app)
 
 app.register_blueprint(user_controller)
 
