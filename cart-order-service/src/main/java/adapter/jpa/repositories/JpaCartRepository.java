@@ -6,10 +6,11 @@ import adapter.jpa.entities.CartItemEntity;
 import domain.model.*;
 import domain.ports.outgoing.CartRepository;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.jboss.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,8 @@ import java.util.List;
 public class JpaCartRepository implements CartRepository,PanacheRepository<CartEntity> {
 
 
-    private final Logger logger;
+    private static final Logger logger = LoggerFactory.getLogger(JpaCartRepository.class);
 
-    @Inject
-    public JpaCartRepository(Logger logger) {
-        this.logger = logger;
-    }
 
     @Override
     public List<Cart> getAllCarts() {

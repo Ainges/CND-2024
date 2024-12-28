@@ -26,7 +26,7 @@ builder.Services.AddSwaggerGen();
 // log swagger ui url
 Console.WriteLine($"Swagger UI: http://localhost:5172/swagger/index.html");
 
-// Add Conttrollers
+// Add Controllers
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {

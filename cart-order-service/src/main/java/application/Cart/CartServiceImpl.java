@@ -36,7 +36,7 @@ public class CartServiceImpl implements CartService {
     ProductServiceClientImpl productServiceClientImpl;
 
     // RabbitMQ Emitter
-    @Channel("pending-orders")
+    @Channel("channel-name-for-default-exchange")
     Emitter<String> quoteRequestEmitter;
 
 
