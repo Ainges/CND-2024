@@ -11,23 +11,18 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @ApplicationScoped
 public class RabbitMQQueueInitializer {
 
-    @ConfigProperty(name = "rabbitmq-host")
-    String host;
+    /*
+     * CDI is here not available, so we get the values from the calling class
+     */
 
-    @ConfigProperty(name = "rabbitmq-username")
-    String username;
-
-    @ConfigProperty(name = "rabbitmq-password")
-    String password;
 
     private static final Logger logger = LoggerFactory.getLogger(RabbitMQQueueInitializer.class);
 
-
-    public void initializeQueue() {
+    public void initializeQueue(String host, String username, String password, String profile) {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost"); // Host konfigurieren
-        factory.setUsername("guest");
-        factory.setPassword("guest");
+        factory.setHost(host); // Host konfigurieren
+        factory.setUsername(username); // Benutzername konfigurieren
+        factory.setPassword(password);
 
         try (Connection connection = factory.newConnection();
              Channel channel = connection.createChannel()) {
@@ -46,10 +41,10 @@ public class RabbitMQQueueInitializer {
 
             // this is necessary because the test environment does not have a RabbitMQ server and I don't want to mock it right now
             //TODO: Maybe give the test environment a RabbitMQ server
-//            if (System.getProperty("quarkus.profile").equals("test")) {
-//                logger.info("Skipping RabbitMQ queue initialization in test environment...");
-//                return;
-//            }
+            if (profile.equals("test")) {
+                logger.info("Skipping RabbitMQ queue initialization in test environment...");
+                return;
+            }
 
             throw new RuntimeException("Failed to initialize RabbitMQ queue", e);
         }
