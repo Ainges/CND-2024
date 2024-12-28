@@ -58,6 +58,8 @@ services:
     depends_on:
       - rabbitmq
       - postgres-cart-order-service
+
+    restart: unless-stopped
     environment:
       RABBITMQ_HOST: "rabbitmq"
       RABBITMQ_PORT: "5672"
