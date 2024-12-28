@@ -1,19 +1,16 @@
 package application.Cart;
 
 
-import adapter.client.ProductServiceClient;
 import adapter.client.ProductServiceClientImpl;
 import adapter.jpa.repositories.JpaCartRepository;
 import adapter.jpa.repositories.JpaOrderRepository;
-import adapter.rabbitMQ.RabbitMQClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.model.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
-import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,22 +21,21 @@ import java.util.List;
 @ApplicationScoped
 public class CartServiceImpl implements CartService {
 
+    // Logger
+    private static final Logger logger = LoggerFactory.getLogger(CartServiceImpl.class);
+
+    // JPA Repositories
     @Inject
     JpaCartRepository jpaCartRepository;
 
     @Inject
     JpaOrderRepository jpaOrderRepository;
 
+    // HTTP Client
     @Inject
     ProductServiceClientImpl productServiceClientImpl;
 
-    @Inject
-    RabbitMQClient rabbitMQClient;
-
-
-
-    private static final Logger logger = LoggerFactory.getLogger(CartServiceImpl.class);
-
+    // RabbitMQ Emitter
     @Channel("pending-orders")
     Emitter<String> quoteRequestEmitter;
 
@@ -231,9 +227,12 @@ public class CartServiceImpl implements CartService {
             cart = jpaCartRepository.changeStatus(cart.getId(), CartStatus.CHECKED_OUT);
             cart = jpaCartRepository.setOrder(cart.getId(), order);
 
-            // TODO: write correct json string
-            quoteRequestEmitter.send(order.toString());
+            // transform oder object to json string and send it to payment service
+            ObjectMapper objectMapper = new ObjectMapper();
+            String orderAsJson =  objectMapper.writeValueAsString(order);
+            logger.info("Transmitting order to payment service: {}", orderAsJson);
 
+            quoteRequestEmitter.send(orderAsJson);
 
             logger.info("Order with id {} created and sent to payment service", order.getId());
 
