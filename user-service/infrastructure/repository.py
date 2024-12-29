@@ -8,20 +8,21 @@ In hexagonal architecture, it serves as an infrastructure component and implemen
 the persistence adapter for the domain layer.
 """
 
+from application.ports.user_repository_port import UserRepositoryPort
 from domain.user import User
 from extensions import db 
 
-class UserRepository:
-    def save(self, user):
+class UserRepository(UserRepositoryPort):
+    def save(self, user: User):
         db.session.add(user)
         db.session.commit()
-    
-    def delete(self, user):
+
+    def delete(self, user: User):
         db.session.delete(user)
         db.session.commit()
 
-    def find_by_id(self, id):
+    def find_by_id(self, id: int) -> User:
         return User.query.filter_by(id=id).first()
-    
-    def find_by_email(self, email):
+
+    def find_by_email(self, email: str) -> User:
         return User.query.filter_by(email=email).first()

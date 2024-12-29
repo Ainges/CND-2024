@@ -7,7 +7,6 @@ user_service = UserService()
 
 def admin_required(f):
     @wraps(f)
-    @jwt_required() 
     def decorated_function(*args, **kwargs):
         current_user_email = get_jwt_identity()
         user = user_service.get_user_by_email(current_user_email)

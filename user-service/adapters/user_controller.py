@@ -9,9 +9,13 @@ architecture, it connects the external HTTP layer to the application's use cases
 
 from flask import Blueprint, request, jsonify
 from application.user_service import UserService
+from infrastructure.repository import UserRepository
+from infrastructure.logging_adapter import FileLoggingAdapter
 
 user_controller = Blueprint('user_controller', __name__)
-user_service = UserService()
+user_repository = UserRepository()
+logging_adapter = FileLoggingAdapter()
+user_service = UserService(user_repository, logging_adapter)
 
 @user_controller.route('/register', methods=['POST'])
 def register_user():
