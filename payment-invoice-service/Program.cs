@@ -35,6 +35,14 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
+builder.Services.AddTransient<RabbitMqListener>();
+
+
+
 
 var app = builder.Build();
 
@@ -62,7 +70,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var listener = new RabbitMqListener();
+
+// get instance of RabbitMqListener and start listening
+var listener = app.Services.GetRequiredService<RabbitMqListener>();
 await listener.StartListeningAsync();
 
 

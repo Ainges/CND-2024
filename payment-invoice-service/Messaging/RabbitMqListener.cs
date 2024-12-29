@@ -6,9 +6,18 @@ namespace payment_invoice_service.Messaging
 {
     public class RabbitMqListener
     {
+
+        private readonly IConfiguration _configuration;
+
+        public RabbitMqListener(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public async Task StartListeningAsync()
         {
-            var factory = new ConnectionFactory { HostName = "localhost" };
+
+            var factory = new ConnectionFactory { HostName = _configuration["RabbitMq:Host"] ?? "localhost", UserName = _configuration["RabbitMq:Username"] ?? "guest", Password = _configuration["RabbitMq:Password"] ?? "guest" };
             await using var connection = await factory.CreateConnectionAsync();
             await using var channel = await connection.CreateChannelAsync();
 
