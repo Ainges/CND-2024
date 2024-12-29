@@ -40,6 +40,9 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 builder.Services.AddTransient<RabbitMqListener>();
+// Add RabbitMqListener as a hosted service
+builder.Services.AddSingleton<RabbitMqListener>();
+builder.Services.AddHostedService<RabbitMqListenerHostedService>();
 
 
 
@@ -69,11 +72,4 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-
-// get instance of RabbitMqListener and start listening
-var listener = app.Services.GetRequiredService<RabbitMqListener>();
-await listener.StartListeningAsync();
-
-
 await app.RunAsync();
