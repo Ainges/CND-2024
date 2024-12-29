@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using payment_invoice_service.Data;
 using payment_invoice_service.Data.Repositories;
+using payment_invoice_service.Messaging;
 using payment_invoice_service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,5 +61,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+var listener = new RabbitMqListener();
+await listener.StartListeningAsync();
+
 
 await app.RunAsync();

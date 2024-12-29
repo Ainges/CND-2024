@@ -12,6 +12,7 @@ public interface IPaymentRepository
     Task<Payment> UpdateAsync(Payment payment);
     Task<Payment> DeleteAsync(int id);
 }
+
 public class PaymentRepository : IPaymentRepository
 {
     private readonly ApplicationDbContext _context;
@@ -40,18 +41,7 @@ public class PaymentRepository : IPaymentRepository
 
     public async Task<Payment> CreateAsync(Payment payment)
     {
-        payment.Date = DateTime.Now;
-        _context.Payments.AddAsync(payment);
-
-        // check if payment was added
-        if(await _context.SaveChangesAsync() > 0)
-        {
-            return payment;
-        }
-        else
-        {
-            throw new PaymentRepositoryException("Payment not created");
-        }
+        return null;
 
     }
 

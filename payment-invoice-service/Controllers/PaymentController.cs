@@ -21,7 +21,7 @@ public class PaymentController : ControllerBase
     public async Task<IActionResult> testEndpoint()
     {
 
-        return Ok(await _paymentService.GetAllPaymentsAsync());
+        return Ok();
 
     }
 
@@ -30,7 +30,7 @@ public class PaymentController : ControllerBase
     {
         try
         {
-            return Ok(await _paymentService.GetPaymentByIdAsync(id));
+            return Ok();
         }
         catch(PaymentServiceException e)
         {
@@ -43,7 +43,7 @@ public class PaymentController : ControllerBase
     {
         try
         {
-            return Ok(await _paymentService.CreatePaymentAsync(paymentCreateDto));
+            return Ok();
         }
         catch(PaymentServiceException e)
         {
