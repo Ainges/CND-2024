@@ -1,39 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { FaSpinner } from "react-icons/fa";
 
-const ProfilePage = () => {
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const ProfilePage = ({ user }) => {
+  const [userData, setUserData] = useState(user);
   const [updateStatus, setUpdateStatus] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["user_id"]);
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const userId = cookies.user_id;
-        if (!userId) throw new Error("User not authenticated");
-
-        const response = await fetch(`http://localhost:5000/users/${userId}`);
-        if (!response.ok) {
-          if (response.status === 400) handleLogout();
-          throw new Error("Failed to fetch user data");
-        }
-
-        const data = await response.json();
-        setUserData(data);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-
-    fetchUserProfile();
-  }, [cookies]);
 
   const handleUpdate = async () => {
     setIsUpdating(true);
@@ -92,22 +66,6 @@ const ProfilePage = () => {
     removeCookie("user_id", { path: "/" });
     window.location.href = "/";
   };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <FaSpinner className="animate-spin text-4xl text-blue-500" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-red-500 text-xl">{error}</p>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-4xl mx-auto p-6 rounded-lg shadow-md mt-10">

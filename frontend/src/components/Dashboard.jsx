@@ -14,7 +14,7 @@ const Dashboard = () => {
   useEffect(() => {
     const userId = cookies.user_id;
     if (!userId) {
-      navigate("/login");
+      navigate("/");
       return;
     }
 
@@ -32,12 +32,12 @@ const Dashboard = () => {
     switch (activeTab) {
       case "profile":
         return (
-          <ProfilePage/>
+          <ProfilePage user={user} />
         );
       case "all-products":
-        return <AllProductsPage/>;
+        return <AllProductsPage />;
       case "add-product":
-        return <AddProductPage/>;
+        return <AddProductPage />;
       default:
         return <h2 className="text-2xl font-bold">Welcome to the Dashboard</h2>;
     }
@@ -49,26 +49,23 @@ const Dashboard = () => {
         <h3 className="text-lg font-semibold text-n-1 mb-6">Dashboard</h3>
         <ul className="w-full">
           <li
-            className={`py-3 px-4 mb-2 text-n-1 rounded-lg cursor-pointer transition ${
-              activeTab === "profile" ? "bg-n-6" : "hover:bg-n-6"
-            }`}
+            className={`py-3 px-4 mb-2 text-n-1 rounded-lg cursor-pointer transition ${activeTab === "profile" ? "bg-n-6" : "hover:bg-n-6"
+              }`}
             onClick={() => handleTabChange("profile")}
           >
             Profile
           </li>
           <li
-            className={`py-3 px-4 mb-2 text-n-1 rounded-lg cursor-pointer transition ${
-              activeTab === "all-products" ? "bg-n-6" : "hover:bg-n-6"
-            }`}
+            className={`py-3 px-4 mb-2 text-n-1 rounded-lg cursor-pointer transition ${activeTab === "all-products" ? "bg-n-6" : "hover:bg-n-6"
+              }`}
             onClick={() => handleTabChange("all-products")}
           >
             All Products
           </li>
           {user?.role === "Admin" && (
             <li
-              className={`py-3 px-4 mb-2 text-n-1 rounded-lg cursor-pointer transition ${
-                activeTab === "add-product" ? "bg-n-6" : "hover:bg-n-6"
-              }`}
+              className={`py-3 px-4 mb-2 text-n-1 rounded-lg cursor-pointer transition ${activeTab === "add-product" ? "bg-n-6" : "hover:bg-n-6"
+                }`}
               onClick={() => handleTabChange("add-product")}
             >
               Add New Product
