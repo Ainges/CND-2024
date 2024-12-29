@@ -1,0 +1,245 @@
+2024-12-29 15:11:28,725 - INFO - Test informational message.
+2024-12-29 15:11:33,219 - ERROR - Test error message.
+2024-12-29 15:11:33,223 - INFO - First message.
+2024-12-29 15:11:57,395 - INFO - Test informational message.
+2024-12-29 15:11:57,400 - ERROR - Test error message.
+2024-12-29 15:11:57,404 - INFO - First message.
+2024-12-29 15:11:57,404 - ERROR - Third message.
+2024-12-29 15:12:51,955 - INFO - Test informational message.
+2024-12-29 15:12:51,960 - ERROR - Test error message.
+2024-12-29 15:12:51,964 - INFO - First message.
+2024-12-29 15:12:51,965 - ERROR - Third message.
+2024-12-29 15:12:51,970 - INFO - Creating log file.
+2024-12-29 15:13:49,399 - INFO - Test informational message.
+2024-12-29 15:13:49,402 - ERROR - Test error message.
+2024-12-29 15:13:49,408 - INFO - First message.
+2024-12-29 15:13:49,408 - ERROR - Third message.
+2024-12-29 15:13:49,412 - INFO - Creating log file.
+2024-12-29 15:14:54,445 - INFO - Test informational message.
+2024-12-29 15:14:54,445 - INFO - Test informational message.
+2024-12-29 15:14:54,450 - ERROR - Test error message.
+2024-12-29 15:14:54,450 - ERROR - Test error message.
+2024-12-29 15:14:54,455 - INFO - First message.
+2024-12-29 15:14:54,455 - INFO - First message.
+2024-12-29 15:14:54,455 - ERROR - Third message.
+2024-12-29 15:14:54,455 - ERROR - Third message.
+2024-12-29 15:14:54,459 - INFO - Creating log file.
+2024-12-29 15:14:54,459 - INFO - Creating log file.
+2024-12-29 15:14:54,762 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:14:54,762 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:14:55,152 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:14:55,152 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:14:55,226 - INFO - User 'e2e@example.com' logged in successfully.
+2024-12-29 15:14:55,226 - INFO - User 'e2e@example.com' logged in successfully.
+2024-12-29 15:14:55,586 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:14:55,586 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:14:55,593 - INFO - User with ID '1' retrieved successfully.
+2024-12-29 15:14:55,593 - INFO - User with ID '1' retrieved successfully.
+2024-12-29 15:14:55,947 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:14:55,947 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:14:55,953 - INFO - Updating email for user ID '1' to 'updated@example.com'.
+2024-12-29 15:14:55,953 - INFO - Updating email for user ID '1' to 'updated@example.com'.
+2024-12-29 15:14:55,954 - INFO - Updating first name for user ID '1' to 'Updated'.
+2024-12-29 15:14:55,954 - INFO - Updating first name for user ID '1' to 'Updated'.
+2024-12-29 15:14:55,954 - INFO - Updating last name for user ID '1' to 'User'.
+2024-12-29 15:14:55,954 - INFO - Updating last name for user ID '1' to 'User'.
+2024-12-29 15:14:56,082 - INFO - User with ID '1' updated successfully.
+2024-12-29 15:14:56,082 - INFO - User with ID '1' updated successfully.
+2024-12-29 15:14:56,426 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:14:56,426 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:14:56,517 - INFO - User with ID '1' deleted successfully.
+2024-12-29 15:14:56,517 - INFO - User with ID '1' deleted successfully.
+2024-12-29 15:14:56,519 - ERROR - User retrieval failed: User with ID '1' not found.
+2024-12-29 15:14:56,519 - ERROR - User retrieval failed: User with ID '1' not found.
+2024-12-29 15:14:56,520 - ERROR - Failed to retrieve user with ID '1': User not found
+2024-12-29 15:14:56,520 - ERROR - Failed to retrieve user with ID '1': User not found
+2024-12-29 15:16:00,141 - INFO - Test informational message.
+2024-12-29 15:16:00,141 - INFO - Test informational message.
+2024-12-29 15:16:00,146 - ERROR - Test error message.
+2024-12-29 15:16:00,146 - ERROR - Test error message.
+2024-12-29 15:16:00,150 - INFO - First message.
+2024-12-29 15:16:00,150 - INFO - First message.
+2024-12-29 15:16:00,151 - ERROR - Third message.
+2024-12-29 15:16:00,151 - ERROR - Third message.
+2024-12-29 15:16:00,154 - INFO - Creating log file.
+2024-12-29 15:16:00,154 - INFO - Creating log file.
+2024-12-29 15:16:00,563 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:16:00,563 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:16:00,908 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:16:00,908 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:16:00,982 - INFO - User 'e2e@example.com' logged in successfully.
+2024-12-29 15:16:00,982 - INFO - User 'e2e@example.com' logged in successfully.
+2024-12-29 15:16:01,351 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:16:01,351 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:16:01,357 - INFO - User with ID '1' retrieved successfully.
+2024-12-29 15:16:01,357 - INFO - User with ID '1' retrieved successfully.
+2024-12-29 15:16:01,786 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:16:01,786 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:16:01,793 - INFO - Updating email for user ID '1' to 'updated@example.com'.
+2024-12-29 15:16:01,793 - INFO - Updating email for user ID '1' to 'updated@example.com'.
+2024-12-29 15:16:01,793 - INFO - Updating first name for user ID '1' to 'Updated'.
+2024-12-29 15:16:01,793 - INFO - Updating first name for user ID '1' to 'Updated'.
+2024-12-29 15:16:01,794 - INFO - Updating last name for user ID '1' to 'User'.
+2024-12-29 15:16:01,794 - INFO - Updating last name for user ID '1' to 'User'.
+2024-12-29 15:16:01,898 - INFO - User with ID '1' updated successfully.
+2024-12-29 15:16:01,898 - INFO - User with ID '1' updated successfully.
+2024-12-29 15:16:02,288 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:16:02,288 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:16:02,393 - INFO - User with ID '1' deleted successfully.
+2024-12-29 15:16:02,393 - INFO - User with ID '1' deleted successfully.
+2024-12-29 15:16:02,396 - ERROR - User retrieval failed: User with ID '1' not found.
+2024-12-29 15:16:02,396 - ERROR - User retrieval failed: User with ID '1' not found.
+2024-12-29 15:16:02,396 - ERROR - Failed to retrieve user with ID '1': User not found
+2024-12-29 15:16:02,396 - ERROR - Failed to retrieve user with ID '1': User not found
+2024-12-29 15:17:09,758 - INFO - Test informational message.
+2024-12-29 15:17:09,758 - INFO - Test informational message.
+2024-12-29 15:17:09,762 - ERROR - Test error message.
+2024-12-29 15:17:09,762 - ERROR - Test error message.
+2024-12-29 15:17:09,767 - INFO - First message.
+2024-12-29 15:17:09,767 - INFO - First message.
+2024-12-29 15:17:09,767 - ERROR - Third message.
+2024-12-29 15:17:09,767 - ERROR - Third message.
+2024-12-29 15:17:09,772 - INFO - Creating log file.
+2024-12-29 15:17:09,772 - INFO - Creating log file.
+2024-12-29 15:17:10,145 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:17:10,145 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:17:10,534 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:17:10,534 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:17:10,608 - INFO - User 'e2e@example.com' logged in successfully.
+2024-12-29 15:17:10,608 - INFO - User 'e2e@example.com' logged in successfully.
+2024-12-29 15:17:11,052 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:17:11,052 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:17:11,058 - INFO - User with ID '1' retrieved successfully.
+2024-12-29 15:17:11,058 - INFO - User with ID '1' retrieved successfully.
+2024-12-29 15:17:11,449 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:17:11,449 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:17:11,456 - INFO - Updating email for user ID '1' to 'updated@example.com'.
+2024-12-29 15:17:11,456 - INFO - Updating email for user ID '1' to 'updated@example.com'.
+2024-12-29 15:17:11,456 - INFO - Updating first name for user ID '1' to 'Updated'.
+2024-12-29 15:17:11,456 - INFO - Updating first name for user ID '1' to 'Updated'.
+2024-12-29 15:17:11,457 - INFO - Updating last name for user ID '1' to 'User'.
+2024-12-29 15:17:11,457 - INFO - Updating last name for user ID '1' to 'User'.
+2024-12-29 15:17:11,562 - INFO - User with ID '1' updated successfully.
+2024-12-29 15:17:11,562 - INFO - User with ID '1' updated successfully.
+2024-12-29 15:17:11,997 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:17:11,997 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:17:12,132 - INFO - User with ID '1' deleted successfully.
+2024-12-29 15:17:12,132 - INFO - User with ID '1' deleted successfully.
+2024-12-29 15:17:12,135 - ERROR - User retrieval failed: User with ID '1' not found.
+2024-12-29 15:17:12,135 - ERROR - User retrieval failed: User with ID '1' not found.
+2024-12-29 15:17:12,135 - ERROR - Failed to retrieve user with ID '1': User not found
+2024-12-29 15:17:12,135 - ERROR - Failed to retrieve user with ID '1': User not found
+2024-12-29 15:19:00,630 - INFO - Test informational message.
+2024-12-29 15:19:00,630 - INFO - Test informational message.
+2024-12-29 15:19:00,635 - ERROR - Test error message.
+2024-12-29 15:19:00,635 - ERROR - Test error message.
+2024-12-29 15:19:00,639 - INFO - First message.
+2024-12-29 15:19:00,639 - INFO - First message.
+2024-12-29 15:19:00,640 - ERROR - Third message.
+2024-12-29 15:19:00,640 - ERROR - Third message.
+2024-12-29 15:19:00,643 - INFO - Creating log file.
+2024-12-29 15:19:00,643 - INFO - Creating log file.
+2024-12-29 15:19:01,053 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:01,053 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:01,555 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:01,555 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:01,635 - INFO - User 'e2e@example.com' logged in successfully.
+2024-12-29 15:19:01,635 - INFO - User 'e2e@example.com' logged in successfully.
+2024-12-29 15:19:02,043 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:02,043 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:02,049 - INFO - User with ID '1' retrieved successfully.
+2024-12-29 15:19:02,049 - INFO - User with ID '1' retrieved successfully.
+2024-12-29 15:19:02,502 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:02,502 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:02,508 - INFO - Updating email for user ID '1' to 'updated@example.com'.
+2024-12-29 15:19:02,508 - INFO - Updating email for user ID '1' to 'updated@example.com'.
+2024-12-29 15:19:02,509 - INFO - Updating first name for user ID '1' to 'Updated'.
+2024-12-29 15:19:02,509 - INFO - Updating first name for user ID '1' to 'Updated'.
+2024-12-29 15:19:02,509 - INFO - Updating last name for user ID '1' to 'User'.
+2024-12-29 15:19:02,509 - INFO - Updating last name for user ID '1' to 'User'.
+2024-12-29 15:19:02,605 - INFO - User with ID '1' updated successfully.
+2024-12-29 15:19:02,605 - INFO - User with ID '1' updated successfully.
+2024-12-29 15:19:02,973 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:02,973 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:03,078 - INFO - User with ID '1' deleted successfully.
+2024-12-29 15:19:03,078 - INFO - User with ID '1' deleted successfully.
+2024-12-29 15:19:03,080 - ERROR - User retrieval failed: User with ID '1' not found.
+2024-12-29 15:19:03,080 - ERROR - User retrieval failed: User with ID '1' not found.
+2024-12-29 15:19:03,081 - ERROR - Failed to retrieve user with ID '1': User not found
+2024-12-29 15:19:03,081 - ERROR - Failed to retrieve user with ID '1': User not found
+2024-12-29 15:19:53,129 - INFO - Test informational message.
+2024-12-29 15:19:53,129 - INFO - Test informational message.
+2024-12-29 15:19:53,133 - ERROR - Test error message.
+2024-12-29 15:19:53,133 - ERROR - Test error message.
+2024-12-29 15:19:53,137 - INFO - First message.
+2024-12-29 15:19:53,137 - INFO - First message.
+2024-12-29 15:19:53,137 - ERROR - Third message.
+2024-12-29 15:19:53,137 - ERROR - Third message.
+2024-12-29 15:19:53,141 - INFO - Creating log file.
+2024-12-29 15:19:53,141 - INFO - Creating log file.
+2024-12-29 15:19:53,542 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:53,542 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:54,029 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:54,029 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:54,105 - INFO - User 'e2e@example.com' logged in successfully.
+2024-12-29 15:19:54,105 - INFO - User 'e2e@example.com' logged in successfully.
+2024-12-29 15:19:54,502 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:54,502 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:54,509 - INFO - User with ID '1' retrieved successfully.
+2024-12-29 15:19:54,509 - INFO - User with ID '1' retrieved successfully.
+2024-12-29 15:19:54,877 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:54,877 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:54,885 - INFO - Updating email for user ID '1' to 'updated@example.com'.
+2024-12-29 15:19:54,885 - INFO - Updating email for user ID '1' to 'updated@example.com'.
+2024-12-29 15:19:54,885 - INFO - Updating first name for user ID '1' to 'Updated'.
+2024-12-29 15:19:54,885 - INFO - Updating first name for user ID '1' to 'Updated'.
+2024-12-29 15:19:54,886 - INFO - Updating last name for user ID '1' to 'User'.
+2024-12-29 15:19:54,886 - INFO - Updating last name for user ID '1' to 'User'.
+2024-12-29 15:19:54,974 - INFO - User with ID '1' updated successfully.
+2024-12-29 15:19:54,974 - INFO - User with ID '1' updated successfully.
+2024-12-29 15:19:55,372 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:55,372 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:19:55,469 - INFO - User with ID '1' deleted successfully.
+2024-12-29 15:19:55,469 - INFO - User with ID '1' deleted successfully.
+2024-12-29 15:19:55,472 - ERROR - User retrieval failed: User with ID '1' not found.
+2024-12-29 15:19:55,472 - ERROR - User retrieval failed: User with ID '1' not found.
+2024-12-29 15:19:55,473 - ERROR - Failed to retrieve user with ID '1': User not found
+2024-12-29 15:19:55,473 - ERROR - Failed to retrieve user with ID '1': User not found
+2024-12-29 15:20:12,694 - INFO - Test informational message.
+2024-12-29 15:20:12,694 - INFO - Test informational message.
+2024-12-29 15:20:12,698 - ERROR - Test error message.
+2024-12-29 15:20:12,698 - ERROR - Test error message.
+2024-12-29 15:20:12,704 - INFO - First message.
+2024-12-29 15:20:12,704 - INFO - First message.
+2024-12-29 15:20:12,704 - ERROR - Third message.
+2024-12-29 15:20:12,704 - ERROR - Third message.
+2024-12-29 15:20:12,709 - INFO - Creating log file.
+2024-12-29 15:20:12,709 - INFO - Creating log file.
+2024-12-29 15:20:13,086 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:20:13,086 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:20:13,521 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:20:13,521 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:20:13,598 - INFO - User 'e2e@example.com' logged in successfully.
+2024-12-29 15:20:13,598 - INFO - User 'e2e@example.com' logged in successfully.
+2024-12-29 15:20:14,038 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:20:14,038 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:20:14,047 - INFO - User with ID '1' retrieved successfully.
+2024-12-29 15:20:14,047 - INFO - User with ID '1' retrieved successfully.
+2024-12-29 15:20:14,413 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:20:14,413 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:20:14,419 - INFO - Updating email for user ID '1' to 'updated@example.com'.
+2024-12-29 15:20:14,419 - INFO - Updating email for user ID '1' to 'updated@example.com'.
+2024-12-29 15:20:14,420 - INFO - Updating first name for user ID '1' to 'Updated'.
+2024-12-29 15:20:14,420 - INFO - Updating first name for user ID '1' to 'Updated'.
+2024-12-29 15:20:14,420 - INFO - Updating last name for user ID '1' to 'User'.
+2024-12-29 15:20:14,420 - INFO - Updating last name for user ID '1' to 'User'.
+2024-12-29 15:20:14,518 - INFO - User with ID '1' updated successfully.
+2024-12-29 15:20:14,518 - INFO - User with ID '1' updated successfully.
+2024-12-29 15:20:14,870 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:20:14,870 - INFO - User 'e2e@example.com' registered successfully.
+2024-12-29 15:20:14,975 - INFO - User with ID '1' deleted successfully.
+2024-12-29 15:20:14,975 - INFO - User with ID '1' deleted successfully.
+2024-12-29 15:20:14,978 - ERROR - User retrieval failed: User with ID '1' not found.
+2024-12-29 15:20:14,978 - ERROR - User retrieval failed: User with ID '1' not found.
+2024-12-29 15:20:14,979 - ERROR - Failed to retrieve user with ID '1': User not found
+2024-12-29 15:20:14,979 - ERROR - Failed to retrieve user with ID '1': User not found

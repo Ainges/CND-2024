@@ -20,7 +20,8 @@ class User(db.Model):
     role = db.Column(db.String(10), default="User") 
 
 
-    def __init__(self, email, password, first_name=None, last_name=None, role='User'):
+    def __init__(self, email, password, first_name=None, last_name=None, role='User', id=None):
+        self.id = id
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
