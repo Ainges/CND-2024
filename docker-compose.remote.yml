@@ -1,0 +1,106 @@
+services:
+  user-service:
+    build:
+      context: ./user-service
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+
+  product-service:
+    build:
+      context: ./product-service
+    ports:
+      - "4000:4000"
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  # Vite Dev Server
+    volumes:
+      - ./frontend:/app  # Bind-Mount für den Code
+      - /app/node_modules  # Ignoriere lokale `node_modules`
+    environment:
+      - CHOKIDAR_USEPOLLING=true  # Aktiviert Polling für Hot Reload
+    command: npm run dev
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:4.0-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"   # Port für AMQP-Protokoll
+      - "15672:15672" # Port für das RabbitMQ-Management-Dashboard
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - app-network
+    healthcheck:
+      test: "nc -z localhost 5672"
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  cart-order-service:
+    image: ghcr.io/ainges/cnd-2024/cart-order-service:dev
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    depends_on:
+      - rabbitmq
+      - postgres-cart-order-service
+
+    restart: unless-stopped
+    environment:
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_PORT: "5672"
+      RABBITMQ_USERNAME: "guest"
+      RABBITMQ_PASSWORD: "guest"
+      RABBITMQ_HTTP_PORT: "15672"
+
+      RABBITMQ_QUEUE_NAME_PENDING_ORDERS: "pending-orders"
+      RABBITMQ_EXCHANGE_NAME: ""
+
+      PROD_HOST: "cart-order-service"
+      PROD_PORT: "8080"
+      PRODUCT_SERVICE_URL: "http://product-service:4000"
+
+      DB_KIND: "postgresql"
+      DB_USERNAME: "postgres"
+      DB_PASSWORD: "postgres"
+      DB_JDBC_URL: "jdbc:postgresql://postgres-cart-order-service:5432/cart_order_service"
+
+  postgres-cart-order-service:
+    image: postgres:14
+    container_name: postgres-cart-order-service
+#    ports:
+#      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cart_order_service
+    networks:
+      - app-network
+
+  postgres-payment-invoice-service:
+    image: postgres:14
+    container_name: postgres-payment-invoice-service
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: payment_invoice_service
+
+
+
+networks:
+  app-network:
+    driver: bridge
