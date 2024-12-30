@@ -1,0 +1,36 @@
+# Use an official Maven image
+FROM maven:eclipse-temurin AS build
+
+# Set the working directory inside the container
+WORKDIR /usr/src/app
+
+# for caching
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+# Copy source code into the container
+ADD . .
+
+RUN ls -la
+
+# Run Maven build
+# would run 3x slower if we don't cache the dependencies (my experience)
+RUN mvn install -DskipTests
+
+FROM registry.access.redhat.com/ubi8/openjdk-21:1.20
+
+ENV LANGUAGE='en_US:en'
+
+
+# We make four distinct layers so if there are application changes the library layers can be re-used
+COPY --from=build --chown=185 /usr/src/app/target/quarkus-app/lib/ /deployments/lib/
+COPY --from=build --chown=185 /usr/src/app/target/quarkus-app/*.jar /deployments/
+COPY --from=build --chown=185 /usr/src/app/target/quarkus-app/app/ /deployments/app/
+COPY --from=build --chown=185 /usr/src/app/target/quarkus-app/quarkus/ /deployments/quarkus/
+
+EXPOSE 8080
+USER 185
+ENV JAVA_OPTS_APPEND="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
+ENV JAVA_APP_JAR="/deployments/quarkus-run.jar"
+
+ENTRYPOINT [ "/opt/jboss/container/java/run/run-java.sh" ]
