@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using payment_invoice_service.DTOs;
+using payment_invoice_service.Models;
 using payment_invoice_service.Services;
 using payment_invoice_service.Services.Exceptions;
 
@@ -9,45 +10,77 @@ namespace payment_invoice_service.Controllers;
 [Route("api/payment")]
 public class PaymentController : ControllerBase
 {
-
-    private readonly PaymentService _paymentService;
+     private readonly PaymentService _paymentService;
 
     public PaymentController(PaymentService paymentService)
     {
         _paymentService = paymentService;
     }
 
-    [HttpGet()]
-    public async Task<IActionResult> testEndpoint()
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Payment>>> GetAllPayments()
     {
-
-        return Ok();
-
+        var payments = await _paymentService.GetAllPaymentsAsync();
+        return Ok(payments);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> testEndpoint(int id)
+    public async Task<ActionResult<Payment>> GetPaymentById(int id)
     {
         try
         {
-            return Ok();
+            var payment = await _paymentService.GetPaymentByIdAsync(id);
+            return Ok(payment);
         }
-        catch(PaymentServiceException e)
+        catch (PaymentServiceException e)
         {
             return NotFound(e.Message);
         }
     }
 
-    [HttpPost()]
-    public async Task<IActionResult> testEndpoint([FromBody] PaymentCreateDto paymentCreateDto)
+    [HttpPost]
+    public async Task<ActionResult<Payment>> CreatePayment([FromBody] PaymentCreateDto paymentCreateDto)
     {
         try
         {
-            return Ok();
+            var payment = await _paymentService.CreatePaymentAsync(paymentCreateDto);
+
+            // create Dto of payment
+            PaymentDto paymentDto = new PaymentDto
+            {
+                Id = payment.Id,
+                InvoiceId = payment.Invoice.Id,
+                Amount = payment.Amount,
+                PaymentMethod = payment.PaymentMethod,
+                TransactionId = payment.TransactionId
+            };
+
+
+            return CreatedAtAction(nameof(GetPaymentById), new { id = payment.Id }, paymentDto);
         }
-        catch(PaymentServiceException e)
+        catch (PaymentServiceException e)
         {
             return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Payment>> UpdatePayment(int id, [FromBody] PaymentCreateDto paymentCreateDto)
+    {
+        return BadRequest();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<Payment>> DeletePayment(int id)
+    {
+        try
+        {
+            var payment = await _paymentService.DeletePaymentAsync(id);
+            return Ok(payment);
+        }
+        catch (PaymentServiceException e)
+        {
+            return NotFound(e.Message);
         }
     }
 }

@@ -2,8 +2,8 @@ namespace payment_invoice_service.DTOs;
 
 public class PaymentCreateDto
 {
-    public int orderId { get; set; }
-    public string provider { get; set; }
-    public double amount { get; set; }
-    public String currency { get; set; }
+    public int InvoiceId { get; set; }
+    public decimal Amount { get; set; }
+    public string PaymentMethod { get; set; }
+    public string TransactionId { get; set; }
 }

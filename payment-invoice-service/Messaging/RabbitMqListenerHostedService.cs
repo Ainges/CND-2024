@@ -1,28 +1,28 @@
-using Microsoft.Extensions.Hosting;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace payment_invoice_service.Messaging
 {
     public class RabbitMqListenerHostedService : BackgroundService
     {
-        private readonly RabbitMqListener _listener;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public RabbitMqListenerHostedService(RabbitMqListener listener)
+        public RabbitMqListenerHostedService(IServiceScopeFactory serviceScopeFactory)
         {
-            _listener = listener;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            // Ensure the listener is properly stopped when the service stops
-            await _listener.StartListeningAsync(stoppingToken);
-        }
+            using var scope = _serviceScopeFactory.CreateScope();
+            var rabbitMqListener = scope.ServiceProvider.GetRequiredService<RabbitMqListener>();
 
-        public override async Task StopAsync(CancellationToken cancellationToken)
-        {
-            await _listener.StopListeningAsync();
-            await base.StopAsync(cancellationToken);
+            try
+            {
+                await rabbitMqListener.ProcessQueueMessagesAsync(stoppingToken);
+            }
+            catch (OperationCanceledException)
+            {
+                // Gracefully handle shutdown
+                Console.WriteLine("RabbitMQ Listener has stopped.");
+            }
         }
     }
 }

@@ -206,7 +206,7 @@ public class CartServiceImpl implements CartService {
             }
             //Convert price to BigDecimal and set it in euro cents
             BigDecimal price = BigDecimal.valueOf(productInfo.getPrice());
-            BigDecimal multiplier = new BigDecimal("100");
+            BigDecimal multiplier = new BigDecimal("1");
             price = price.multiply(multiplier);
             orderPosition.setPriceInEuroCents(price);
             orderPosition.setProductName(productInfo.getName());

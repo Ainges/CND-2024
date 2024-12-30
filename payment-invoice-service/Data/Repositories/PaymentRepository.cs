@@ -41,7 +41,18 @@ public class PaymentRepository : IPaymentRepository
 
     public async Task<Payment> CreateAsync(Payment payment)
     {
-        return null;
+
+        _context.Payments.Add(payment);
+
+        // check if payment was created
+        if(await _context.SaveChangesAsync() > 0)
+        {
+            return payment;
+        }
+        else
+        {
+            throw new PaymentRepositoryException("Payment not created");
+        }
 
     }
 

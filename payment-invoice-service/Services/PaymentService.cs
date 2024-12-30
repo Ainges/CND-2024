@@ -7,54 +7,67 @@ namespace payment_invoice_service.Services;
 
 public class PaymentService
 {
-    // private readonly IPaymentRepository _paymentRepository;
-    //
-    // public PaymentService(IPaymentRepository paymentRepository)
-    // {
-    //     _paymentRepository = paymentRepository;
-    // }
-    //
-    // public async Task<IEnumerable<Payment>> GetAllPaymentsAsync()
-    // {
-    //      return await _paymentRepository.GetAllAsync();
-    // }
-    //
-    // public async Task<Payment> GetPaymentByIdAsync(int id)
-    // {
-    //     try
-    //     {
-    //     return await _paymentRepository.GetByIdAsync(id);
-    //     }
-    //     catch(PaymentRepositoryException e)
-    //     {
-    //         throw new PaymentServiceException("Could not retrieve payment with id: " + id);
-    //     }
-    // }
-    //
-    // public async Task<Payment> CreatePaymentAsync(PaymentCreateDto paymentCreateDto)
-    // {
-    //
-    //     Payment payment = new Payment
-    //     {
-    //         OrderId = paymentCreateDto.orderId,
-    //         Provider = paymentCreateDto.provider,
-    //         Amount = paymentCreateDto.amount,
-    //         Currency = paymentCreateDto.currency
-    //     };
-    //
-    //     payment.Status = InvoiceStatus.PENDING;
-    //     payment.TransactionId = null;
-    //     payment.Date = DateTime.UtcNow;
-    //
-    //     try
-    //     {
-    //         return await _paymentRepository.CreateAsync(payment);
-    //     }
-    //     catch(PaymentRepositoryException e)
-    //     {
-    //         throw new PaymentServiceException("Could not create payment");
-    //     }
-    // }
+    private readonly IPaymentRepository _paymentRepository;
+    private readonly IInvoiceRepository _invoiceRepository;
+
+    public PaymentService(IPaymentRepository paymentRepository, IInvoiceRepository invoiceRepository)
+    {
+        _paymentRepository = paymentRepository;
+        _invoiceRepository = invoiceRepository;
+    }
+
+    public async Task<IEnumerable<Payment>> GetAllPaymentsAsync()
+    {
+        IEnumerable<Payment> payments = await _paymentRepository.GetAllAsync();
+
+        return payments;
+    }
+
+    public async Task<Payment> GetPaymentByIdAsync(int id)
+    {
+        var payment = await _paymentRepository.GetByIdAsync(id);
+        if (payment == null)
+        {
+            throw new PaymentServiceException($"Payment with id {id} not found.");
+        }
+        return payment;
+    }
+
+    public async Task<Payment> CreatePaymentAsync(PaymentCreateDto paymentCreateDto)
+    {
+
+        Invoice invoice = await _invoiceRepository.GetByIdAsync(paymentCreateDto.InvoiceId);
+
+        Payment payment = new Payment();
+
+            payment.Invoice = invoice;
+            payment.Amount = paymentCreateDto.Amount;
+            payment.PaymentMethod = paymentCreateDto.PaymentMethod;
+            payment.TransactionId = paymentCreateDto.TransactionId;
+
+        payment = await _paymentRepository.CreateAsync(payment);
 
 
+        return payment;
+    }
+
+    public async Task<Payment> UpdatePaymentAsync(Payment payment)
+    {
+        var existingPayment = await _paymentRepository.GetByIdAsync(payment.Id);
+        if (existingPayment == null)
+        {
+            throw new PaymentServiceException($"Payment with id {payment.Id} not found.");
+        }
+        return await _paymentRepository.UpdateAsync(payment);
+    }
+
+    public async Task<Payment> DeletePaymentAsync(int id)
+    {
+        var payment = await _paymentRepository.GetByIdAsync(id);
+        if (payment == null)
+        {
+            throw new PaymentServiceException($"Payment with id {id} not found.");
+        }
+        return await _paymentRepository.DeleteAsync(id);
+    }
 }

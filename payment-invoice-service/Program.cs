@@ -8,17 +8,23 @@ using payment_invoice_service.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 // Register the ApplicationDbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
 // Register the PaymentService and PaymentRepository
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<PaymentService>();
+
+// Register the InvoiceService and InvoiceRepository
+builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+builder.Services.AddScoped<InvoiceService>();
+
+// Register the RabbitMqListener as Scoped
+builder.Services.AddScoped<RabbitMqListener>();
+builder.Services.AddHostedService<RabbitMqListenerHostedService>();
 
 // Add Swagger services
 builder.Services.AddEndpointsApiExplorer();
@@ -39,20 +45,15 @@ builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
 
-builder.Services.AddTransient<RabbitMqListener>();
-// Add RabbitMqListener as a hosted service
-builder.Services.AddSingleton<RabbitMqListener>();
-builder.Services.AddHostedService<RabbitMqListenerHostedService>();
-
-
-
-
 var app = builder.Build();
 
 // Drop and recreate the database
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    // For development purposes, drop and recreate the database
+    await dbContext.Database.EnsureDeletedAsync();
     await dbContext.Database.EnsureCreatedAsync();
 }
 
@@ -68,7 +69,6 @@ if (app.Environment.IsDevelopment())
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
     });
-
 }
 
 app.UseHttpsRedirection();
