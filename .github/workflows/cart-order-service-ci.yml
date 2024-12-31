@@ -55,7 +55,8 @@ jobs:
           java-version: '17' # Passe die Version bei Bedarf an
 
       - name: Build and run tests
-        run: |
+        run: |  
+          cd cart-order-service
           ./mvnw clean test
 
   # Job 3: Push Docker Image to GHCR (only if both steps are successful)
