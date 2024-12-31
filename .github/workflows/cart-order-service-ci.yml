@@ -30,7 +30,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build
         if: steps.changes.outputs.any_modified == 'true'
         uses: docker/build-push-action@v6
         with:
@@ -39,6 +39,16 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: false
           tags: ghcr.io/ainges/cart-order-service:latest
+
+      - name: Save Docker Image to Tarball
+        run: docker save ghcr.io/ainges/cart-order-service:latest -o image.tar
+
+      - name: Upload Docker Image Tarball
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-image
+          path: image.tar
+          
           
   # Job 2: Run Tests
   test:
@@ -82,6 +92,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        
+      - name: Download Docker Image Tarball
+        uses: actions/download-artifact@v3
+        with:
+          name: docker-image
+          path: image.tar
+
+      - name: Load Docker Image from Tarball
+        run: docker load -i image.tar
 
       - name: Push Docker image to GitHub Container Registry
         run: |
