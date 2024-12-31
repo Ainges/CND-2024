@@ -38,7 +38,7 @@ jobs:
           file: cart-order-service/src/main/docker/Dockerfile.jvm-build
           platforms: linux/amd64,linux/arm64
           push: false
-          tags: ghcr.io/${{ github.repository_owner }}/cart-order-service:latest
+          tags: ghcr.io/ainges/cart-order-service:latest
           
   # Job 2: Run Tests
   test:
@@ -85,4 +85,4 @@ jobs:
 
       - name: Push Docker image to GitHub Container Registry
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/cart-order-service:latest
+          docker push ghcr.io/ainges/cart-order-service:latest
