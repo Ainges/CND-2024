@@ -30,15 +30,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build
+      - name: Build and Load Docker Image
         uses: docker/build-push-action@v6
         with:
-          context: "{{defaultContext}}:cart-order-service"
+          context: ./cart-order-service
           file: src/main/docker/Dockerfile.jvm-build
           platforms: linux/amd64,linux/arm64
+          load: true
           push: false
           tags: ghcr.io/ainges/cart-order-service:latest
-          outputs: type=image
 
       - name: Save Docker Image to Tarball
         run: docker save ghcr.io/ainges/cart-order-service:latest -o image.tar
