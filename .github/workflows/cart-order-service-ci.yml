@@ -33,7 +33,6 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v6
         with:
-          context: backend/${{ matrix.service }}/
           file: cart-order-service/src/main/docker/Dockerfile.jvm-build
           platforms: linux/amd64,linux/arm64
           push: false
