@@ -87,11 +87,11 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pull Pre-Run Image
-        run: docker pull ghcr.io/ainges/cart-order-service
+        run: docker pull ghcr.io/ainges/cart-order-service:prerun
 
       - name: Re-Tag Pre-Run Image as Latest
         run: |
-          docker tag ghcr.io/ainges/cart-order-service ghcr.io/ainges/cnd-2024/cart-order-service:latest
+          docker tag ghcr.io/ainges/cart-order-service:prerun ghcr.io/ainges/cnd-2024/cart-order-service:latest
 
       - name: Push Final Image
         run: docker push ghcr.io/ainges/cnd-2024/cart-order-service:latest
