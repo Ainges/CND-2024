@@ -33,7 +33,7 @@ jobs:
       - name: Build and Push Pre-Run Image
         uses: docker/build-push-action@v6
         with:
-          context: ./cart-order-service
+          context: "{{defaultContext}}:cart-order-service"
           file: src/main/docker/Dockerfile.jvm-build
           platforms: linux/amd64,linux/arm64
           push: true
