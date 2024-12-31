@@ -32,6 +32,7 @@ jobs:
 
       - name: Build
         uses: docker/build-push-action@v6
+        working-directory: cart-order-service
         with:
           file: cart-order-service/src/main/docker/Dockerfile.jvm-build
           platforms: linux/amd64,linux/arm64
