@@ -37,8 +37,8 @@ jobs:
           file: src/main/docker/Dockerfile.jvm-build
           platforms: linux/amd64,linux/arm64
           push: false
-          load: true
           tags: ghcr.io/ainges/cart-order-service:latest
+          outputs: type=image
 
       - name: Save Docker Image to Tarball
         run: docker save ghcr.io/ainges/cart-order-service:latest -o image.tar
