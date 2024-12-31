@@ -30,18 +30,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Load Docker Image
+      - name: Build Docker Image as Tarball
         uses: docker/build-push-action@v6
         with:
           context: ./cart-order-service
           file: src/main/docker/Dockerfile.jvm-build
           platforms: linux/amd64,linux/arm64
-          load: true
+          output: type=tar,dest=image.tar  # Speichert direkt als Tarball
           push: false
           tags: ghcr.io/ainges/cart-order-service:latest
-
-      - name: Save Docker Image to Tarball
-        run: docker save ghcr.io/ainges/cart-order-service:latest -o image.tar
 
       - name: Upload Docker Image Tarball
         uses: actions/upload-artifact@v3
@@ -58,14 +55,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-        # Log in to Docker Hub to ensure access rate-limited images
-        # Some test containers may rely on images from Docker Hub. Without authentication, pulling these images
-        # might fail due to rate limits...
       - name: Login to Docker.io
-        uses: docker/login-action@v3.3.0
+        uses: docker/login-action@v2
         with:
           username: cnd2024teamk # optional
-          password: ${{secrets.DOCKER_PAT}} 
+          password: ${{ secrets.DOCKER_PAT }} 
           logout: false
 
       - name: Set up JDK
