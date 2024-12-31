@@ -30,21 +30,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker Image as Tarball
+      - name: Build and Push Pre-Run Image
         uses: docker/build-push-action@v6
         with:
           context: ./cart-order-service
           file: src/main/docker/Dockerfile.jvm-build
           platforms: linux/amd64,linux/arm64
-          output: type=tar,dest=image.tar  # Speichert direkt als Tarball
-          push: false
-          tags: ghcr.io/ainges/cart-order-service:latest
-
-      - name: Upload Docker Image Tarball
-        uses: actions/upload-artifact@v3
-        with:
-          name: docker-image
-          path: image.tar
+          push: true
+          tags: ghcr.io/ainges/cart-order-service:prerun
           
           
   # Job 2: Run Tests
@@ -83,19 +76,21 @@ jobs:
       - test
     runs-on: ubuntu-latest
 
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        
-      - name: Download Docker Image Tarball
-        uses: actions/download-artifact@v3
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
         with:
-          name: docker-image
-          path: image.tar
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Load Docker Image from Tarball
-        run: docker load -i image.tar
+      - name: Pull Pre-Run Image
+        run: docker pull ghcr.io/ainges/cart-order-service:prerun
 
-      - name: Push Docker image to GitHub Container Registry
+      - name: Re-Tag Pre-Run Image as Latest
         run: |
-          docker push ghcr.io/ainges/cart-order-service:latest
+          docker tag ghcr.io/ainges/cart-order-service:prerun ghcr.io/ainges/cart-order-service:latest
+
+      - name: Push Final Image
+        run: docker push ghcr.io/ainges/cart-order-service:latest
