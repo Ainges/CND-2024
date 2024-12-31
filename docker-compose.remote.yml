@@ -1,3 +1,5 @@
+# To start this compose:
+# $ docker compose -f docker-compose.remote.yml up
 services:
   user-service:
     build:
@@ -48,7 +50,8 @@ services:
       retries: 10
 
   cart-order-service:
-    image: ghcr.io/ainges/cnd-2024/cart-order-service:dev
+    # to build manually: cd cart-order-service && docker build -f src/main/docker/Dockerfile.jvm-build -t ghcr.io/ainges/cnd-2024/cart-order-service:dev .
+    image: ghcr.io/ainges/cnd-2024/cart-order-service:health-test
     ports:
       - "8080:8080"
     networks:
@@ -76,6 +79,11 @@ services:
       DB_USERNAME: "postgres"
       DB_PASSWORD: "postgres"
       DB_JDBC_URL: "jdbc:postgresql://postgres-cart-order-service:5432/cart_order_service"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/q/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   postgres-cart-order-service:
     image: postgres:14
