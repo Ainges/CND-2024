@@ -33,6 +33,9 @@ jobs:
       - name: Set working directory
         run: cd cart-order-service/
 
+      - name: debug
+        run: ls -la
+
       - name: Build
         uses: docker/build-push-action@v6
         with:
