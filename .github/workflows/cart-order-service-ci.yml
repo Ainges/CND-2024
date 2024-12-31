@@ -30,14 +30,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push Pre-Run Image
-        uses: docker/build-push-action@v6
-        with:
-          context: "{{defaultContext}}:cart-order-service"
-          file: src/main/docker/Dockerfile.jvm-build
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ghcr.io/ainges/cnd-2024/cart-order-service:prerun
+      - name: Build and push multi-architecture Docker image
+        working-directory: cart-order-service/
+        run: |
+          docker buildx create --use
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            -f src/main/docker/Dockerfile.jvm-build \
+            -t ghcr.io/ainges/cart-order-service:prerun \
+            --push .
           
           
   # Job 2: Run Tests
