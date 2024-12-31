@@ -52,12 +52,15 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17' # Passe die Version bei Bedarf an
+          java-version: '21' 
 
-      - name: Build and run tests
-        run: |  
-          cd cart-order-service
-          ./mvnw clean test
+      - name: Set execute permission for mvnw
+        working-directory: cart-order-service/
+        run: chmod +x ./mvnw
+
+      - name: Build the Maven artifact
+        working-directory: cart-order-service/
+        run: ./mvnw test 
 
   # Job 3: Push Docker Image to GHCR (only if both steps are successful)
   push:
