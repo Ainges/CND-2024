@@ -91,7 +91,7 @@ jobs:
 
       - name: Re-Tag Pre-Run Image as Latest
         run: |
-          docker tag ghcr.io/ainges/cart-order-service:prerun ghcr.io/ainges/cnd-2024/cart-order-service:latest
+          docker tag ghcr.io/ainges/cart-order-service:prerun ghcr.io/ainges/cart-order-service:latest
 
       - name: Push Final Image
-        run: docker push ghcr.io/ainges/cnd-2024/cart-order-service:latest
+        run: docker push ghcr.io/ainges/cart-order-service:latest
