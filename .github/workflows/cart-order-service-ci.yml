@@ -39,6 +39,9 @@ jobs:
           push: false
           tags: ghcr.io/ainges/cart-order-service:latest
 
+      - name: load image into docker(?!)
+        run: docker load ghcr.io/ainges/cart-order-service:latest
+
       - name: Save Docker Image to Tarball
         run: docker save ghcr.io/ainges/cart-order-service:latest -o image.tar
 
