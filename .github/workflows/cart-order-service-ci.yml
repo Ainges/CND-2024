@@ -30,15 +30,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set working directory
-        run: cd cart-order-service/
-
-      - name: debug
-        run: ls -la
-
       - name: Build
         uses: docker/build-push-action@v6
         with:
+          context: "{{defaultContext}}:cart-order-service"
           file: src/main/docker/Dockerfile.jvm-build
           platforms: linux/amd64,linux/arm64
           push: false
