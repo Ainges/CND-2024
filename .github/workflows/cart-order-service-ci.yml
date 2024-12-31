@@ -31,7 +31,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set working directory
-        run: cd ./cart-order-service
+        run: cd cart-order-service/
 
       - name: Build
         uses: docker/build-push-action@v6
