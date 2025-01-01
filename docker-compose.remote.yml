@@ -38,6 +38,14 @@ services:
     ports:
       - "5672:5672"   # Port for AMQP
       - "15672:15672" # Port for RabbitMQ Management Dashboard
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 500M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
@@ -61,6 +69,14 @@ services:
       - postgres-cart-order-service
 
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 500M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
     environment:
       RABBITMQ_HOST: "rabbitmq"
       RABBITMQ_PORT: "5672"
@@ -90,6 +106,14 @@ services:
     container_name: postgres-cart-order-service
 #    ports:
 #      - "5432:5432"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 500M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -107,6 +131,14 @@ services:
     container_name: postgres-payment-invoice-service
     ports:
       - "5433:5432"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 500M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
