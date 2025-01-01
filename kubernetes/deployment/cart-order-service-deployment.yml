@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart-order-service
+  labels:
+    app: cart-order-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cart-order-service
+  template:
+    metadata:
+      labels:
+        app: cart-order-service
+    spec:
+      containers:
+        - name: cart-order-service
+          image: ghcr.io/ainges/cnd-2024/cart-order-service:dev
+          ports:
+            - containerPort: 8080
+          env:
+            - name: RABBITMQ_HOST
+              value: "rabbitmq"
+            - name: RABBITMQ_PORT
+              value: "5672"
+            - name: RABBITMQ_USERNAME
+              value: "guest"
+            - name: RABBITMQ_PASSWORD
+              value: "guest"
+            - name: RABBITMQ_HTTP_PORT
+              value: "15672"
+            - name: RABBITMQ_QUEUE_NAME_PENDING_ORDERS
+              value: "pending-orders"
+            - name: RABBITMQ_EXCHANGE_NAME
+              value: ""
+            - name: PROD_HOST
+              value: "cart-order-service"
+            - name: PROD_PORT
+              value: "8080"
+            - name: PRODUCT_SERVICE_URL
+              value: "http://product-service:4000"
