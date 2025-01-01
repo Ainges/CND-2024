@@ -36,8 +36,8 @@ services:
     image: rabbitmq:4.0-management-alpine
     container_name: rabbitmq
     ports:
-      - "5672:5672"   # Port für AMQP-Protokoll
-      - "15672:15672" # Port für das RabbitMQ-Management-Dashboard
+      - "5672:5672"   # Port for AMQP
+      - "15672:15672" # Port for RabbitMQ Management Dashboard
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
@@ -96,6 +96,11 @@ services:
       POSTGRES_DB: cart_order_service
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   postgres-payment-invoice-service:
     image: postgres:14
@@ -106,7 +111,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: payment_invoice_service
-
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
 
 networks:
