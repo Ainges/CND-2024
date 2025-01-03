@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: product-service
-          image: product-service-image:latest
+          image: ghcr.io/ainges/cnd-2024/product-service:latest
           ports:
             - containerPort: 4000
