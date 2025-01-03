@@ -1,0 +1,23 @@
+### Create Cart 1
+POST http://localhost:8080/cartEntity
+Content-Type: application/json
+
+{
+  "userId": 1
+}
+
+### Create Cart 2
+POST http://localhost:8080/cartEntity
+Content-Type: application/json
+
+{
+  "userId": 2
+}
+
+### Create Cart 3
+POST http://localhost:8080/cartEntity
+Content-Type: application/json
+
+{
+  "userId": 3
+}

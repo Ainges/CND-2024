@@ -1,0 +1,30 @@
+@ACCESS_JWT="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMTc3NTc0MSwianRpIjoiMmQxMzEwNzItOTc2ZC00OTM3LTk0MTItNzNjY2QyYzc4NDY1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imh1YmVydHVzQHNlaXR6LmNvbSIsIm5iZiI6MTczMTc3NTc0MSwiY3NyZiI6IjM3NDY4ZjM0LWRkYTYtNDZmOS04Mzc4LWQ3ODI0NTA2MmIyNyIsImV4cCI6MTczMTc3OTM0MX0.yjrgGMmkCse-Ze1oTFXHn9r96zt_cCSa1NdhPwvoqJY"
+
+### POST register User
+POST http://127.0.0.1:5000/register
+Content-Type: application/json
+
+{
+  "first_name": "Hubertus",
+  "last_name": "Seitz",
+  "email": "hubertus@seitz.com",
+  "password": "password123",
+  "role": "Admin"
+}
+
+### Login User
+POST http://127.0.0.1:5000/login
+Content-Type: application/json
+
+{
+  "email": "hubertus@seitz.com",
+  "password": "password123"
+}
+
+
+### Verify JWT
+GET http://127.0.0.1:5000/verify?access_token={{ACCESS_JWT}}
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
+
+
