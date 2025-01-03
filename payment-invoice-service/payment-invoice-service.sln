@@ -6,7 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "payment-invoice-service", "payment-invoice-service\payment-invoice-service.csproj", "{413A088A-EDB7-4F1B-92B0-2771DBD041CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "payment-invoice-service-tests", "payment-invoice-service-tests\payment-invoice-service-tests.csproj", "{C69C6D38-40FD-455E-A7DB-90B2805DBA4A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "payment-invoice-service-tests", "payment-invoice-service-tests\payment-invoice-service-tests.csproj", "{A037CE54-EF30-43D3-87E0-A74522DC0356}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,10 +18,10 @@ Global
 		{413A088A-EDB7-4F1B-92B0-2771DBD041CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{413A088A-EDB7-4F1B-92B0-2771DBD041CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{413A088A-EDB7-4F1B-92B0-2771DBD041CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C69C6D38-40FD-455E-A7DB-90B2805DBA4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C69C6D38-40FD-455E-A7DB-90B2805DBA4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C69C6D38-40FD-455E-A7DB-90B2805DBA4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C69C6D38-40FD-455E-A7DB-90B2805DBA4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A037CE54-EF30-43D3-87E0-A74522DC0356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A037CE54-EF30-43D3-87E0-A74522DC0356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A037CE54-EF30-43D3-87E0-A74522DC0356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A037CE54-EF30-43D3-87E0-A74522DC0356}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

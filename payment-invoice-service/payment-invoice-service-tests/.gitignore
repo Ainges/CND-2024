@@ -1,0 +1,89 @@
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific folders
+.vscode/
+.vs/
+.idea/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio Code workspace history
+.vscode/launch.json
+.vscode/tasks.json
+
+# Dependencies
+*.nuget/
+packages/
+!.nuget/NuGet.Config
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Resharper files
+_ReSharper*/
+*.DotSettings.user
+
+# Azure DevOps
+*.tf
+*.tfignore
+
+# Rider
+.idea/
+*.sln.iml
+
+# DotNet 5+ environment variables
+.env
+.env.*
+
+# Local configuration files
+appsettings.Development.json
+appsettings.*.json
+
+# Entity Framework Core migrations
+**/Migrations/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS generated files
+*.swp
+*.temp
+*.TMP
+
+# Snapshots
+.snapshots/
+
+# Rider local config
+.idea/
+*.sln.iml
+
+# JetBrains Rider caches and logs
+.idea/
+.idea_modules/
+.idea_vcs/
+
+# Build output directories
+bin/
+obj/
