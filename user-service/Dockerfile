@@ -14,7 +14,6 @@ COPY . .
 # Environment variables for Flask
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=production
-ENV JWT_SECRET_KEY=your-secret-key
 ENV SQLALCHEMY_DATABASE_URI=sqlite:///users.db
 
 # Expose the port the app runs on

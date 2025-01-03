@@ -48,8 +48,9 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Build Docker image
+        working-directory: user-service/
         run: |
-          docker build -t ghcr.io/ainges/user-service:latest -f user-service/Dockerfile .
+          docker build -t ghcr.io/ainges/user-service:latest -f Dockerfile .
 
       - name: Push Docker image
         run: |

@@ -24,3 +24,7 @@ spec:
               value: "sqlite:///users.db"
             - name: SQLALCHEMY_TRACK_MODIFICATIONS
               value: "False"
+            - name: FLASK_APP
+              value: "app.py"
+            - name: FLASK_ENV
+              value: "production"
