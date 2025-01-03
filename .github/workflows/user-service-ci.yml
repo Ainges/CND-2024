@@ -49,8 +49,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/user-service:latest -f user-service/Dockerfile .
+          docker build -t ghcr.io/ainges/user-service:latest -f user-service/Dockerfile .
 
       - name: Push Docker image
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/user-service:latest
+          docker push ghcr.io/ainges/user-service:latest
