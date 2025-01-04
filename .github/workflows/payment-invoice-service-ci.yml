@@ -13,12 +13,7 @@ jobs:
     defaults:
       run:
         working-directory: ./payment-invoice-service/payment-invoice-service
-    strategy:
-      fail-fast: false
-      max-parallel: 1
-      matrix:
-        try: [1, 2, 3]
-
+  
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -26,7 +21,13 @@ jobs:
       with:
         dotnet-version: 9.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      uses: nick-fields/retry@v3
+      with:
+        timeout_seconds: 3
+        max_attempts: 5
+        retry_on: error
+        command: ndotnet restore
+      
     - name: Build
       run: dotnet build --no-restore
     - name: Test
@@ -52,7 +53,7 @@ jobs:
           with:
             registry: ghcr.io
             username: ${{ github.actor }}
-            password: ${{ secrets.GITHUB_TOKEN }}
+            password: ${{ secrets.GITHUB_TOKEN }}      
   
         - name: Build and push multi-architecture Docker image
           working-directory: payment-invoice-service/payment-invoice-service
