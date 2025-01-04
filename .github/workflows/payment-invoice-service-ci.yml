@@ -68,7 +68,14 @@ jobs:
             -f Dockerfile \
             --progress=plain \
             -t ghcr.io/ainges/payment-invoice-service:latest \
-            .
-          
-      - name: Push Final Image
-        run: docker push ghcr.io/ainges/cart-order-service:latest
+            --push .
+            
+      - name: Build and push
+        if: steps.changes.outputs.any_modified == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: payment-invoice-service/payment-invoice-service
+          file: Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ghcr.io/ainges/payment-invoice-service:dev
