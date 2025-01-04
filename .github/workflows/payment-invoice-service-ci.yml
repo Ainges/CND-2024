@@ -7,6 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
+
   cancel-previous:
     runs-on: ubuntu-latest
     steps:
@@ -14,68 +15,58 @@ jobs:
         uses: styfle/cancel-workflow-action@0.12.1
 
   test:
+
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./payment-invoice-service/payment-invoice-service
-
+  
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 9.0.x
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --no-restore
-
-      - name: Test
-        run: dotnet test --no-build --verbosity normal
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
 
   build:
-    needs:
-      - test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install QEMU for cross-platform builds
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push multi-architecture Docker image
-        working-directory: payment-invoice-service/payment-invoice-service
-        run: |
-          docker buildx create --use
-          docker buildx build \
-            --platform linux/amd64,linux/arm64 \
-            -f Dockerfile \
-            --progress=plain \
-            -t ghcr.io/ainges/payment-invoice-service:latest \
-            --push .
+      needs:
+        - test
+      runs-on: ubuntu-latest
+  
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+  
+        - name: Install QEMU for cross-platform builds
+          uses: docker/setup-qemu-action@v3
+  
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v3.8.0
             
-      - name: Build and push
-        if: steps.changes.outputs.any_modified == 'true'
-        uses: docker/build-push-action@v6.10.0
-        with:
-          context: payment-invoice-service/payment-invoice-service
-          file: Dockerfile
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ghcr.io/ainges/payment-invoice-service:dev
+        - name: Log in to GitHub Container Registry
+          uses: docker/login-action@v2
+          with:
+            registry: ghcr.io
+            username: ${{ github.actor }}
+            password: ${{ secrets.GITHUB_TOKEN }}      
+  
+        - name: Build and push multi-architecture Docker image
+          working-directory: payment-invoice-service/payment-invoice-service
+          run: |
+            docker buildx create --use
+            docker buildx build \
+              --platform linux/amd64,linux/arm64 \
+              -f Dockerfile \
+              -t ghcr.io/ainges/payment-invoice-service:latest \
+              --push .
