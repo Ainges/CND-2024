@@ -9,6 +9,13 @@ on:
       - main
 
 jobs:
+  cancel-previous:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@v0.11.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
   # Job 1: Build Docker Image
   build:
     runs-on: ubuntu-latest
