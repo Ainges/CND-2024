@@ -12,4 +12,12 @@ public class ApplicationDbContext : DbContext
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Invoice> Invoices { get; set; }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Invoice>()
+            .HasMany(a => a.Payments)
+            .WithOne(b => b.Invoice);
+
+        base.OnModelCreating(modelBuilder);
+    }
 }

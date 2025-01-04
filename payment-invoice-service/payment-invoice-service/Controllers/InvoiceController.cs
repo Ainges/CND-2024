@@ -4,6 +4,7 @@ using payment_invoice_service.Services;
 using payment_invoice_service.Services.Exceptions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using payment_invoice_service.DTOs;
 
 namespace payment_invoice_service.Controllers
 {
@@ -22,7 +23,27 @@ namespace payment_invoice_service.Controllers
         public async Task<IActionResult> GetAllInvoices()
         {
             var invoices = await _invoiceService.GetAllInvoicesAsync();
-            return Ok(invoices);
+            var invoiceDtos = new List<InvoiceDto>();
+
+            foreach (var invoice in invoices)
+            {
+                InvoiceDto invoiceDto = new InvoiceDto
+                {
+                    Id = invoice.Id,
+                    UserId = invoice.UserId,
+                    TotalAmountInEuroCents = invoice.TotalAmountInEuroCents,
+                    PaidAmount = invoice.PaidAmount,
+                    Status = invoice.Status,
+                    IssueDateAsString = invoice.IssueDateAsString,
+                    DueDateAsString = invoice.DueDateAsString,
+                    CreatedDateAsString = invoice.CreatedDateAsString,
+                    UpdatedDate = invoice.UpdatedDate,
+                    PaymentIds = invoice.Payments.Select(p => p.Id).ToList()
+                };
+                invoiceDtos.Add(invoiceDto);
+            }
+
+            return Ok(invoiceDtos);
         }
 
         [HttpGet("{id}")]
@@ -79,4 +100,5 @@ namespace payment_invoice_service.Controllers
             }
         }
     }
+
 }

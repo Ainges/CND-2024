@@ -44,8 +44,28 @@ public class PaymentService
             payment.Amount = paymentCreateDto.Amount;
             payment.PaymentMethod = paymentCreateDto.PaymentMethod;
             payment.TransactionId = paymentCreateDto.TransactionId;
+            payment.Invoice = invoice;
+
+
+        // Update invoice paid amount
+        invoice.PaidAmount += payment.Amount;
+
+        if(invoice.Payments == null)
+        {
+            invoice.Payments = new List<Payment>();
+        }
+
+        invoice.Payments.Add(payment);
+
+        if(invoice.PaidAmount >= invoice.TotalAmountInEuroCents)
+        {
+            invoice.Status = InvoiceStatus.PAID;
+        }
 
         payment = await _paymentRepository.CreateAsync(payment);
+        await _invoiceRepository.UpdateAsync(invoice);
+
+
 
 
         return payment;

@@ -3,6 +3,7 @@ using payment_invoice_service.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+
 public interface IInvoiceRepository
 {
     Task<IEnumerable<Invoice>> GetAllAsync();
@@ -26,12 +27,26 @@ namespace payment_invoice_service.Data.Repositories
 
         public async Task<IEnumerable<Invoice>> GetAllAsync()
         {
-            return await _context.Invoices.ToListAsync();
+            return await _context.Invoices.Include(a => a.Payments).ToListAsync();
         }
 
         public async Task<Invoice> GetByIdAsync(int id)
         {
-            return await _context.Invoices.FindAsync(id);
+            try
+            {
+                var invoice = await _context.Invoices.Include(a => a.Payments).FirstOrDefaultAsync(a => a.Id == id);
+                if (invoice == null)
+                {
+                    throw new InvoiceRepositoryException($"Invoice with id {id} not found");
+                }
+
+                return invoice;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new InvoiceRepositoryException("An error occurred while retrieving the invoice");
+            }
         }
 
         public async Task<Invoice> CreateAsync(Invoice invoice)
@@ -56,6 +71,7 @@ namespace payment_invoice_service.Data.Repositories
                 _context.Invoices.Remove(invoice);
                 await _context.SaveChangesAsync();
             }
+
             return invoice;
         }
     }

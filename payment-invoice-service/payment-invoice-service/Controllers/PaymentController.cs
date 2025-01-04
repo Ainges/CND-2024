@@ -18,10 +18,25 @@ public class PaymentController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Payment>>> GetAllPayments()
+    public async Task<ActionResult<IEnumerable<PaymentDto>>> GetAllPayments()
     {
         var payments = await _paymentService.GetAllPaymentsAsync();
-        return Ok(payments);
+
+        var paymentDtos = new List<PaymentDto>();
+
+        foreach (var payment in payments)
+        {
+            PaymentDto paymentDto = new PaymentDto
+            {
+                Id = payment.Id,
+                InvoiceId = payment.Invoice.Id,
+                Amount = payment.Amount,
+                PaymentMethod = payment.PaymentMethod,
+                TransactionId = payment.TransactionId,
+            };
+            paymentDtos.Add(paymentDto);
+        }
+        return Ok(paymentDtos);
     }
 
     [HttpGet("{id}")]
@@ -52,7 +67,8 @@ public class PaymentController : ControllerBase
                 InvoiceId = payment.Invoice.Id,
                 Amount = payment.Amount,
                 PaymentMethod = payment.PaymentMethod,
-                TransactionId = payment.TransactionId
+                TransactionId = payment.TransactionId,
+
             };
 
 

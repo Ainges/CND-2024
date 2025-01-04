@@ -18,7 +18,8 @@ public class InvoiceService
 
     public async Task<IEnumerable<Invoice>> GetAllInvoicesAsync()
     {
-        return await _invoiceRepository.GetAllAsync();
+        IEnumerable<Invoice> invoices = await _invoiceRepository.GetAllAsync();
+        return invoices;
     }
 
     public async Task<Invoice> GetInvoiceByIdAsync(int id)

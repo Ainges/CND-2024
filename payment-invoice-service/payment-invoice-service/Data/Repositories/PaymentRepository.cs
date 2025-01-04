@@ -24,12 +24,12 @@ public class PaymentRepository : IPaymentRepository
 
     public async Task<IEnumerable<Payment>> GetAllAsync()
     {
-        return await _context.Payments.ToListAsync();
+        return await _context.Payments.Include(a => a.Invoice).ToListAsync();
     }
 
     public async Task<Payment> GetByIdAsync(int id)
     {
-        Payment? payment = await _context.Payments.FindAsync(id);
+        Payment? payment = await _context.Payments.Include(a => a.Invoice).Where(a => a.Id == id).FirstOrDefaultAsync();
 
         if (payment == null)
         {
