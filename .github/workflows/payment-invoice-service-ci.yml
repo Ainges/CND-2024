@@ -26,7 +26,7 @@ jobs:
         timeout_seconds: 3
         max_attempts: 5
         retry_on: error
-        command: ndotnet restore
+        command: dotnet restore
       
     - name: Build
       run: dotnet build --no-restore
