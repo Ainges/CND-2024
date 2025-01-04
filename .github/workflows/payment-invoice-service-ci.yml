@@ -7,6 +7,13 @@ on:
     branches: [ "main" ]
 
 jobs:
+
+  cancel-previous:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.12.1
+
   test:
 
     runs-on: ubuntu-latest
@@ -15,21 +22,20 @@ jobs:
         working-directory: ./payment-invoice-service/payment-invoice-service
   
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
+
     - name: Restore dependencies
-      uses: nick-fields/retry@v3
-      with:
-        timeout_seconds: 3
-        max_attempts: 5
-        retry_on: error
-        command: dotnet restore
+      run: dotnet restore
       
     - name: Build
       run: dotnet build --no-restore
+      
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
