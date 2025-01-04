@@ -12,15 +12,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 // Register the ApplicationDbContext
+// Get ConnectionString from environment variables in production
+var connectionString = Environment.GetEnvironmentVariable("DefaultConnection") 
+                       ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
+Console.WriteLine($"Connection String: {connectionString}");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
-var port = builder.Configuration["ASPNETCORE_URLS"]; // Lies den Port aus der Konfiguration
-Console.WriteLine($"Die Anwendung läuft auf: {port}");
-
-// set Port for the application
-
+    options.UseNpgsql(connectionString));
 
 
 // Register the PaymentService and PaymentRepository
@@ -56,6 +55,11 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 var app = builder.Build();
+
+foreach (var c in builder.Configuration.AsEnumerable())
+{
+    Console.WriteLine(c.Key + " = " + c.Value);
+}
 
 // Drop and recreate the database
 using (var scope = app.Services.CreateScope())
