@@ -68,7 +68,7 @@ jobs:
             -f Dockerfile \
             --progress=plain \
             -t ghcr.io/ainges/payment-invoice-service:latest \
-            --push .
+            .
           
       - name: Push Final Image
         run: docker push ghcr.io/ainges/cart-order-service:latest
