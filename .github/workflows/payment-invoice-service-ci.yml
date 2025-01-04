@@ -13,6 +13,11 @@ jobs:
     defaults:
       run:
         working-directory: ./payment-invoice-service/payment-invoice-service
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        try: [1, 2, 3]
 
     steps:
     - uses: actions/checkout@v4
