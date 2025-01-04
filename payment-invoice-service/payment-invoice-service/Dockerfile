@@ -40,7 +40,7 @@ WORKDIR /app
 COPY --from=build /app/out .
 
 # Exponiere den Port, auf dem die Anwendung läuft
-EXPOSE 80
+EXPOSE 8080
 
 # Definiere den Einstiegspunkt für die Anwendung
 ENTRYPOINT ["dotnet", "payment-invoice-service.dll"]

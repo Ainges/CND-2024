@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using payment_invoice_service.Data;
@@ -13,6 +14,14 @@ builder.Services.AddOpenApi();
 // Register the ApplicationDbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
+var port = builder.Configuration["ASPNETCORE_URLS"]; // Lies den Port aus der Konfiguration
+Console.WriteLine($"Die Anwendung läuft auf: {port}");
+
+// set Port for the application
+
+
 
 // Register the PaymentService and PaymentRepository
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
@@ -43,6 +52,7 @@ builder.Services.AddControllers()
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
 
 var app = builder.Build();

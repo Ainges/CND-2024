@@ -130,6 +130,35 @@ services:
     networks:
       - app-network
 
+  
+  payment-invoice-service:
+    build:
+      context: ./payment-invoice-service/payment-invoice-service/
+      dockerfile: Dockerfile
+    ports:
+      - "5172:8080"
+    depends_on:
+      - rabbitmq
+      - postgres-payment-invoice-service
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 500M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+    environment:
+      DB_HOST: "postgres-payment-invoice-service"
+      DB_PORT: 5432
+      DB_NAME: "payment_invoice_service"
+      DB_USER: "postgres"
+      DB_PASSWORD: "postgres"
+
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_USER: "guest"
+      RABBITMQ_PASSWORD: "guest"
 
   postgres-payment-invoice-service:
     image: postgres:14
