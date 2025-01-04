@@ -72,7 +72,7 @@ jobs:
             
       - name: Build and push
         if: steps.changes.outputs.any_modified == 'true'
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v6.10.0
         with:
           context: payment-invoice-service/payment-invoice-service
           file: Dockerfile
