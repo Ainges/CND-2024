@@ -66,7 +66,6 @@ jobs:
         - name: Build and push multi-architecture Docker image
           uses: nick-fields/retry@v3
           with:
-            timeout_seconds: 5
             max_attempts: 20
             retry_on: error
             command: |
