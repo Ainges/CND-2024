@@ -89,7 +89,7 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         Console.WriteLine($"Database connection failed: {ex.Message}");
-        throw; // Rethrow the exception to stop the application
+        Environment.FailFast("Database connection failed", ex);
     }
 }
 
