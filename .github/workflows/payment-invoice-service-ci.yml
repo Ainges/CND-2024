@@ -59,14 +59,30 @@ jobs:
           with:
             registry: ghcr.io
             username: ${{ github.actor }}
-            password: ${{ secrets.GITHUB_TOKEN }}      
-  
+            password: ${{ secrets.GITHUB_TOKEN }}     
+            
+            
+          
         - name: Build and push multi-architecture Docker image
-          working-directory: payment-invoice-service/payment-invoice-service
-          run: |
-            docker buildx create --use
-            docker buildx build \
-              --platform linux/amd64,linux/arm64 \
-              -f Dockerfile \
-              -t ghcr.io/ainges/payment-invoice-service:dev \
-              --push .
+          uses: nick-fields/retry@v3
+          with:
+            timeout_seconds: 5
+            max_attempts: 20
+            retry_on: error
+            command: |
+              docker buildx create --use
+              docker buildx build \
+                --platform linux/amd64,linux/arm64 \
+                -f Dockerfile \
+                -t ghcr.io/ainges/payment-invoice-service:dev \
+                --push .
+
+        # - name: Build and push multi-architecture Docker image
+        #   working-directory: payment-invoice-service/payment-invoice-service
+        #   run: |
+        #     docker buildx create --use
+        #     docker buildx build \
+        #       --platform linux/amd64,linux/arm64 \
+        #       -f Dockerfile \
+        #       -t ghcr.io/ainges/payment-invoice-service:dev \
+        #       --push .
