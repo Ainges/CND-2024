@@ -66,16 +66,16 @@ jobs:
         - name: Build and push multi-architecture Docker image
           uses: nick-fields/retry@v3
           with:
-            timeout_seconds: 5
+            timeout_seconds: 600
             max_attempts: 20
             retry_on: error
             command: |
-              docker buildx create --use
-              docker buildx build \
-                --platform linux/amd64,linux/arm64 \
-                -f payment-invoice-service/payment-invoice-service/Dockerfile \
-                -t ghcr.io/ainges/payment-invoice-service:dev \
-                --push .
+                bash -c "docker buildx create --use && \
+                        docker buildx build \
+                          --platform linux/amd64,linux/arm64 \
+                          -f payment-invoice-service/payment-invoice-service/Dockerfile \
+                          -t ghcr.io/ainges/payment-invoice-service:dev \
+                          --push ./payment-invoice-service/payment-invoice-service"
 
         # - name: Build and push multi-architecture Docker image
         #   working-directory: payment-invoice-service/payment-invoice-service
