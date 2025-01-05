@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./payment-invoice-service/payment-invoice-service
+        working-directory: ./payment-invoice-service/payment-invoice-service-tests
   
     steps:
     - name: Checkout
