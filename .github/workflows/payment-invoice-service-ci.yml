@@ -60,9 +60,8 @@ jobs:
             registry: ghcr.io
             username: ${{ github.actor }}
             password: ${{ secrets.GITHUB_TOKEN }}     
-            
-            
-          
+        
+        # This step was randomly failing and therefore it is retried until it works
         - name: Build and push multi-architecture Docker image
           uses: nick-fields/retry@v3
           with:
