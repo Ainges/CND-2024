@@ -90,14 +90,6 @@ const OrderPage = () => {
                   </li>
                 ))}
               </ul>
-              <h4 className="text-n-2 font-bold mt-4">Order Positions:</h4>
-              <ul className="list-disc pl-6 text-n-2 mt-2">
-                {order.orderPosition.map((position, index) => (
-                  <li key={index}>
-                    {productNames[position.productId] || "Loading..."} - Quantity: {position.quantity}
-                  </li>
-                ))}
-              </ul>
             </div>
           ))}
         </div>
