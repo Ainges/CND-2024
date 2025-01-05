@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-cart-order-service
+  labels:
+    app: postgres-cart-order-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-cart-order-service
+  template:
+    metadata:
+      labels:
+        app: postgres-cart-order-service
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:14
+        ports:
+        - containerPort: 5432
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+        env:
+        - name: POSTGRES_DB
+          value: cart-order-service
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: postgres

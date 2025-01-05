@@ -6,13 +6,13 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: cart-order-service.example.com
+    - host: cart-order-service
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: cart-order-service
+                name: cart-order-service-service
                 port:
                   number: 8080

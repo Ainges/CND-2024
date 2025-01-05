@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-payment-invoice-service
+  labels:
+    app: postgres-payment-invoice-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-payment-invoice-service
+  template:
+    metadata:
+      labels:
+        app: postgres-payment-invoice-service
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:14
+        ports:
+        - containerPort: 5432
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+        env:
+        - name: POSTGRES_DB
+          value: payment_invoice_db
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: postgres

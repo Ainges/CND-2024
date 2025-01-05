@@ -16,3 +16,6 @@ user-service/lib64
 user-service/pyvenv.cfg
 /product-service/node_modules
 .DS_Store
+
+/payment-invoice-service/payment-invoice-service/out
+

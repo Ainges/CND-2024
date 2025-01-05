@@ -59,7 +59,7 @@ services:
 
   cart-order-service:
     # to build manually: cd cart-order-service && docker build -f src/main/docker/Dockerfile.jvm-build -t ghcr.io/ainges/cnd-2024/cart-order-service:dev .
-    image: ghcr.io/ainges/cnd-2024/cart-order-service:health-test
+    image: ghcr.io/ainges/cart-order-service:latest
     ports:
       - "8080:8080"
     networks:
@@ -126,6 +126,30 @@ services:
       timeout: 5s
       retries: 10
 
+  payment-invoice-service:
+    image: ghcr.io/ainges/payment-invoice-service:latest
+    ports:
+      - "5172:8080"
+    depends_on:
+      - rabbitmq
+      - postgres-payment-invoice-service
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 500M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+    environment:
+      DefaultConnection: "Host=postgres-payment-invoice-service;Port=5432;Database=payment_invoice_service;Username=postgres;Password=postgres"
+      RabbitMq__Host: "rabbitmq"
+      RabbitMq__Username: "guest"
+      RabbitMq__Password: "guest"
+    networks:
+      - app-network
+
   postgres-payment-invoice-service:
     image: postgres:14
     container_name: postgres-payment-invoice-service
@@ -148,6 +172,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+    networks:
+      - app-network
 
 
 networks:

@@ -1,18 +1,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: product-service-ingress
+  name: payment-invoice-service-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: product-service
+    - host: payment-invoice-service
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: product-service-service
+                name: payment-invoice-service-service
                 port:
-                  number: 80
+                  number: 8080

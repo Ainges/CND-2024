@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: ghcr.io/ainges/cnd-2024/user-service:latest
+          image: ghcr.io/ainges/user-service:latest
           ports:
             - containerPort: 5000
           env:

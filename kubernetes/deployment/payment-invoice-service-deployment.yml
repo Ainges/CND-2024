@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-invoice-service
+  labels:
+    app: payment-invoice-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-invoice-service
+  template:
+    metadata:
+      labels:
+        app: payment-invoice-service
+    spec:
+      containers:
+        - name: payment-invoice-service
+          image: ghcr.io/ainges/payment-invoice-service:latest
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          env:
+            - name: DefaultConnection
+              value: "Host=postgres-payment-invoice-service;Port=5432;Database=payment_invoice_service;Username=postgres;Password=postgres"
+            - name: RabbitMq__Host
+              value: "rabbitmq"
+            - name: RabbitMq__Username
+              value: "guest"
+            - name: RABBITMQ_PASSWORD
+              value: "guest"
+            

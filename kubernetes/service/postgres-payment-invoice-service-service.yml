@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-payment-invoice-service
+spec:
+  type: NodePort
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: postgres-payment-invoice-service
