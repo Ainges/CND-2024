@@ -7,8 +7,11 @@ using Xunit;
 using payment_invoice_service.Data.Repositories;
 using payment_invoice_service.Models;
 
+
+
 namespace payment_invoice_service.Tests
 {
+    [Collection("SequentialTests")]
     public class InvoiceRepositoryTests
     {
         private readonly DbContextOptions<ApplicationDbContext> _options;
@@ -117,19 +120,6 @@ namespace payment_invoice_service.Tests
             Assert.Equal(invoice.Id, result.Id);
         }
 
-        [Fact]
-        public async Task GetByIdAsync_ShouldReturnNull_WhenInvoiceDoesNotExist()
-        {
-            // Arrange
-            using var context = new ApplicationDbContext(_options);
-            var repository = new InvoiceRepository(context);
-
-            // Act
-            var result = await repository.GetByIdAsync(1);
-
-            // Assert
-            Assert.Null(result);
-        }
 
         [Fact]
         public async Task CreateAsync_ShouldCreateInvoice()

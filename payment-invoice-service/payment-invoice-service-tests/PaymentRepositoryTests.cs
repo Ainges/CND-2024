@@ -5,6 +5,7 @@ using payment_invoice_service.Models;
 
 namespace payment_invoice_service.Tests;
 
+[Collection("SequentialTests")]
 public class PaymentRepositoryTests
 {
     private readonly DbContextOptions<ApplicationDbContext> _options;
