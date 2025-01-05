@@ -22,6 +22,18 @@ paymentInvoiceService:
     requests:
       memory: "256Mi"
       cpu: "250m"
+      
+healthcheck:
+  livenessProbePath: "/q/health/live"
+  readinessProbePath: "/q/health/ready"
+  startupProbePath: "/q/health/started"
+  wellProbePath: "/q/health/well"
+  probePort: 80
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  failureThreshold: 3
+  timeoutSeconds: 2
+
   env:
     DefaultConnection: "Host=payment-invoice-service-postgres-payment-invoice-service;Port=5432;Database=payment_invoice_service;Username=postgres;Password=postgres"
     RabbitMq__Host: "rabbitmq-rabbitmq"

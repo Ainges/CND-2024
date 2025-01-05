@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using payment_invoice_service.Data;
 using payment_invoice_service.Data.Repositories;
 using payment_invoice_service.Messaging;
@@ -54,7 +55,20 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
 
+
+builder.Services.AddHealthChecks()
+    .AddCheck("liveness", () => HealthCheckResult.Healthy())  // Einfache Liveness-Überprüfung
+    .AddCheck("readiness", () => HealthCheckResult.Healthy()) // Einfache Readiness-Überprüfung
+    .AddNpgSql(connectionString, name: "PostgreSQL");
+
+
 var app = builder.Build();
+
+app.MapHealthChecks("/q/health/live");    // Liveness Check
+app.MapHealthChecks("/q/health/ready");   // Readiness Check
+app.MapHealthChecks("/q/health/started");  // Optional: Startup Check
+app.MapHealthChecks("/q/health/well");     // Optional: Wellness Check
+
 
 foreach (var c in builder.Configuration.AsEnumerable())
 {
