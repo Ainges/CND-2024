@@ -17,6 +17,7 @@ spec:
       containers:
         - name: payment-invoice-service
           image: ghcr.io/ainges/payment-invoice-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           resources:

@@ -5,7 +5,7 @@ metadata:
 spec:
   type: NodePort
   selector:
-    app: payment-invoice-service-service
+    app: payment-invoice-service
   ports:
     - protocol: TCP
       port: 8080

@@ -28,7 +28,7 @@ spec:
             cpu: "250m"
         env:
         - name: POSTGRES_DB
-          value: cart-order-service
+          value: cart_order_service
         - name: POSTGRES_USER
           value: postgres
         - name: POSTGRES_PASSWORD

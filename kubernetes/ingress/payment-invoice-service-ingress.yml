@@ -15,4 +15,4 @@ spec:
               service:
                 name: payment-invoice-service-service
                 port:
-                  number: 8080
+                  number: 80
