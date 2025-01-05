@@ -75,7 +75,7 @@ jobs:
                 --platform linux/amd64,linux/arm64 \
                 -f payment-invoice-service/payment-invoice-service/Dockerfile \
                 -t ghcr.io/ainges/payment-invoice-service:dev \
-                --push .
+                --push ./payment-invoice-service/payment-invoice-service
 
         # - name: Build and push multi-architecture Docker image
         #   working-directory: payment-invoice-service/payment-invoice-service
