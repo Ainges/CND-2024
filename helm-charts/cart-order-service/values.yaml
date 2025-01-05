@@ -1,0 +1,71 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/ainges/cart-order-service
+  tag: latest
+  pullPolicy: Always
+
+resources:
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+
+env:
+  rabbitmqHost: "rabbitmq-rabbitmq"
+  rabbitmqPort: "5672"
+  rabbitmqUsername: "guest"
+  rabbitmqPassword: "guest"
+  rabbitmqHttpPort: "15672"
+  rabbitmqQueueNamePendingOrders: "pending-orders"
+  rabbitmqExchangeName: ""
+  prodHost: "cart-order-service-service"
+  prodPort: "8080"
+  productServiceUrl: "http://product-service:4000"
+  dbKind: "postgresql"
+  dbUsername: "postgres"
+  dbPassword: "postgres"
+  dbJdbcUrl: "jdbc:postgresql://cart-order-service-postgres:5432/cart_order_service"
+
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  host: "cart-order-service"
+  path: "/"
+  pathType: "Prefix"
+  serviceName: "cart-order-service-service"
+  servicePort: 80
+
+service:
+  type: NodePort
+  port: 8080
+  targetPort: 8080
+  nodePort: 30080 
+
+# PostgreSQL Configuration
+postgres:
+  enabled: true 
+  image:
+    repository: postgres
+    tag: "14"
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  resources:
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+  service:
+    type: NodePort
+    port: 5432
+    targetPort: 5432
+    nodePort: 30082
+  env:
+    POSTGRES_DB: "cart_order_service"
+    POSTGRES_USER: "postgres"
+    POSTGRES_PASSWORD: "postgres"

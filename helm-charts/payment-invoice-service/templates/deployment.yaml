@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-payment-invoice-service
+  labels:
+    app: {{ .Release.Name }}-payment-invoice-service
+spec:
+  replicas: {{ .Values.paymentInvoiceService.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-payment-invoice-service
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-payment-invoice-service
+    spec:
+      containers:
+      - name: payment-invoice-service
+        image: "{{ .Values.paymentInvoiceService.image.repository }}:{{ .Values.paymentInvoiceService.image.tag }}"
+        imagePullPolicy: {{ .Values.paymentInvoiceService.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.paymentInvoiceService.service.targetPort }}
+        env:
+        - name: DefaultConnection
+          value: {{ .Values.paymentInvoiceService.env.DefaultConnection | quote }}
+        - name: RabbitMq__Host
+          value: {{ .Values.paymentInvoiceService.env.RabbitMq__Host }}
+        - name: RabbitMq__Username
+          value: {{ .Values.paymentInvoiceService.env.RabbitMq__Username }}
+        - name: RABBITMQ_PASSWORD
+          value: {{ .Values.paymentInvoiceService.env.RABBITMQ_PASSWORD }}
+        resources:
+          limits:
+            memory: {{ .Values.paymentInvoiceService.resources.limits.memory }}
+            cpu: {{ .Values.paymentInvoiceService.resources.limits.cpu }}
+          requests:
+            memory: {{ .Values.paymentInvoiceService.resources.requests.memory }}
+            cpu: {{ .Values.paymentInvoiceService.resources.requests.cpu }}

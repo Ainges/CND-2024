@@ -1,0 +1,27 @@
+rabbitmq:
+  replicaCount: 1
+  image:
+    repository: rabbitmq
+    tag: "4.0-management-alpine"
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    ports:
+      amqp:
+        port: 5672
+        targetPort: 5672
+        nodePort: 30090
+      management:
+        port: 15672
+        targetPort: 15672
+        nodePort: 30091
+  resources:
+    limits:
+      memory: "500Mi"
+      cpu: "500m"
+    requests:
+      memory: "20Mi"
+      cpu: "250m"
+  env:
+    RABBITMQ_DEFAULT_USER: "guest"
+    RABBITMQ_DEFAULT_PASS: "guest"

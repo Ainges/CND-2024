@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-cart-order-service
+  labels:
+    app: {{ .Release.Name }}-cart-order-service
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-cart-order-service
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-cart-order-service
+    spec:
+      containers:
+        - name: cart-order-service
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              memory: "{{ .Values.resources.limits.memory }}"
+              cpu: "{{ .Values.resources.limits.cpu }}"
+            requests:
+              memory: "{{ .Values.resources.requests.memory }}"
+              cpu: "{{ .Values.resources.requests.cpu }}"
+          env:
+            - name: RABBITMQ_HOST
+              value: "{{ .Values.env.rabbitmqHost }}"
+            - name: RABBITMQ_PORT
+              value: "{{ .Values.env.rabbitmqPort }}"
+            - name: RABBITMQ_USERNAME
+              value: "{{ .Values.env.rabbitmqUsername }}"
+            - name: RABBITMQ_PASSWORD
+              value: "{{ .Values.env.rabbitmqPassword }}"
+            - name: RABBITMQ_HTTP_PORT
+              value: "{{ .Values.env.rabbitmqHttpPort }}"
+            - name: RABBITMQ_QUEUE_NAME_PENDING_ORDERS
+              value: "{{ .Values.env.rabbitmqQueueNamePendingOrders }}"
+            - name: RABBITMQ_EXCHANGE_NAME
+              value: "{{ .Values.env.rabbitmqExchangeName }}"
+            - name: PROD_HOST
+              value: "{{ .Values.env.prodHost }}"
+            - name: PROD_PORT
+              value: "{{ .Values.env.prodPort }}"
+            - name: PRODUCT_SERVICE_URL
+              value: "{{ .Values.env.productServiceUrl }}"
+            - name: DB_KIND
+              value: "{{ .Values.env.dbKind }}"
+            - name: DB_USERNAME
+              value: "{{ .Values.env.dbUsername }}"
+            - name: DB_PASSWORD
+              value: "{{ .Values.env.dbPassword }}"
+            - name: DB_JDBC_URL
+              value: "{{ .Values.env.dbJdbcUrl }}"

@@ -1,0 +1,16 @@
+releases:
+  - name: cart-order-service
+    chart: ./helm-charts/cart-order-service
+    values:
+      - ./helm-charts/cart-order-service/values.yaml
+
+  - name: payment-invoice-service
+    chart: ./helm-charts/payment-invoice-service
+    values:
+      - ./helm-charts/payment-invoice-service/values.yaml
+
+  - name: rabbitmq
+    chart: ./helm-charts/rabbitmq
+    values:
+      - ./helm-charts/rabbitmq/values.yaml
+

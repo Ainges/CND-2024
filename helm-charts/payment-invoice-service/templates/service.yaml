@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-payment-invoice-service
+spec:
+  type: {{ .Values.paymentInvoiceService.service.type }}
+  selector:
+    app: {{ .Release.Name }}-payment-invoice-service
+  ports:
+    - protocol: TCP
+      port: {{ .Values.paymentInvoiceService.service.port }}
+      targetPort: {{ .Values.paymentInvoiceService.service.targetPort }}
+      nodePort: {{ .Values.paymentInvoiceService.service.nodePort }}

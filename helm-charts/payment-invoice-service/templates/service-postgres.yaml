@@ -1,0 +1,14 @@
+{{- if .Values.postgres.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-postgres-payment-invoice-service
+spec:
+  type: {{ .Values.postgres.service.type }}
+  ports:
+    - port: {{ .Values.postgres.service.port }}
+      targetPort: {{ .Values.postgres.service.targetPort }}
+      nodePort: {{ .Values.postgres.service.nodePort }}
+  selector:
+    app: {{ .Release.Name }}-postgres-payment-invoice-service
+{{- end }}
