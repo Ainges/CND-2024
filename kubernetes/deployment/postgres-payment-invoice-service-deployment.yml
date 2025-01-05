@@ -28,7 +28,7 @@ spec:
             cpu: "250m"
         env:
         - name: POSTGRES_DB
-          value: payment_invoice_db
+          value: payment_invoice_service
         - name: POSTGRES_USER
           value: postgres
         - name: POSTGRES_PASSWORD
