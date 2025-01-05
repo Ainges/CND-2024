@@ -68,5 +68,5 @@ jobs:
             docker buildx build \
               --platform linux/amd64,linux/arm64 \
               -f Dockerfile \
-              -t ghcr.io/ainges/payment-invoice-service:latest \
+              -t ghcr.io/ainges/payment-invoice-service:dev \
               --push .
