@@ -29,6 +29,18 @@ env:
   dbPassword: "postgres"
   dbJdbcUrl: "jdbc:postgresql://cart-order-service-postgres:5432/cart_order_service"
 
+healthcheck:
+  livenessProbePath: "/q/health/live"
+  readinessProbePath: "/q/health/ready"
+  startupProbePath: "/q/health/started"
+  wellProbePath: "/q/health/well"
+  probePort: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  failureThreshold: 3
+  timeoutSeconds: 2
+
+
 ingress:
   enabled: true
   annotations:

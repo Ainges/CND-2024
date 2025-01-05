@@ -60,6 +60,7 @@ services:
   cart-order-service:
     # to build manually: cd cart-order-service && docker build -f src/main/docker/Dockerfile.jvm-build -t ghcr.io/ainges/cnd-2024/cart-order-service:dev .
     image: ghcr.io/ainges/cart-order-service:latest
+    pull_policy: always
     ports:
       - "8080:8080"
     networks:
@@ -128,6 +129,7 @@ services:
 
   payment-invoice-service:
     image: ghcr.io/ainges/payment-invoice-service:latest
+    pull_policy: always
     ports:
       - "5172:8080"
     depends_on:
