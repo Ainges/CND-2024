@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FaShoppingCart, FaSpinner } from "react-icons/fa";
+import { FaSpinner } from "react-icons/fa";
+import AddToCartButton from "./AddToCardButton";
 
 const AllProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -53,7 +54,7 @@ const AllProductsPage = () => {
             <div className="flex items-center justify-between">
               <span className="text-lg font-semibold text-blue-500">${product.price.toFixed(2)}</span>
               <button className="text-blue-500 hover:text-blue-700">
-                <FaShoppingCart size={20} />
+                <AddToCartButton productId={product.id} />
               </button>
             </div>
           </div>

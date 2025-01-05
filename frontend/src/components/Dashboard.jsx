@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import ProfilePage from "./ProfilePage";
 import AddProductPage from "./AddProductPage";
 import AllProductsPage from "./AllProductsPage";
+import CartPage from "./CartPage";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -38,6 +39,8 @@ const Dashboard = () => {
         return <AllProductsPage />;
       case "add-product":
         return <AddProductPage />;
+      case "cart":
+          return <CartPage />;
       default:
         return <h2 className="text-2xl font-bold">Welcome to the Dashboard</h2>;
     }
@@ -71,7 +74,16 @@ const Dashboard = () => {
               Add New Product
             </li>
           )}
+          <li
+    className={`py-3 px-4 mb-2 text-n-1 rounded-lg cursor-pointer transition ${
+      activeTab === "cart" ? "bg-n-6" : "hover:bg-n-6"
+    }`}
+    onClick={() => handleTabChange("cart")}
+  >
+    Cart
+  </li>
         </ul>
+        
       </div>
 
       <div className="w-full lg:w-3/4 bg-n-8 rounded-r-lg p-8">

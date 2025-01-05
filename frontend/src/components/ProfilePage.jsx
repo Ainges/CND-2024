@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { FaSpinner } from "react-icons/fa";
 
 const ProfilePage = ({ user }) => {
-  const [userData, setUserData] = useState(user);
+  const [userData, setUserData] = useState(user || {});  
   const [updateStatus, setUpdateStatus] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
