@@ -33,7 +33,7 @@ healthcheck:
   readinessProbePath: "/q/health/ready"
   startupProbePath: "/q/health/started"
   wellProbePath: "/q/health/well"
-  probePort: 80
+  probePort: 8080
   initialDelaySeconds: 5
   periodSeconds: 10
   failureThreshold: 3
