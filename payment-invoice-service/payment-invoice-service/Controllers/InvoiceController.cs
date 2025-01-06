@@ -33,6 +33,7 @@ namespace payment_invoice_service.Controllers
                     UserId = invoice.UserId,
                     TotalAmountInEuroCents = invoice.TotalAmountInEuroCents,
                     PaidAmount = invoice.PaidAmount,
+                    OrderId = invoice.OrderId,
                     Status = invoice.Status,
                     IssueDateAsString = invoice.IssueDateAsString,
                     DueDateAsString = invoice.DueDateAsString,
