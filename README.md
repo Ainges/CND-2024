@@ -1,19 +1,33 @@
-*Ein E-Commerce-Backend*
-1. *Produktkatalog-Service*
-   Verwaltung und Bereitstellung von Produktinformationen. Berechtigte Benutzer können Produkte erstellen, aktualisieren und löschen. Produktinformationen werden in einer eigenen Datenbank gespeichert und über Schnittstellen für andere
-   Services verfügbar gemacht.
+# E-Commerce Backend
 
+## Services
 
-2. *Benutzerverwaltungsservice*
-   Zuständig für die Verwaltung von Benutzerkonten, einschließlich Registrierung, Profilverwaltung und Berechtigungen.
-   Authentifizierung und Autorisierung ist unter der Verwendung von JWT angedacht.
+1. **Product Catalog Service**  
+   Manages and provides product information. Authorized users can create, update, and delete products. Product information is stored in a dedicated database and made available through various APIs.
 
+2. **User Management Service**  
+   Responsible for managing user accounts, including registration, profile management, and permissions. Authentication and authorization are implemented using JWT.
 
-3. *Warenkorb- und Bestellservice*
-   Ermöglicht die Verwaltung von Warenkörben und Bestellungen. Benutzer können Produkte in den Warenkorb legen, Bestellungen aufgeben und ihre Bestellhistorie einsehen. Der Service kommuniziert über definierte Schnittstellen mit dem Produktkatalog- und dem Benutzerservice und speichert Bestelldaten in einer eigenen Datenbank.
+3. **Cart and Order Service**  
+   Manages shopping carts and orders. Users can add products to their cart, place orders, and view their order history. The service communicates with other services to complete transactions.
 
+4. **Payment and Billing Service**  
+   Handles payment processing through external providers and generates invoices for completed orders. It stores all relevant payment and billing data in a dedicated database and links it to the order data from the Cart and Order Service.
 
-5. *Zahlungs- und Rechnungsservice*
-   Übernimmt die Zahlungsabwicklung über externe Anbieter und erstellt Rechnungen für abgeschlossene Bestellungen.
-   Speichert alle relevanten Zahlungs- und Rechnungsdaten in einer eigenen Datenbank und verknüpft diese mit den
-   Bestelldaten des Warenkorb- und Bestellservices.
+5. **(Frontend)**  
+   A React frontend is available to interact with the services.
+
+## Deployment Options
+
+You can deploy this project in three different ways:
+
+1. **Standalone Applications**  
+   Each service can be deployed as an individual application.
+
+2. **Docker Containers**  
+   - Deploy as Docker images available in a container registry.
+   - Build Docker images from the source code and deploy.
+
+3. **Orchestrated by Kubernetes**  
+   - As Helm Charts for easier deployment and management.
+   - As plain Kubernetes Manifests for more control and customization.
