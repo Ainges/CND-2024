@@ -14,3 +14,12 @@ releases:
     values:
       - ./helm-charts/rabbitmq/values.yaml
 
+  - name: user-service
+    chart: ./helm-charts/user-service
+    values:
+      - ./helm-charts/user-service/values.yaml
+  
+  - name: product-service
+    chart: ./helm-charts/product-service
+    values:
+      - ./helm-charts/product-service/values.yaml
