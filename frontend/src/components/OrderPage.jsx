@@ -54,6 +54,36 @@ const OrderPage = () => {
     fetchOrders();
   }, [cookies]);
 
+  const handlePayment = async (order) => {
+    try {
+      const response = await fetch("http://localhost:8080/api/payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          invoiceId: order.id, // Assuming invoiceId is the same as orderId
+          amount: 100, // Replace with the actual amount from the order
+          paymentMethod: "CREDIT_CARD", // Example method
+          transactionId: `txn-${Date.now()}`, // Generate a mock transaction ID
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Payment failed.");
+      }
+
+      alert("Payment successful!");
+      // Reload orders to fetch updated statuses
+      const userId = cookies.user_id;
+      const updatedOrdersResponse = await fetch(
+        `http://localhost:8080/orders/user/${userId}`
+      );
+      const updatedOrders = await updatedOrdersResponse.json();
+      setOrders(updatedOrders.orders);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -72,15 +102,17 @@ const OrderPage = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <h2 className="text-3xl font-bold text-n-1 mb-6">Your Order</h2>
+      <h2 className="text-3xl font-bold text-n-1 mb-6">Your Orders</h2>
       {orders.length > 0 ? (
-        <div className="flex flex-col items-center">
+        <div>
           {orders.map((order) => (
             <div
               key={order.id}
-              className="w-full lg:w-3/4 p-6 bg-n-6 rounded-lg shadow-md mb-6"
+              className="w-full p-6 bg-n-6 rounded-lg shadow-md mb-6"
             >
+              <h3 className="text-xl font-bold text-n-1 mb-2">Order #{order.id}</h3>
               <p className="text-n-2 mb-2"><strong>Status:</strong> {order.status}</p>
+              <p className="text-n-2 mb-2"><strong>User ID:</strong> {order.userId}</p>
               <h4 className="text-n-2 font-bold mt-4">Cart Details:</h4>
               <p className="text-n-2"><strong>Status:</strong> {order.cart.status}</p>
               <ul className="list-disc pl-6 text-n-2 mt-2">
@@ -90,6 +122,22 @@ const OrderPage = () => {
                   </li>
                 ))}
               </ul>
+              <h4 className="text-n-2 font-bold mt-4">Order Positions:</h4>
+              <ul className="list-disc pl-6 text-n-2 mt-2">
+                {order.orderPosition.map((position, index) => (
+                  <li key={index}>
+                    {productNames[position.productId] || "Loading..."} - Quantity: {position.quantity}
+                  </li>
+                ))}
+              </ul>
+              {order.status === "WAITING_FOR_PAYMENT" && (
+                <button
+                  onClick={() => handlePayment(order)}
+                  className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+                >
+                  Pay Now
+                </button>
+              )}
             </div>
           ))}
         </div>
