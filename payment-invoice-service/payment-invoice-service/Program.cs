@@ -9,6 +9,7 @@ using payment_invoice_service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 builder.Services.AddOpenApi();
 
@@ -49,6 +50,7 @@ builder.Services.AddControllers()
         // To handle enum serialization as strings
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
+
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -94,6 +96,13 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.MapControllers();
+
+app.UseCors(
+    builder => builder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
