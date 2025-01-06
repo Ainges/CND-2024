@@ -22,7 +22,7 @@ const CartPage = () => {
       try {
         const response = await fetch(`http://localhost:8080/carts/userid/${userId}/current`);
         if (!response.ok) {
-          throw new Error("Failed to fetch cart.");
+          throw new Error("You have no card yet.");
         }
         const data = await response.json();
         setCart(data.cart); // Setzt den gesamten Warenkorb

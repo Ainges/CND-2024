@@ -56,22 +56,37 @@ const OrderPage = () => {
 
   const handlePayment = async (order) => {
     try {
-      const response = await fetch("http://localhost:8080/api/payment", {
+      // Fetch the associated invoice
+      const invoiceResponse = await fetch("http://localhost:5172/api/invoice");
+      if (!invoiceResponse.ok) {
+        throw new Error("Failed to fetch invoices.");
+      }
+
+      const invoices = await invoiceResponse.json();
+      const matchingInvoice = invoices.find((invoice) => invoice.orderId === order.id);
+
+      if (!matchingInvoice) {
+        throw new Error("No matching invoice found for the selected order.");
+      }
+
+      // Make payment for the invoice
+      const paymentResponse = await fetch("http://localhost:5172/api/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          invoiceId: order.id, // Assuming invoiceId is the same as orderId
-          amount: 100, // Replace with the actual amount from the order
+          invoiceId: matchingInvoice.id,
+          amount: matchingInvoice.totalAmountInEuroCents / 100, // Convert cents to euros
           paymentMethod: "CREDIT_CARD", // Example method
           transactionId: `txn-${Date.now()}`, // Generate a mock transaction ID
         }),
       });
 
-      if (!response.ok) {
+      if (!paymentResponse.ok) {
         throw new Error("Payment failed.");
       }
 
       alert("Payment successful!");
+
       // Reload orders to fetch updated statuses
       const userId = cookies.user_id;
       const updatedOrdersResponse = await fetch(

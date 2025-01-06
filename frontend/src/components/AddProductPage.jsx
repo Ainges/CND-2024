@@ -12,12 +12,26 @@ const AddProductPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProductData({ ...productData, [name]: value });
+
+    // Ensure that only valid numbers are accepted for price
+    if (name === "price") {
+      if (value === "" || /^[0-9]*\.?[0-9]*$/.test(value)) {
+        setProductData({ ...productData, [name]: value });
+      }
+    } else {
+      setProductData({ ...productData, [name]: value });
+    }
   };
 
   const handleSubmit = async () => {
+    if (!productData.price || parseFloat(productData.price) <= 0) {
+      setSubmitStatus("Error: Price must be a positive number.");
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus(null);
+
     try {
       const response = await fetch("http://localhost:4000/products", {
         method: "POST",

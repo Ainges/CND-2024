@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { FaSpinner } from "react-icons/fa";
-import AddToCartButton from "./AddToCardButton";
+import { FaSpinner, FaShoppingCart } from "react-icons/fa";
+import { useCookies } from "react-cookie";
 
 const AllProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [loadingProductId, setLoadingProductId] = useState(null);
+  const [cookies] = useCookies(["user_id"]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -26,6 +28,34 @@ const AllProductsPage = () => {
 
     fetchProducts();
   }, []);
+
+  const handleAddToCart = async (productId) => {
+    const userId = cookies.user_id;
+
+    if (!userId) {
+      alert("User not logged in.");
+      return;
+    }
+
+    setLoadingProductId(productId); // Show spinner for the product being added
+    try {
+      const response = await fetch(`http://localhost:8080/users/${userId}/cart/items`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId, quantity: 1 }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add product to cart.");
+      }
+
+      alert("Product added to cart!");
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoadingProductId(null); // Remove spinner
+    }
+  };
 
   if (loading) {
     return (
@@ -52,9 +82,21 @@ const AllProductsPage = () => {
             <h3 className="text-xl font-bold text-n-1 mb-2">{product.name}</h3>
             <p className="text-n-2 mb-4">{product.description}</p>
             <div className="flex items-center justify-between">
-              <span className="text-lg font-semibold text-blue-500">${product.price.toFixed(2)}</span>
-              <button className="text-blue-500 hover:text-blue-700">
-                <AddToCartButton productId={product.id} />
+              <span className="text-lg font-semibold text-blue-500">
+                {typeof product.price === "number" && !isNaN(product.price)
+                  ? `$${product.price.toFixed(2)}`
+                  : "N/A"}
+              </span>
+              <button
+                onClick={() => handleAddToCart(product.id)}
+                className="text-blue-500 hover:text-blue-700 flex items-center"
+                disabled={loadingProductId === product.id}
+              >
+                {loadingProductId === product.id ? (
+                  <FaSpinner className="animate-spin" />
+                ) : (
+                  <FaShoppingCart />
+                )}
               </button>
             </div>
           </div>
