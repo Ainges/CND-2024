@@ -14,7 +14,7 @@
 4. **Payment and Billing Service**  
    Handles payment processing through external providers and generates invoices for completed orders. It stores all relevant payment and billing data in a dedicated database and links it to the order data from the Cart and Order Service.
 
-5. **(Frontend)**  
+5. **Frontend (Optional)**  
    A React frontend is available to interact with the services.
 
 ## Deployment Options
@@ -22,7 +22,7 @@
 You can deploy this project in three different ways:
 
 1. **Standalone Applications**  
-   Each service can be deployed as an individual application.
+   Each service can be deployed as an individual application. Instructions for deploying each service in standalone mode are available in their respective folders.
 
 2. **Docker Containers**  
    - Deploy as Docker images available in a container registry.
@@ -31,3 +31,40 @@ You can deploy this project in three different ways:
 3. **Orchestrated by Kubernetes**  
    - As Helm Charts for easier deployment and management.
    - As plain Kubernetes Manifests for more control and customization.
+
+## Docker Deployment
+
+To deploy the project using Docker, follow these steps:
+There are two ways of doing this:
+
+1. Build all images from Source code:
+   ```bash
+   docker compose -f docker-compose.yml up --build
+   ```
+
+2. Receive images from registry:
+   ```bash
+   docker compose -f docker-compose.remote.yml up 
+   ```
+
+## Kubernetes Deployment
+
+To deploy the project using Kubernetes, you have several options:
+
+1. **Plain Kubernetes Manifests:**  
+   Apply the Kubernetes manifests to your cluster:
+   ```bash
+   kubectl apply -f ./kubernetes --recursive 
+   ```
+
+2. **Helm Charts:**  
+   Install the Helm charts:
+   ```bash
+   helm install <release-name> helm-charts/<service-name>
+   ```
+
+3. **Helmfile:**  
+   Deploy using Helmfile: (you may need to install helmfile first)
+   ```bash
+   helmfile apply
+   ```
