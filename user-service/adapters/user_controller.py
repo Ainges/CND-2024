@@ -87,7 +87,18 @@ def register_user():
             first_name=data.get("first_name"),
             last_name=data.get("last_name"),
         )
-        return jsonify({"message": "User registered successfully", "user_id": user.id}), 201
+
+        # Construct the Location header URL
+        location_url = f"{request.url_root.rstrip('/')}/users/{user.id}"
+
+        return (
+            jsonify({
+                "message": "User registered successfully",
+                "user_id": user.id
+            }),
+            201,
+            {"Location": location_url}
+        )
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
