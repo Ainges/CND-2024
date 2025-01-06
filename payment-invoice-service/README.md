@@ -2,6 +2,30 @@
 
 This project is a .NET service that communicates with a RabbitMQ server and a PostgreSQL database. The service handles payment and invoice processing by consuming messages from RabbitMQ queues and interacting with the PostgreSQL database. The service requires several environment variables for configuring the RabbitMQ server and database connection. These environment variables must be set for the service to run properly.
 
+# Running the Application Locally
+
+## Development Mode
+
+To run the application in development mode, use the following command:
+
+```bash
+dotnet run
+```
+
+## Production Mode
+
+To run the application in production mode, you need to publish it first. Use the following command to publish the application:
+
+```bash
+dotnet publish -c Release -o ./out
+```
+
+This will create the output in the `./out` directory. You can then run the application using:
+
+```bash
+./out/payment-invoice-service
+```
+
 ## Environment Variables
 
 The service requires the following environment variables:
