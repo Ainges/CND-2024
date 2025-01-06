@@ -113,9 +113,15 @@ app.get('/products', (req, res) => {
  *                   type: number
  */
 app.post('/products', (req, res) => {
+  // Create the new product
   const product = { id: Date.now(), ...req.body };
   products.push(product);
-  res.status(201).json(product);
+
+  // Generate the URL for the newly created product
+  const locationUrl = `${req.protocol}://${req.get('host')}/products/${product.id}`;
+
+  // Respond with the created product and the Location header
+  res.status(201).location(locationUrl).json(product);
 });
 
 /**
