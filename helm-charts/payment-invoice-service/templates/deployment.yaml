@@ -20,30 +20,30 @@ spec:
         imagePullPolicy: {{ .Values.paymentInvoiceService.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.paymentInvoiceService.service.targetPort }}
-        livenessProbe:
-          httpGet:
-            path: {{ .Values.healthcheck.livenessProbePath }}
-            port: {{ .Values.healthcheck.probePort }}
-          initialDelaySeconds: {{ .Values.healthcheck.initialDelaySeconds }}
-          periodSeconds: {{ .Values.healthcheck.periodSeconds }}
-          failureThreshold: {{ .Values.healthcheck.failureThreshold }}
-          timeoutSeconds: {{ .Values.healthcheck.timeoutSeconds }}
-        readinessProbe:
-          httpGet:
-            path: {{ .Values.healthcheck.readinessProbePath }}
-            port: {{ .Values.healthcheck.probePort }}
-          initialDelaySeconds: {{ .Values.healthcheck.initialDelaySeconds }}
-          periodSeconds: {{ .Values.healthcheck.periodSeconds }}
-          failureThreshold: {{ .Values.healthcheck.failureThreshold }}
-          timeoutSeconds: {{ .Values.healthcheck.timeoutSeconds }}
-        startupProbe:
-          httpGet:
-            path: {{ .Values.healthcheck.startupProbePath }}
-            port: {{ .Values.healthcheck.probePort }}
-          initialDelaySeconds: {{ .Values.healthcheck.initialDelaySeconds }}
-          periodSeconds: {{ .Values.healthcheck.periodSeconds }}
-          failureThreshold: {{ .Values.healthcheck.failureThreshold }}
-          timeoutSeconds: {{ .Values.healthcheck.timeoutSeconds }}
+        # livenessProbe:
+        #   httpGet:
+        #     path: {{ .Values.healthcheck.livenessProbePath }}
+        #     port: {{ .Values.healthcheck.probePort }}
+        #   initialDelaySeconds: {{ .Values.healthcheck.initialDelaySeconds }}
+        #   periodSeconds: {{ .Values.healthcheck.periodSeconds }}
+        #   failureThreshold: {{ .Values.healthcheck.failureThreshold }}
+        #   timeoutSeconds: {{ .Values.healthcheck.timeoutSeconds }}
+        # readinessProbe:
+        #   httpGet:
+        #     path: {{ .Values.healthcheck.readinessProbePath }}
+        #     port: {{ .Values.healthcheck.probePort }}
+        #   initialDelaySeconds: {{ .Values.healthcheck.initialDelaySeconds }}
+        #   periodSeconds: {{ .Values.healthcheck.periodSeconds }}
+        #   failureThreshold: {{ .Values.healthcheck.failureThreshold }}
+        #   timeoutSeconds: {{ .Values.healthcheck.timeoutSeconds }}
+        # startupProbe:
+        #   httpGet:
+        #     path: {{ .Values.healthcheck.startupProbePath }}
+        #     port: {{ .Values.healthcheck.probePort }}
+        #   initialDelaySeconds: {{ .Values.healthcheck.initialDelaySeconds }}
+        #   periodSeconds: {{ .Values.healthcheck.periodSeconds }}
+        #   failureThreshold: {{ .Values.healthcheck.failureThreshold }}
+        #   timeoutSeconds: {{ .Values.healthcheck.timeoutSeconds }}
         env:
         - name: DefaultConnection
           value: {{ .Values.paymentInvoiceService.env.DefaultConnection | quote }}

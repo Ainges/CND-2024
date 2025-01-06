@@ -67,25 +67,25 @@ namespace payment_invoice_service.Controllers
             var createdInvoice = await _invoiceService.CreateInvoiceAsync(invoice);
             return CreatedAtAction(nameof(GetInvoiceById), new { id = createdInvoice.Id }, createdInvoice);
         }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateInvoice(int id, [FromBody] Invoice invoice)
-        {
-            if (id != invoice.Id)
-            {
-                return BadRequest("Invoice ID mismatch");
-            }
-
-            try
-            {
-                var updatedInvoice = await _invoiceService.UpdateInvoiceAsync(invoice);
-                return Ok(updatedInvoice);
-            }
-            catch (InvoiceServiceException e)
-            {
-                return NotFound(e.Message);
-            }
-        }
+        // Currently not needed...
+        // [HttpPut("{id}")]
+        // public async Task<IActionResult> UpdateInvoice(int id, [FromBody] Invoice invoice)
+        // {
+        //     if (id != invoice.Id)
+        //     {
+        //         return BadRequest("Invoice ID mismatch");
+        //     }
+        //
+        //     try
+        //     {
+        //         var updatedInvoice = await _invoiceService.UpdateInvoiceAsync(invoice);
+        //         return Ok(updatedInvoice);
+        //     }
+        //     catch (InvoiceServiceException e)
+        //     {
+        //         return NotFound(e.Message);
+        //     }
+        // }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteInvoice(int id)

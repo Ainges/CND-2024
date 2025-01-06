@@ -1,5 +1,15 @@
 ## Running the application locally
 
+
+### Prerequisites
+
+Before running the application locally, ensure you have the following installed:
+
+- **JDK 21**: The application requires Java Development Kit (JDK) version 21. You can download it from [AdoptOpenJDK](https://adoptopenjdk.net/) or [Oracle](https://www.oracle.com/java/technologies/javase-jdk21-downloads.html).
+- **Docker**: Docker is required to run RabbitMQ and the database locally. You can download it from [Docker's official website](https://www.docker.com/products/docker-desktop).
+
+Ensure that the `JAVA_HOME` environment variable is set to the JDK installation directory.
+
 ### Development Mode
 
 To run the application in development mode, which enables live coding, use the following command:

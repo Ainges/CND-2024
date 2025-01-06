@@ -79,24 +79,24 @@ public class PaymentController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-
-    [HttpPut("{id}")]
-    public async Task<ActionResult<Payment>> UpdatePayment(int id, [FromBody] PaymentCreateDto paymentCreateDto)
-    {
-        return BadRequest();
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<ActionResult<Payment>> DeletePayment(int id)
-    {
-        try
-        {
-            var payment = await _paymentService.DeletePaymentAsync(id);
-            return Ok(payment);
-        }
-        catch (PaymentServiceException e)
-        {
-            return NotFound(e.Message);
-        }
-    }
+    // Currently not needed...
+    // [HttpPut("{id}")]
+    // public async Task<ActionResult<Payment>> UpdatePayment(int id, [FromBody] PaymentCreateDto paymentCreateDto)
+    // {
+    //     return BadRequest();
+    // }
+    //
+    // [HttpDelete("{id}")]
+    // public async Task<ActionResult<Payment>> DeletePayment(int id)
+    // {
+    //     try
+    //     {
+    //         var payment = await _paymentService.DeletePaymentAsync(id);
+    //         return Ok(payment);
+    //     }
+    //     catch (PaymentServiceException e)
+    //     {
+    //         return NotFound(e.Message);
+    //     }
+    // }
 }
