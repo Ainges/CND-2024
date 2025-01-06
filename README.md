@@ -34,8 +34,7 @@ You can deploy this project in three different ways:
 
 ## Docker Deployment
 
-To deploy the project using Docker, follow these steps:
-There are two ways of doing this:
+To deploy the project using Docker, there are two ways of doing this:
 
 1. Build all images from Source code:
    ```bash
