@@ -21,6 +21,20 @@ spec:
         imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.postgres.service.targetPort }}
+        livenessProbe:
+          {{- if .Values.postgres.livenessProbe.enabled }}
+          exec:
+            command: {{ .Values.postgres.livenessProbe.exec.command | toJson }}
+          initialDelaySeconds: {{ .Values.postgres.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.postgres.livenessProbe.periodSeconds }}
+          {{- end }}
+        readinessProbe:
+          {{- if .Values.postgres.readinessProbe.enabled }}
+          exec:
+            command: {{ .Values.postgres.readinessProbe.exec.command | toJson }}
+          initialDelaySeconds: {{ .Values.postgres.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.postgres.readinessProbe.periodSeconds }}
+          {{- end }}
         resources:
           limits:
             memory: {{ .Values.postgres.resources.limits.memory }}
