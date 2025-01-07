@@ -74,5 +74,5 @@ jobs:
                           --platform linux/amd64,linux/arm64 \
                           --no-cache \
                           -f payment-invoice-service/payment-invoice-service/Dockerfile \
-                          -t ghcr.io/ainges/payment-invoice-service:dev \
+                          -t ghcr.io/ainges/payment-invoice-service:latest \
                           --push ./payment-invoice-service/payment-invoice-service"
