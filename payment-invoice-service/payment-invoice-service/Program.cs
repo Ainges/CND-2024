@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using payment_invoice_service.Data;
@@ -66,10 +67,26 @@ builder.Services.AddHealthChecks()
 
 var app = builder.Build();
 
-app.MapHealthChecks("/q/health/live");    // Liveness Check
-app.MapHealthChecks("/q/health/ready");   // Readiness Check
-app.MapHealthChecks("/q/health/started");  // Optional: Startup Check
-app.MapHealthChecks("/q/health/well");     // Optional: Wellness Check
+app.MapHealthChecks("/q/health/live", new HealthCheckOptions
+{
+    Predicate = (check) => check.Tags.Contains("live")
+});
+
+app.MapHealthChecks("/q/health/ready", new HealthCheckOptions
+{
+    Predicate = (check) => check.Tags.Contains("ready")
+});
+
+app.MapHealthChecks("/q/health/started", new HealthCheckOptions
+{
+    Predicate = (check) => check.Tags.Contains("started")
+});
+
+app.MapHealthChecks("/q/health/well", new HealthCheckOptions
+{
+    Predicate = (check) => check.Tags.Contains("well")
+});
+
 
 
 foreach (var c in builder.Configuration.AsEnumerable())
