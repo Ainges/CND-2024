@@ -91,7 +91,7 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         Console.WriteLine($"Database connection failed: {ex.Message}");
-        Environment.FailFast("Database connection failed", ex);
+        Environment.Exit(1);
     }
 }
 
@@ -117,4 +117,17 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-await app.RunAsync();
+try
+{
+    await app.RunAsync();
+}
+catch (Exception ex)
+{
+    // Fail fast
+    Console.WriteLine($"Unhandled exception: {ex.Message}");
+    Environment.Exit(1);
+}
+finally
+{
+    Console.WriteLine("Application has stopped.");
+}
