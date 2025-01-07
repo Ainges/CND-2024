@@ -1,6 +1,16 @@
 # payment-invoice-service
 
-This project is a .NET service that communicates with a RabbitMQ server and a PostgreSQL database. The service handles payment and invoice processing by consuming messages from RabbitMQ queues and interacting with the PostgreSQL database. The service requires several environment variables for configuring the RabbitMQ server and database connection. These environment variables must be set for the service to run properly.
+# Prerequisites
+
+Before running the application locally, make sure you have the following installed:
+
+## 1. .NET 9 (Required only for local setup without Docker)
+If you want to run the application **without Docker**, you must install **.NET 9**. You can download it from the official Microsoft website:
+- [.NET 9 Download](https://dotnet.microsoft.com/download/dotnet/9.0)
+
+## 2. Docker (Required only if you want to use Docker)
+If you want to use **Docker** to run RabbitMQ and the database locally, you will need **Docker**. You can download it from the official website:
+- [Docker](https://www.docker.com/)
 
 # Running the Application Locally
 
