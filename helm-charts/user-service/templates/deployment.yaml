@@ -17,3 +17,13 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         ports:
         - containerPort: {{ .Values.service.port }}
+        livenessProbe:
+            httpGet:
+              path: /system/health
+              port: 5000
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+        readinessProbe:
+            httpGet:
+              path: /system/health
+              port: 5000
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}

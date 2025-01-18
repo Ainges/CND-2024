@@ -280,6 +280,10 @@ app.delete('/products/:id', (req, res) => {
   return res.status(204).send();
 });
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'UP' });
+});
+
 module.exports = { app, products };
 
 // Only listen if this file is the "main" entry point
@@ -288,3 +292,4 @@ if (require.main === module) {
     console.log(`Product Service listening on http://localhost:${PORT}`);
   });
 }
+

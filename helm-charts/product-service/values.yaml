@@ -13,6 +13,22 @@ ingress:
   host: product-service.example.com
 
 resources:
+  requests:
+    cpu: "250m"
+    memory: "256Mi"
   limits:
     cpu: "500m"
     memory: "512Mi"
+
+# Liveness and Readiness Probes
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  path: /health
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 3
+  path: /health

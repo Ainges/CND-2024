@@ -26,3 +26,9 @@ class UserRepository(UserRepositoryPort):
 
     def find_by_email(self, email: str) -> User:
         return User.query.filter_by(email=email).first()
+    
+    def test_connection(self):
+        """
+        Tests if the database connection is functional by attempting a simple query.
+        """
+        return db.session.query(User).first()
