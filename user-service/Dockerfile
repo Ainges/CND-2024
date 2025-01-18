@@ -1,5 +1,5 @@
 # Base image with Python 3.8 or above
-FROM python:3.12.3
+FROM python:3.12.3-slim
 
 # Set the working directory in the container
 WORKDIR /user-service
