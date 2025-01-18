@@ -17,3 +17,7 @@ class UserRepositoryPort(ABC):
     @abstractmethod
     def find_by_email(self, email: str) -> User:
         pass
+
+    @abstractmethod
+    def test_connection(self):
+        pass

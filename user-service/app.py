@@ -10,6 +10,7 @@ from flask import Flask
 from flask_jwt_extended import JWTManager
 from config import Config
 from adapters.user_controller import user_controller
+from adapters.system_controller import system_controller
 from extensions import db
 from flask_cors import CORS
 from flasgger import Swagger
@@ -33,6 +34,7 @@ app.config['SWAGGER'] = {
 swagger = Swagger(app)
 
 app.register_blueprint(user_controller)
+app.register_blueprint(system_controller, url_prefix='/system')
 
 logging_adapter = FileLoggingAdapter()
 user_service = UserService(user_repository=UserRepository(), logging_port=logging_adapter)
