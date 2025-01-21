@@ -50,3 +50,9 @@ spec:
             - name: product-service-volume
               mountPath: {{ .Values.volume.mountPath }}
             {{- end }}
+      volumes:
+        {{- if .Values.volume.enabled }}
+        - name: product-service-volume
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-pvc
+        {{- end }}

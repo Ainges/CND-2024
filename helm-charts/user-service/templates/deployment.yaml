@@ -20,10 +20,17 @@ spec:
         livenessProbe:
             httpGet:
               path: /system/health
-              port: 5000
+              port: {{ .Values.service.port }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
         readinessProbe:
             httpGet:
               path: /system/health
-              port: 5000
+              port: {{ .Values.service.port }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+        volumeMounts:
+        - name: user-data
+          mountPath: /app/data
+      volumes:
+      - name: user-data
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-pvc
