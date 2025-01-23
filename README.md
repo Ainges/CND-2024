@@ -1,5 +1,14 @@
 # E-Commerce Backend
 
+## Prerequisites
+
+Add the following entries to the host file:
+
+- `127.0.0.1` **user-service**
+- `127.0.0.1` **cart-order-service**
+- `127.0.0.1` **payment-invoice-service**
+- `127.0.0.1` **product-service**
+
 ## Services
 
 1. **Product Catalog Service**  
