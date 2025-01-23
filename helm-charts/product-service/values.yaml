@@ -16,7 +16,7 @@ service:
 
 # Ingress configuration
 ingress:
-  host: product-service.example.com
+  host: product-service
 
 resources:
   requests:

@@ -16,7 +16,7 @@ service:
 
 # Ingress configuration
 ingress:
-  host: user-service.example.com
+  host: user-service
 
 resources:
   limits:
