@@ -1,9 +1,20 @@
 services:
+
+
+  nginx:
+    image: nginx:mainline-perl
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - app-network
   user-service:
     build:
       context: ./user-service
-    ports:
-      - "5000:5000"
+    # ports:
+    #   - "5000:5000"
     networks:
       - app-network
     healthcheck:
@@ -15,8 +26,8 @@ services:
   product-service:
     build:
       context: ./product-service
-    ports:
-      - "4000:4000"
+    # ports:
+    #   - "4000:4000"
     networks:
       - app-network
     healthcheck:
@@ -29,8 +40,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000" # Vite Dev Server
+    # ports:
+    #   - "3000:3000" # Vite Dev Server
     volumes:
       - ./frontend:/app # Bind-Mount für den Code
       - /app/node_modules # Ignoriere lokale `node_modules`
@@ -69,8 +80,8 @@ services:
     build:
       context: ./cart-order-service/
       dockerfile: src/main/docker/Dockerfile.jvm-build
-    ports:
-      - "8080:8080"
+    # ports:
+    #   - "8080:8080"
     depends_on:
       - rabbitmq
       - postgres-cart-order-service
@@ -139,8 +150,8 @@ services:
     build:
       context: ./payment-invoice-service/payment-invoice-service/
       dockerfile: Dockerfile
-    ports:
-      - "5172:8080"
+    # ports:
+    #   - "5172:8080"
     depends_on:
       - rabbitmq
       - postgres-payment-invoice-service
